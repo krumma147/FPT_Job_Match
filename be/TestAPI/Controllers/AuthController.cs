@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using System.Net;
+using System.Text;
 using TestAPI.Models;
 using TestAPI.Services;
 using TestAPI.Services.Email;
+using TestAPI.Services.Token;
 
 namespace TestAPI.Controllers
 {
@@ -16,12 +19,16 @@ namespace TestAPI.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IAuthService _authService;
         private readonly IEmailService _emailService;
+        private readonly IOTPService _otpService;
+        private readonly ITokenService _tokenService;
 
-        public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager)
+        public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager, IOTPService otpService, ITokenService tokenService)
         {
             _authService = authService;
             _emailService = emailService;
             _userManager = userManager;
+            _otpService = otpService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("Register")]
@@ -64,7 +71,7 @@ namespace TestAPI.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginUser user)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -86,10 +93,55 @@ namespace TestAPI.Controllers
                 return BadRequest("Email not confirmed. A confirmation email has been sent.");
             }
 
+            // Generate OTP
+            var otp = _otpService.GenerateOTP();
+            await _userManager.SetAuthenticationTokenAsync(identityUser, "2FA", "OTP", otp);
+            await _emailService.SendEmailAsync(user.UserName, "Your OTP", $"Your OTP is {otp}");
+
+            return Ok(new { Message = "OTP has been sent to your email. Please verify it." });
+        }
+
+        [HttpPost("Login-2FA-Email")]
+        public async Task<IActionResult> loginOTPEmail(string userName, string otp)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            var storedOtp = await _userManager.GetAuthenticationTokenAsync(user, "2FA", "OTP");
+
+            if (storedOtp != otp)
+            {
+                // OTP does not match
+                return BadRequest("Invalid OTP.");
+            }
+
             // Generate JWT token
-            var tokenString = _authService.GenerateTokenString(user);
+            var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = userName });
             return Ok(new { Message = "Login Success!", Token = tokenString });
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // Get the token from the Authorization header
+            var authHeader = Request.Headers["Authorization"].ToString().Split(' ');
+            if (authHeader.Length < 2)
+            {
+                // Handle the case where the token is missing
+                return BadRequest("Token is missing");
+            }
+            var token = authHeader[1];
+
+
+            // Invalidate the token
+            var result = await _tokenService.InvalidateToken(token);
+
+            if (result)
+            {
+                return Ok(new { message = "Logout successful" });
+            }
+
+            return BadRequest(new { message = "Error logging out" });
+        }
+
 
         private async Task SendConfirmationEmail(LoginUser user, IdentityUser identityUser)
         {
@@ -116,23 +168,29 @@ namespace TestAPI.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return Ok();
+                return BadRequest("Invalid user");
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var callbackUrl = Url.Action(nameof(ResetPassword), "Auth", new { userId = user.Id, token = token }, protocol: HttpContext.Request.Scheme);
+            var encodedUserIdAndToken = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user.Id}:{token}"));
+            var callbackUrl = Url.Action(nameof(ResetPassword), "Auth", new { id = encodedUserIdAndToken }, protocol: HttpContext.Request.Scheme);
 
             string emailSubject = "Reset Password";
             string emailContent = $"Please reset your password by clicking <a href='{callbackUrl}'>here</a>";
 
             await _emailService.SendEmailAsync(email, emailSubject, emailContent);
 
-            return Ok();
+            return Ok("Your request has been successful. Please check your email to reset your password");
         }
 
-        [HttpPost("ResetPassword")]
-        public async Task<IActionResult> ResetPassword([FromQuery] string userId, [FromQuery] string token, [FromBody] string password)
+        [HttpPut("ResetPassword/{id}")]
+        public async Task<IActionResult> ResetPassword(string id, [FromBody] string newPassword)
         {
+            id = WebUtility.UrlDecode(id);
+            var decodedUserIdAndToken = Encoding.UTF8.GetString(Convert.FromBase64String(id));
+            var userId = decodedUserIdAndToken.Split(':')[0];
+            var token = decodedUserIdAndToken.Split(':')[1];
+
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
@@ -140,10 +198,10 @@ namespace TestAPI.Controllers
                 return BadRequest("Invalid user");
             }
 
-            var result = await _userManager.ResetPasswordAsync(user, token, password);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             if (result.Succeeded)
             {
-                return Ok();
+                return Ok("Updated password successfully");
             }
 
             foreach (var error in result.Errors)
@@ -152,6 +210,9 @@ namespace TestAPI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+
+
 
     }
 }

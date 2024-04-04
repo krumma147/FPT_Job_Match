@@ -6,6 +6,7 @@ using System.Text;
 using TestAPI.Contextes;
 using TestAPI.Services;
 using TestAPI.Services.Email;
+using TestAPI.Services.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,8 @@ builder.Services.AddAuthentication(options =>
 // Add services to the container.
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IOTPService, OTPService>();
+builder.Services.AddTransient<ITokenService, TokenService>();
 
 
 
