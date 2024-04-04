@@ -57,5 +57,21 @@ namespace TestAPI.Services
             string tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
             return tokenString; 
         }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(LoginUser user)
+        {
+            var identityUser = await _userManager.FindByNameAsync(user.UserName);
+            return await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+        }
+
+        public async Task<bool> ConfirmEmailAsync(string userName, string token)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+                return false;
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return result.Succeeded;
+        }
     }
 }

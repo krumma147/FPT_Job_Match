@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TestAPI.Contextes;
 using TestAPI.Services;
+using TestAPI.Services.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +43,9 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Add services to the container.
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 
 
