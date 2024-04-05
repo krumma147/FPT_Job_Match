@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -19,6 +19,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AuthDemoDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AuthenDbContext") ?? throw new InvalidOperationException("Connection string 'AuthenDbContext' not found.")));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policyBuilder =>
+        {
+            policyBuilder.WithOrigins("http://localhost:3000");
+            policyBuilder.AllowAnyHeader();
+            policyBuilder.AllowAnyMethod();
+            policyBuilder.AllowCredentials();
+        });
+});
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
@@ -60,7 +72,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

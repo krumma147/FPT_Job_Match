@@ -48,10 +48,10 @@ namespace TestAPI.Controllers
                     // Log the exception
                     // _logger.LogError(ex, "Error sending confirmation email");
 
-                    return BadRequest("Error sending confirmation email");
+                    return BadRequest(new { status = false, message = "Error sending confirmation email" });
                 }
             }
-            return BadRequest("Error, can't create user!");
+            return BadRequest(new { status = false, message = "Error, can't create user!" });
         }
 
         [HttpGet("ConfirmEmail")]
@@ -74,12 +74,12 @@ namespace TestAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { status = false, message = "User not Found", user = ModelState });
             }
             var loginResult = await _authService.Login(user);
             if (!loginResult)
             {
-                return BadRequest("User not Found");
+                return BadRequest(new { status = false, message = "User not Found" });
             }
             var identityUser = await _userManager.FindByNameAsync(user.UserName);
 
