@@ -1,11 +1,16 @@
-import './App.css';
-
-function App() {
+import React from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import home from './pages/Home/home';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
+export default function App() {
   return (
-    <div className="App">
-      
-    </div>
-  );
-}
+    <BrowserRouter>
+      <Switch>
+        <Route path='/' exact component={home} />
+        <Route path="*" component={PageNotFound} />
+      </Switch>
+    </BrowserRouter>
 
-export default App;
+
+  )
+}
