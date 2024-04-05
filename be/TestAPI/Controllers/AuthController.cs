@@ -21,6 +21,7 @@ namespace TestAPI.Controllers
         private readonly IEmailService _emailService;
         private readonly IOTPService _otpService;
         private readonly ITokenService _tokenService;
+        
 
         public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager, IOTPService otpService, ITokenService tokenService)
         {
@@ -94,27 +95,32 @@ namespace TestAPI.Controllers
             }
 
             // Generate OTP
-            var otp = _otpService.GenerateOTP();
-            await _userManager.SetAuthenticationTokenAsync(identityUser, "2FA", "OTP", otp);
-            await _emailService.SendEmailAsync(user.UserName, "Your OTP", $"Your OTP is {otp}");
+            if (identityUser.TwoFactorEnabled)
+            {
+                var otp = _otpService.GenerateOTP();
+                await _userManager.SetAuthenticationTokenAsync(identityUser, "2FA", "OTP", otp);
+                await _emailService.SendEmailAsync(user.UserName, "Your OTP", $"Your OTP is {otp}");
 
-            return Ok(new { Message = "OTP has been sent to your email. Please verify it." });
+                return Ok(new { Message = "OTP has been sent to your email. Please verify it." });
+            }
+            var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
+            return Ok(new { Message = "Login Success!", Token = tokenString });
         }
 
         [HttpPost("Login-2FA-Email")]
-        public async Task<IActionResult> loginOTPEmail(string userName, string otp)
+        public async Task<IActionResult> loginOTPEmail(VerifyUser userFA)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByNameAsync(userFA.UserName);
             var storedOtp = await _userManager.GetAuthenticationTokenAsync(user, "2FA", "OTP");
 
-            if (storedOtp != otp)
+            if (storedOtp != userFA.otp)
             {
                 // OTP does not match
                 return BadRequest("Invalid OTP.");
             }
 
             // Generate JWT token
-            var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = userName });
+            var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = userFA.UserName });
             return Ok(new { Message = "Login Success!", Token = tokenString });
         }
 
@@ -136,7 +142,7 @@ namespace TestAPI.Controllers
 
             if (result)
             {
-                return Ok(new { message = "Logout successful" });
+                return Ok(new { message = "Logout successful"});
             }
 
             return BadRequest(new { message = "Error logging out" });

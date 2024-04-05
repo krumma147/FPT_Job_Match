@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TestAPI.Models
 {
@@ -8,5 +9,8 @@ namespace TestAPI.Models
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
+        
+        //[Required]
+        //public string PhoneNumber { get; set; }
     }
 }
