@@ -1,6 +1,53 @@
 import React, { useState } from "react";
+import Loading from "../../../Share/Loading";
 
-const SignupEmployeer = () => {
+const SignupEmployeer = ({ registerHandler }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyAddress, setCompanyAddress] = useState("");
+  const [companyCity, setCompanyCity] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const signupBtn = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (!CheckAllFields) {
+      alert("Please fill all input !");
+    }
+    if (!CheckAllFields && password === confirmPassword) {
+      const user = {
+        name,
+        email,
+        password,
+        phone,
+        companyName,
+        companyAddress,
+        companyCity,
+      };
+      registerHandler(user);
+      setLoading(false);
+      alert("Đăng ký thành công");
+    }
+    //console.log({name, email, phone, password, confirmPassword});
+  };
+
+  const CheckAllFields = () => {
+    return (
+      name === "" &&
+      email === "" &&
+      phone === "" &&
+      password === "" &&
+      confirmPassword === "" &&
+      companyName === "" &&
+      companyAddress === "" &&
+      companyCity === ""
+    );
+  };
+
   return (
     <div class="row">
       <div class="col-md-6 col-sm-12 col-12 login-main-left">
@@ -20,7 +67,12 @@ const SignupEmployeer = () => {
               <h5>
                 Địa Chỉ Email<span class="req">*</span>
               </h5>
-              <input type="text" class="input form-control-lgin" />
+              <input
+                type="text"
+                class="input form-control-lgin"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
           </div>
           <div class="input-div one">
@@ -28,7 +80,12 @@ const SignupEmployeer = () => {
               <h5>
                 Mật khẩu<span class="req">*</span>
               </h5>
-              <input type="password" class="input form-control-lgin" />
+              <input
+                type="password"
+                class="input form-control-lgin"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
           </div>
           <div class="input-div one">
@@ -36,7 +93,12 @@ const SignupEmployeer = () => {
               <h5>
                 Nhập Lại Mật khẩu<span class="req">*</span>
               </h5>
-              <input type="password" class="input form-control-lgin" />
+              <input
+                type="password"
+                class="input form-control-lgin"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
             </div>
           </div>
           <div class="reg-info">
@@ -47,7 +109,12 @@ const SignupEmployeer = () => {
               <h5>
                 Tên người liên hệ<span class="req">*</span>
               </h5>
-              <input type="text" class="input form-control-lgin" />
+              <input
+                type="text"
+                class="input form-control-lgin"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
           </div>
           <div class="input-div one">
@@ -55,7 +122,12 @@ const SignupEmployeer = () => {
               <h5>
                 Số điện thoại liên hệ<span class="req">*</span>
               </h5>
-              <input type="text" class="input form-control-lgin" />
+              <input
+                type="text"
+                class="input form-control-lgin"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
             </div>
           </div>
           <div class="input-div one">
@@ -63,7 +135,12 @@ const SignupEmployeer = () => {
               <h5>
                 Tên công ty<span class="req">*</span>
               </h5>
-              <input type="text" class="input form-control-lgin" />
+              <input
+                type="text"
+                class="input form-control-lgin"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
             </div>
           </div>
           <div class="input-div one">
@@ -71,7 +148,12 @@ const SignupEmployeer = () => {
               <h5>
                 Địa Chỉ Công Ty<span class="req">*</span>
               </h5>
-              <input type="text" class="input form-control-lgin" />
+              <input
+                type="text"
+                class="input form-control-lgin"
+                value={companyAddress}
+                onChange={(e) => setCompanyAddress(e.target.value)}
+              />
             </div>
           </div>
           <div class="input-div one">
@@ -79,7 +161,12 @@ const SignupEmployeer = () => {
               <h5>
                 Thành phố<span class="req">*</span>
               </h5>
-              <input type="text" class="input form-control-lgin" />
+              <input
+                type="text"
+                class="input form-control-lgin"
+                value={companyCity}
+                onChange={(e) => setCompanyCity(e.target.value)}
+              />
             </div>
           </div>
           <div class="form-group d-block frm-text">
@@ -91,6 +178,7 @@ const SignupEmployeer = () => {
           <button
             type="submit"
             class="btn btn-primary float-right btn-login d-block w-100"
+            onAbort={signupBtn}
           >
             Đăng Ký Nhà Tuyển Dụng
           </button>

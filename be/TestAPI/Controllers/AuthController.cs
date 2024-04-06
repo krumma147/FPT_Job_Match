@@ -39,7 +39,7 @@ namespace TestAPI.Controllers
             {
                 try
                 {
-                    var identityUser = await _userManager.FindByNameAsync(user.UserName);
+                    var identityUser = await _userManager.FindByEmailAsync(user.Email);
                     await SendConfirmationEmail(user, identityUser);
                     return Ok("Create user successful!");
                 }
@@ -51,7 +51,7 @@ namespace TestAPI.Controllers
                     return BadRequest(new { status = false, message = "Error sending confirmation email" });
                 }
             }
-            return BadRequest(new { status = false, message = "Error, can't create user!" });
+            return BadRequest(new { status = false, message = "Error, email already in use exist!" });
         }
 
         [HttpGet("ConfirmEmail")]

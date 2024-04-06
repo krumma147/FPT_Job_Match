@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using TestAPI.Models;
 
 namespace TestAPI.Contextes
@@ -19,7 +20,7 @@ namespace TestAPI.Contextes
         public DbSet<Employee> Employees { get; set; }
 
         public DbSet<JobCategories> JobCategories { get; set; }
-
+        public DbSet<UserInfo> UserInfos { get; set; }
         public DbSet<Job> Jobs { get; set; }
 
 
@@ -31,6 +32,11 @@ namespace TestAPI.Contextes
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" });
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Employer", NormalizedName = "EMPLOYER" });
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "JobSeeker", NormalizedName = "JOBSEEKER" });
+
+            builder.Entity<UserInfo>()
+            .HasOne(m => m.User)
+            .WithMany()
+            .HasForeignKey(m => m.UserId);
         }
 
     }

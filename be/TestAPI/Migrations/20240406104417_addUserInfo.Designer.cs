@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestAPI.Contextes;
 
@@ -11,9 +12,11 @@ using TestAPI.Contextes;
 namespace TestAPI.Migrations
 {
     [DbContext(typeof(AuthDemoDbContext))]
-    partial class AuthDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240406104417_addUserInfo")]
+    partial class addUserInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

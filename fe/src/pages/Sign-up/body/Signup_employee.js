@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Loading from "../../../Share/Loading";
 
 const SignupEmployee = ({ registerHandler }) => {
   const [name, setName] = useState("");
@@ -6,36 +7,43 @@ const SignupEmployee = ({ registerHandler }) => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const signupBtn = async (e) => {
     e.preventDefault();
-
-    if (!CheckAllFields) {
-      alert("Password do not match!");
-    } else {
-      alert("Đăng ký thành công");
+    setLoading(true);
+    if (
+      name === "" &&
+      email === "" &&
+      phone === "" &&
+      password === "" &&
+      confirmPassword === ""
+    ) {
+      setLoading(false);
+      alert("Please fill all input!");
+      return;
+    }
+    if (password === confirmPassword) {
       const user = {
+        name,
         email,
         password,
-        confirmPassword,
+        phone,
       };
-      registerHandler(user);
-    }
-    //console.log({name, email, phone, password, confirmPassword});
-  };
 
-  const CheckAllFields = () => {
-    return (
-      name == "" &&
-      email == "" &&
-      phone == "" &&
-      password == "" &&
-      confirmPassword == ""
-    );
+      //console.log(user);
+      await registerHandler(user);
+      alert("Đăng ký thành công");
+    } else {
+      alert("Confirm password not matching!");
+    }
+    setLoading(false);
+    //console.log({name, email, phone, password, confirmPassword});
   };
 
   return (
     <div class="row">
+      {loading && <Loading />}
       <div class="col-md-6 col-sm-12 col-12 login-main-left">
         <img src="./assets/images/banner-login.png" />
       </div>
