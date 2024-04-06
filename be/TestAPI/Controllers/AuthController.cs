@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 using TestAPI.Models;
 using TestAPI.Services;
@@ -217,8 +220,83 @@ namespace TestAPI.Controllers
             return BadRequest(ModelState);
         }
 
+        [HttpGet("LoginGoogle")]
+        public IActionResult LoginGoogle()
+        {
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
 
+        [HttpGet("GoogleResponse")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
 
+            if (result?.Succeeded != true)
+            {
+                return BadRequest();
+            }
+
+            // Extract the user's email from the Google authentication result
+            var email = result.Principal.FindFirstValue(ClaimTypes.Email);
+
+            // Find the user in your database
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                // Create a new user with the email from Google
+                var newUser = new IdentityUser { UserName = email, Email = email };
+                var createResult = await _userManager.CreateAsync(newUser);
+                if (createResult.Succeeded)
+                {
+                    user = newUser;
+
+                    // Send confirmation email
+                    var loginUser = new LoginUser { UserName = user.UserName };
+                    await SendConfirmationEmail(loginUser, user);
+
+                    await _authService.AddUserInfo(result.Principal, newUser);
+
+                    return Ok("A confirmation email has been sent. Please check your email.");
+                }
+                else
+                {
+                    // Handle errors during user creation
+                    return BadRequest("Error creating new user");
+                }
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                var loginUser = new LoginUser { UserName = user.UserName };
+                await SendConfirmationEmail(loginUser, user);
+                return BadRequest("Email not confirmed. A confirmation email has been sent.");
+            }
+
+            // Generate OTP
+            if (user.TwoFactorEnabled)
+            {
+                var otp = _otpService.GenerateOTP();
+                await _userManager.SetAuthenticationTokenAsync(user, "2FA", "OTP", otp);
+                await _emailService.SendEmailAsync(user.UserName, "Your OTP", $"Your OTP is {otp}");
+
+                return Ok(new { Message = "OTP has been sent to your email. Please verify it." });
+            }
+
+            // Generate a JWT for the user
+            var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
+
+            // Return the token to the client
+            return Ok(new { Message = "Login Success!", Token = tokenString });
+        }
+
+        [HttpPost("LogoutGoogle")]
+        public IActionResult LogoutGoogle()
+        {
+            // Redirect the user to the Google logout URL
+            return Redirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://www.yourapp.com");
+        }
 
     }
 }
