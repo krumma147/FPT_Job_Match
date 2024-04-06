@@ -90,5 +90,22 @@ namespace TestAPI.Services
             var result = await _userManager.ConfirmEmailAsync(user, token);
             return result.Succeeded;
         }
+
+        public async Task<bool> AddUserInfo(ClaimsPrincipal principal, IdentityUser newUser)
+        {
+            var fullname = principal.FindFirstValue(ClaimTypes.Name);
+            var newUserInfo = new UserInfo
+            {
+                FullName = fullname,
+                Skill = "",
+                Expericene = "",
+                UserId = newUser.Id,
+                //User = newUser
+            };
+            await _db.AddAsync(newUserInfo);
+            await _db.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

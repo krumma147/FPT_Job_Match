@@ -256,6 +256,8 @@ namespace TestAPI.Controllers
                     var loginUser = new LoginUser { UserName = user.UserName };
                     await SendConfirmationEmail(loginUser, user);
 
+                    await _authService.AddUserInfo(result.Principal, newUser);
+
                     return Ok("A confirmation email has been sent. Please check your email.");
                 }
                 else
