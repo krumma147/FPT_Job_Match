@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const SignupEmployee = ({ registerHandler }) => {
   const [name, setName] = useState("");
@@ -33,6 +34,12 @@ const SignupEmployee = ({ registerHandler }) => {
       confirmPassword == ""
     );
   };
+
+  const handleGoogleLogin = (event) => {
+    event.preventDefault();
+    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle');
+  };
+
 
   return (
     <div class="row">
@@ -133,9 +140,12 @@ const SignupEmployee = ({ registerHandler }) => {
                 </button>
               </div>
               <div class="col-sm-6 col-12 pl-7">
-                <button class="btn btn-secondary btn-login-google btnw w-100 float-left">
+                <button
+                  class="btn btn-secondary btn-login-google btnw w-100 float-left"
+                  onClick={handleGoogleLogin}
+                >
                   <i class="fa fa-google" aria-hidden="true"></i>
-                  <span>Đăng nhập bằng Google</span>
+                  Đăng nhập bằng Google
                 </button>
               </div>
             </div>

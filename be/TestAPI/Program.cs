@@ -54,6 +54,10 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value, // Sets the expected audience of the token (obtained from app settings)
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
+}).AddGoogle(options =>
+{
+    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 });
 
 // Add services to the container.
