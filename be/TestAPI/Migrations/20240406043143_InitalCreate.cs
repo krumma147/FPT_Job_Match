@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace TestAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class iniCreate : Migration
+    public partial class InitalCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,6 +63,19 @@ namespace TestAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "JobCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobCategories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,6 +184,46 @@ namespace TestAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Jobs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SalaryRange = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Experience_required = table.Column<double>(type: "float", nullable: false),
+                    Education_required = table.Column<double>(type: "float", nullable: false),
+                    Skill_required = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Application_deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JobCategoryId = table.Column<int>(type: "int", nullable: false),
+                    Created_At = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Updated_At = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Deleted = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Jobs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Jobs_JobCategories_JobCategoryId",
+                        column: x => x.JobCategoryId,
+                        principalTable: "JobCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "0fe8af80-8243-427d-b286-3b256a3e4994", null, "JobSeeker", "JOBSEEKER" },
+                    { "6ff2d29c-737f-424a-b1e9-c6e81e31d727", null, "Admin", "ADMIN" },
+                    { "a5fc4db0-0538-4da9-bb12-6ed05d3f4e0a", null, "Employer", "EMPLOYER" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -207,6 +262,11 @@ namespace TestAPI.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Jobs_JobCategoryId",
+                table: "Jobs",
+                column: "JobCategoryId");
         }
 
         /// <inheritdoc />
@@ -231,10 +291,16 @@ namespace TestAPI.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
+                name: "Jobs");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "JobCategories");
         }
     }
 }
