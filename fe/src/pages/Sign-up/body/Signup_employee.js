@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import Loading from "../../../Share/Loading";
 
 const SignupEmployee = ({ registerHandler }) => {
   const [name, setName] = useState("");
@@ -7,42 +7,43 @@ const SignupEmployee = ({ registerHandler }) => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const signupBtn = async (e) => {
     e.preventDefault();
-
-    if (!CheckAllFields) {
-      alert("Password do not match!");
-    } else {
-      alert("Đăng ký thành công");
+    setLoading(true);
+    if (
+      name === "" &&
+      email === "" &&
+      phone === "" &&
+      password === "" &&
+      confirmPassword === ""
+    ) {
+      setLoading(false);
+      alert("Please fill all input!");
+      return;
+    }
+    if (password === confirmPassword) {
       const user = {
+        name,
         email,
         password,
-        confirmPassword,
+        phone,
       };
-      registerHandler(user);
+
+      //console.log(user);
+      await registerHandler(user);
+      alert("Đăng ký thành công");
+    } else {
+      alert("Confirm password not matching!");
     }
+    setLoading(false);
     //console.log({name, email, phone, password, confirmPassword});
   };
 
-  const CheckAllFields = () => {
-    return (
-      name == "" &&
-      email == "" &&
-      phone == "" &&
-      password == "" &&
-      confirmPassword == ""
-    );
-  };
-
-  const handleGoogleLogin = (event) => {
-    event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle');
-  };
-
-
   return (
     <div class="row">
+      {loading && <Loading />}
       <div class="col-md-6 col-sm-12 col-12 login-main-left">
         <img src="./assets/images/banner-login.png" />
       </div>
@@ -140,12 +141,9 @@ const SignupEmployee = ({ registerHandler }) => {
                 </button>
               </div>
               <div class="col-sm-6 col-12 pl-7">
-                <button
-                  class="btn btn-secondary btn-login-google btnw w-100 float-left"
-                  onClick={handleGoogleLogin}
-                >
+                <button class="btn btn-secondary btn-login-google btnw w-100 float-left">
                   <i class="fa fa-google" aria-hidden="true"></i>
-                  Đăng nhập bằng Google
+                  <span>Đăng nhập bằng Google</span>
                 </button>
               </div>
             </div>

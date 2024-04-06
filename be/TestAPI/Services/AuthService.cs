@@ -11,27 +11,43 @@ namespace TestAPI.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _config;
+        private readonly AuthDemoDbContext _db;
 
-        public AuthService(UserManager<IdentityUser> userManager, IConfiguration config)
+        public AuthService(UserManager<IdentityUser> userManager, IConfiguration config, AuthDemoDbContext db)
         {
             _userManager = userManager;
             _config = config;
+            _db = db;
         }
 
         public async Task<bool> RegisterUser(LoginUser user)
         {
-            var identityUser = new IdentityUser
+            var newUser = new IdentityUser
             {
-                UserName = user.UserName,
-                Email = user.UserName,
+                UserName = user.Email,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
             };
-            var result = await _userManager.CreateAsync(identityUser, user.Password);
+            
+            var result = await _userManager.CreateAsync(newUser, user.Password);
+
+            var newUserInfo = new UserInfo
+            {
+                FullName = user.FullName,
+                Skill = "",
+                Expericene = "",
+                UserId = newUser.Id,
+                //User = newUser
+            };
+            await _db.AddAsync(newUserInfo);
+            await _db.SaveChangesAsync();
+
             return result.Succeeded;
         }
 
         public async Task<bool> Login(LoginUser user)
         {
-            var iUser = await _userManager.FindByEmailAsync(user.UserName);
+            var iUser = await _userManager.FindByEmailAsync(user.Email);
             if (iUser is null)
             {
                 return false;

@@ -7,13 +7,8 @@ import { Register } from "../../hooks/authHook";
 
 const SignupView = () => {
   const registerHandler = async (e, user) => {
-    if (user.confirmPassword != user.password) {
-      alert("Password do not match!");
-    } else {
-      alert("Đăng ký thành công");
       const res = await Register(user);
       console.log(res);
-    }
   };
 
   const employeeTab = <SignupEmployee registerHandler={registerHandler} />;
