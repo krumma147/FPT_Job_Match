@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 
-const SignUpHeader = () => {
+const SignInHeader = () => {
   return (
     <div class="login-header">
       <div class="w-login m-auto">
@@ -11,7 +11,7 @@ const SignUpHeader = () => {
             </a>
           </h3>
           <span class="login-breadcrumb">
-            <em>/</em> Register
+            <em>/</em> Sign In
           </span>
         </div>
         <div class="login-right">
@@ -24,4 +24,4 @@ const SignUpHeader = () => {
   );
 };
 
-export default SignUpHeader;
+export default SignInHeader;
