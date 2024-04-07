@@ -51,19 +51,19 @@ namespace TestAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e5fec3f8-ef1a-4139-98a9-df3897d00176",
+                            Id = "AD",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "134be66e-c0c4-4641-8f7f-1231c7c941db",
+                            Id = "EMP",
                             Name = "Employer",
                             NormalizedName = "EMPLOYER"
                         },
                         new
                         {
-                            Id = "778d2758-988c-41d7-a220-4bfc70b15234",
+                            Id = "JS",
                             Name = "JobSeeker",
                             NormalizedName = "JOBSEEKER"
                         });

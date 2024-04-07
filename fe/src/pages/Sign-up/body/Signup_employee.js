@@ -29,6 +29,7 @@ const SignupEmployee = ({ registerHandler }) => {
         email,
         password,
         phone,
+        role: "JobSeeker",
       };
 
       //console.log(user);
@@ -43,12 +44,12 @@ const SignupEmployee = ({ registerHandler }) => {
 
   const handleGoogleLogin = (event) => {
     event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle');
+    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle?role=JobSeeker');
   };
 
   const handleFacebookLogin = (event) => {
     event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/signin-facebook');
+    window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=JobSeeker');
   }
 
   return (

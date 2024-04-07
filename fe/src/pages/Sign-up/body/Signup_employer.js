@@ -27,6 +27,7 @@ const SignupEmployeer = ({ registerHandler }) => {
         companyName,
         companyAddress,
         companyCity,
+        role: "Employer",
       };
       registerHandler(user);
       setLoading(false);
@@ -50,11 +51,11 @@ const SignupEmployeer = ({ registerHandler }) => {
 
   const handleGoogleLogin = (event) => {
     event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle');
+    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle?role=Employer');
   };
   const handleFacebookLogin = (event) => {
     event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/signin-facebook');
+    window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=Employer');
   }
 
   return (

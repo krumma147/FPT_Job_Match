@@ -29,9 +29,9 @@ namespace TestAPI.Contextes
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" });
-            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "Employer", NormalizedName = "EMPLOYER" });
-            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "JobSeeker", NormalizedName = "JOBSEEKER" });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "AD", Name = "Admin", NormalizedName = "ADMIN" });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "EMP", Name = "Employer", NormalizedName = "EMPLOYER" });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "JS", Name = "JobSeeker", NormalizedName = "JOBSEEKER" });
 
             builder.Entity<UserInfo>()
             .HasOne(m => m.User)

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using System.Data;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -20,13 +21,15 @@ namespace TestAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IAuthService _authService;
         private readonly IEmailService _emailService;
         private readonly IOTPService _otpService;
         private readonly ITokenService _tokenService;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager, IOTPService otpService, ITokenService tokenService, SignInManager<IdentityUser> signInManager)
+
+        public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager, IOTPService otpService, ITokenService tokenService, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _authService = authService;
             _emailService = emailService;
@@ -34,6 +37,7 @@ namespace TestAPI.Controllers
             _otpService = otpService;
             _tokenService = tokenService;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [HttpPost("Register")]
@@ -45,6 +49,25 @@ namespace TestAPI.Controllers
                 {
                     var identityUser = await _userManager.FindByEmailAsync(user.Email);
                     await SendConfirmationEmail(user, identityUser);
+                    // Check if the selected role is valid
+                    if (user.Role != "Jobseeker" && user.Role != "Employer")
+                    {
+                        return BadRequest(new { status = false, message = "Invalid role selected" });
+                    }
+
+                    // Get the selected role
+                    var selectedRole = await _roleManager.FindByNameAsync(user.Role);
+                    if (selectedRole != null)
+                    {
+                        // Add the user to the selected role
+                        var result = await _userManager.AddToRoleAsync(identityUser, selectedRole.Name);
+                        if (!result.Succeeded)
+                        {
+                            // Log the error
+                            // _logger.LogError("Failed to add user to selected role");
+                            return BadRequest(new { status = false, message = "Error adding user to selected role" });
+                        }
+                    }
                     return Ok("Create user successful!");
                 }
                 catch (Exception ex)
@@ -146,7 +169,7 @@ namespace TestAPI.Controllers
 
             if (result)
             {
-                return Ok(new { message = "Logout successful"});
+                return Ok(new { message = "Logout successful" });
             }
 
             return BadRequest(new { message = "Error logging out" });
@@ -222,14 +245,14 @@ namespace TestAPI.Controllers
         }
 
         [HttpGet("LoginGoogle")]
-        public IActionResult LoginGoogle()
+        public IActionResult LoginGoogle(string role)
         {
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse", new { role = role }) };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
         [HttpGet("GoogleResponse")]
-        public async Task<IActionResult> GoogleResponse()
+        public async Task<IActionResult> GoogleResponse(string role)
         {
             var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
 
@@ -258,6 +281,25 @@ namespace TestAPI.Controllers
                     await SendConfirmationEmail(loginUser, user);
 
                     await _authService.AddUserInfo(result.Principal, newUser);
+
+                    // Check if the selected role is valid
+                    if (role.ToLower() != "jobseeker" && role.ToLower() != "employer")
+                    {
+                        return BadRequest(new { status = false, message = "Invalid role selected" });
+                    }
+
+                    // Get the selected role
+                    var selectedRole = await _roleManager.FindByNameAsync(role);
+                    if (selectedRole != null)
+                    {
+                        // Add the user to the selected role
+                        var addToRoleResult = await _userManager.AddToRoleAsync(user, selectedRole.Name);
+                        if (!addToRoleResult.Succeeded)
+                        {
+                            // _logger.LogError("Failed to add user to selected role");
+                            return BadRequest(new { status = false, message = "Error adding user to selected role" });
+                        }
+                    }
 
                     return Ok("A confirmation email has been sent. Please check your email.");
                 }
@@ -300,15 +342,15 @@ namespace TestAPI.Controllers
         }
 
         [HttpGet("signin-facebook")]
-        public IActionResult SignInFacebook()
+        public IActionResult SignInFacebook(string role)
         {
-            var redirectUrl = Url.Action("FacebookResponse", "Auth");
+            var redirectUrl = Url.Action("FacebookResponse", "Auth", new { role = role });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Facebook", redirectUrl);
             return new ChallengeResult("Facebook", properties);
         }
 
         [HttpGet("facebook-response")]
-        public async Task<IActionResult> FacebookResponse()
+        public async Task<IActionResult> FacebookResponse(string role)
         {
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -337,6 +379,25 @@ namespace TestAPI.Controllers
                         // Add user info
                         await _authService.AddUserInfo(info.Principal, user);
 
+                        // Check if the selected role is valid
+                        if (role.ToLower() != "jobseeker" && role.ToLower() != "employer")
+                        {
+                            return BadRequest(new { status = false, message = "Invalid role selected" });
+                        }
+
+                        // Get the selected role
+                        var selectedRole = await _roleManager.FindByNameAsync(role);
+                        if (selectedRole != null)
+                        {
+                            // Add the user to the selected role
+                            var addToRoleResult = await _userManager.AddToRoleAsync(user, selectedRole.Name);
+                            if (!addToRoleResult.Succeeded)
+                            {
+                                // _logger.LogError("Failed to add user to selected role");
+                                return BadRequest(new { status = false, message = "Error adding user to selected role" });
+                            }
+                        }
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
                         return Ok(new { Message = "User created and logged in!", Token = tokenString });
@@ -353,6 +414,5 @@ namespace TestAPI.Controllers
             }
             return BadRequest(new { Message = "Error logging in with Facebook" });
         }
-
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TestAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalCreate : Migration
+    public partial class IntialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -185,6 +185,28 @@ namespace TestAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserInfos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Skill = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Expericene = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserInfos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserInfos_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Jobs",
                 columns: table => new
                 {
@@ -219,9 +241,9 @@ namespace TestAPI.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0fe8af80-8243-427d-b286-3b256a3e4994", null, "JobSeeker", "JOBSEEKER" },
-                    { "6ff2d29c-737f-424a-b1e9-c6e81e31d727", null, "Admin", "ADMIN" },
-                    { "a5fc4db0-0538-4da9-bb12-6ed05d3f4e0a", null, "Employer", "EMPLOYER" }
+                    { "AD", null, "Admin", "ADMIN" },
+                    { "EMP", null, "Employer", "EMPLOYER" },
+                    { "JS", null, "JobSeeker", "JOBSEEKER" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -267,6 +289,11 @@ namespace TestAPI.Migrations
                 name: "IX_Jobs_JobCategoryId",
                 table: "Jobs",
                 column: "JobCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserInfos_UserId",
+                table: "UserInfos",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -294,13 +321,16 @@ namespace TestAPI.Migrations
                 name: "Jobs");
 
             migrationBuilder.DropTable(
+                name: "UserInfos");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "JobCategories");
 
             migrationBuilder.DropTable(
-                name: "JobCategories");
+                name: "AspNetUsers");
         }
     }
 }

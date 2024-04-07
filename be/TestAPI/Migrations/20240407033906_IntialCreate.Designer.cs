@@ -12,8 +12,8 @@ using TestAPI.Contextes;
 namespace TestAPI.Migrations
 {
     [DbContext(typeof(AuthDemoDbContext))]
-    [Migration("20240406043143_InitalCreate")]
-    partial class InitalCreate
+    [Migration("20240407033906_IntialCreate")]
+    partial class IntialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,19 +54,19 @@ namespace TestAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6ff2d29c-737f-424a-b1e9-c6e81e31d727",
+                            Id = "AD",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a5fc4db0-0538-4da9-bb12-6ed05d3f4e0a",
+                            Id = "EMP",
                             Name = "Employer",
                             NormalizedName = "EMPLOYER"
                         },
                         new
                         {
-                            Id = "0fe8af80-8243-427d-b286-3b256a3e4994",
+                            Id = "JS",
                             Name = "JobSeeker",
                             NormalizedName = "JOBSEEKER"
                         });
@@ -334,6 +334,37 @@ namespace TestAPI.Migrations
                     b.ToTable("JobCategories");
                 });
 
+            modelBuilder.Entity("TestAPI.Models.UserInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Expericene")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Skill")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserInfos");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -394,6 +425,17 @@ namespace TestAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("JobCategory");
+                });
+
+            modelBuilder.Entity("TestAPI.Models.UserInfo", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TestAPI.Models.JobCategories", b =>
