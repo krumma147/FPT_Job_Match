@@ -7,6 +7,8 @@ import TopEmployer from "../../components/main/TopEmployer";
 import JobBestSalary from "../../components/main/JobBestSalary";
 import HomePageFooter from "../../Share/Footer/HomePageFooter";
 import JobSupport from "../../components/JobSupport";
+import "../../styles/client/style.css";
+
 export default function home() {
   return (
     <>
