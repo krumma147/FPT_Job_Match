@@ -1,7 +1,7 @@
 const MainNav = () => {
   return (
     <div className="container-fluid fluid-nav">
-      <div className="container cnt-tnar">
+      <div className="cnt-tnar">
         <nav className="navbar navbar-expand-lg navbar-light bg-light tjnav-bar">
           <a href="#" className="nav-logo">
             <img src="./assets/images/techjobs_bgb.png" />
@@ -58,6 +58,7 @@ const MainNav = () => {
                 </div>
               </li>
             </ul>
+            
             <ul className="navbar-nav mr-auto my-2 my-lg-0 tnav-right tn-nav">
               <li className="nav-item active">
                 <a className="nav-link" href="#">

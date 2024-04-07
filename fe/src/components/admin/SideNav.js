@@ -2,7 +2,7 @@ import React from "react";
 
 const SideNav = () => {
   return (
-    <nav class="sidebar sidebar-offcanvas" id="sidebar" >
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
         <a class="sidebar-brand brand-logo" href="index.html">
           <img src="assets/images/logo.svg" alt="logo" />
@@ -11,7 +11,7 @@ const SideNav = () => {
           <img src="assets/images/logo-mini.svg" alt="logo" />
         </a>
       </div>
-      <ul class="nav">
+      <ul class="nav" id="v-pills-tab" role="tablist">
         <li class="nav-item profile">
           <div class="profile-desc">
             <div class="profile-pic">
@@ -81,7 +81,17 @@ const SideNav = () => {
         </li>
         {/* Dash board */}
         <li class="nav-item menu-items">
-          <a class="nav-link" href="index.html">
+          <a
+            class="nav-link"
+            href="index.html"
+            id="v-pills-dashboard-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-dashboard"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-dashboard"
+            aria-selected="true"
+          >
             <span class="menu-icon">
               <i class="mdi mdi-speedometer"></i>
             </span>
@@ -107,13 +117,31 @@ const SideNav = () => {
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
                 {" "}
-                <a class="nav-link" href="pages/ui-features/buttons.html">
+                <a
+                  class="nav-link"
+                  id="v-pills-jobs-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#v-pills-jobs"
+                  type="button"
+                  role="tab"
+                  aria-controls="v-pills-jobs"
+                  aria-selected="false"
+                >
                   Add Job
                 </a>
               </li>
               <li class="nav-item">
                 {" "}
-                <a class="nav-link" href="pages/ui-features/dropdowns.html">
+                <a
+                  class="nav-link"
+                  id="v-pills-jobs-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#v-pills-jobs"
+                  type="button"
+                  role="tab"
+                  aria-controls="v-pills-jobs"
+                  aria-selected="false"
+                >
                   Job List
                 </a>
               </li>
@@ -122,7 +150,16 @@ const SideNav = () => {
         </li>
         {/* Category */}
         <li class="nav-item menu-items">
-          <a class="nav-link" href="pages/forms/basic_elements.html">
+          <a
+            class="nav-link"
+            id="v-pills-categories-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-categories"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-categories"
+            aria-selected="false"
+          >
             <span class="menu-icon">
               <i class="mdi mdi-text-box-multiple"></i>
             </span>
@@ -131,7 +168,16 @@ const SideNav = () => {
         </li>
         {/* Applications */}
         <li class="nav-item menu-items">
-          <a class="nav-link" href="pages/tables/basic-table.html">
+          <a
+            class="nav-link"
+            id="v-pills-applications-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-applications"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-applications"
+            aria-selected="false"
+          >
             <span class="menu-icon">
               <i class="mdi mdi-application"></i>
             </span>
@@ -140,7 +186,16 @@ const SideNav = () => {
         </li>
         {/* User */}
         <li class="nav-item menu-items">
-          <a class="nav-link" href="pages/charts/chartjs.html">
+          <a
+            class="nav-link"
+            id="v-pills-users-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-users"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-users"
+            aria-selected="false"
+          >
             <span class="menu-icon">
               <i class="mdi mdi-account"></i>
             </span>

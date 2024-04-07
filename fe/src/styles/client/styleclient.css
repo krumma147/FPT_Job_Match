@@ -802,8 +802,7 @@ ul.tnav-right {
 @media (max-width: 720px) {
   .fluid-nav,
   .cnt-tnar {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding: 0 !important;
   }
 
   .main-banner {

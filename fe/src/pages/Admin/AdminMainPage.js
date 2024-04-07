@@ -5,7 +5,7 @@ import "../../styles/admin/assets/css/adminstyle.css";
 
 const AdminMainPage = () => {
   return (
-    <div class="container-scroller">
+    <div class="row">
       <SideNav />
       <div class="container-fluid page-body-wrapper">
         <Navbar />

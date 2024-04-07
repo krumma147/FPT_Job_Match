@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
@@ -9,6 +10,7 @@ namespace TestAPI.Controllers.Admin.Jobs
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class JobController : ControllerBase
     {
         private readonly AuthDemoDbContext _context;
