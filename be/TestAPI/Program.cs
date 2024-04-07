@@ -58,6 +58,12 @@ builder.Services.AddAuthentication(options =>
 {
     options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+}).AddFacebook(facebookOptions => {
+    // Đọc cấu hình
+    IConfigurationSection facebookAuthNSection = builder.Configuration.GetSection("Authentication:Facebook");
+    facebookOptions.AppId = facebookAuthNSection["AppId"];
+    facebookOptions.AppSecret = facebookAuthNSection["AppSecret"];
+    facebookOptions.CallbackPath = "/signin-facebook";
 });
 
 // Add services to the container.

@@ -1,6 +1,14 @@
 const LoginBody = () => {
 
-    
+  const handleGoogleLogin = (event) => {
+    event.preventDefault();
+    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle');
+  };
+
+  const handleFacebookLogin = (event) => {
+    event.preventDefault();
+    window.location.assign('https://localhost:7282/api/Auth/signin-facebook');
+  }
   return (
     <div class="row">
       <div class="col-md-6 col-sm-12 col-12 login-main-left">
@@ -44,15 +52,17 @@ const LoginBody = () => {
 
             <div class="row">
               <div class="col-sm-6 col-12 pr-7">
-                <button class="btn btn-secondary btn-login-facebook btnw w-100 float-left">
+                <button class="btn btn-secondary btn-login-facebook btnw w-100 float-left"
+                  onClick={handleFacebookLogin}>
                   <i class="fa fa-facebook" aria-hidden="true"></i>
-                  <span>Đăng nhập bằng Facebook</span>
+                  <span> Đăng nhập bằng Facebook</span>
                 </button>
               </div>
               <div class="col-sm-6 col-12 pl-7">
-                <button class="btn btn-secondary btn-login-google btnw w-100 float-left">
+                <button class="btn btn-secondary btn-login-google btnw w-100 float-left"
+                  onClick={handleGoogleLogin}>
                   <i class="fa fa-google" aria-hidden="true"></i>
-                  <span>Đăng nhập bằng Google</span>
+                  <span> Đăng nhập bằng Google</span>
                 </button>
               </div>
             </div>

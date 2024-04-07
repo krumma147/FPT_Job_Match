@@ -24,15 +24,16 @@ namespace TestAPI.Controllers
         private readonly IEmailService _emailService;
         private readonly IOTPService _otpService;
         private readonly ITokenService _tokenService;
-        
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager, IOTPService otpService, ITokenService tokenService)
+        public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager, IOTPService otpService, ITokenService tokenService, SignInManager<IdentityUser> signInManager)
         {
             _authService = authService;
             _emailService = emailService;
             _userManager = userManager;
             _otpService = otpService;
             _tokenService = tokenService;
+            _signInManager = signInManager;
         }
 
         [HttpPost("Register")]
@@ -296,6 +297,61 @@ namespace TestAPI.Controllers
         {
             // Redirect the user to the Google logout URL
             return Redirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://www.yourapp.com");
+        }
+
+        [HttpGet("signin-facebook")]
+        public IActionResult SignInFacebook()
+        {
+            var redirectUrl = Url.Action("FacebookResponse", "Auth");
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Facebook", redirectUrl);
+            return new ChallengeResult("Facebook", properties);
+        }
+
+        [HttpGet("facebook-response")]
+        public async Task<IActionResult> FacebookResponse()
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                // Handle error here
+                return BadRequest(new { Message = "Error retrieving external login info" });
+            }
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (result.Succeeded)
+            {
+                var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
+                return Ok(new { Message = "Login Success!", Token = tokenString });
+            }
+            else
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var user = new IdentityUser { UserName = email, Email = email };
+                var identityResult = await _userManager.CreateAsync(user);
+
+                if (identityResult.Succeeded)
+                {
+                    var loginResult = await _userManager.AddLoginAsync(user, info);
+                    if (loginResult.Succeeded)
+                    {
+                        // Add user info
+                        await _authService.AddUserInfo(info.Principal, user);
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
+                        return Ok(new { Message = "User created and logged in!", Token = tokenString });
+                    }
+                    else
+                    {
+                        return BadRequest(new { Message = "Error adding external login", Errors = loginResult.Errors });
+                    }
+                }
+                else
+                {
+                    return BadRequest(new { Message = "Error creating user", Errors = identityResult.Errors });
+                }
+            }
+            return BadRequest(new { Message = "Error logging in with Facebook" });
         }
 
     }
