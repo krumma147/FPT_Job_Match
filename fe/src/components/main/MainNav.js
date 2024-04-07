@@ -6,7 +6,15 @@ const MainNav = () => {
           <a href="#" className="nav-logo">
             <img src="./assets/images/techjobs_bgb.png" />
           </a>
-          <button className="navbar-toggler tnavbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button
+            className="navbar-toggler tnavbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <i className="fa fa-bars icn-res" aria-hidden="true" />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -22,10 +30,21 @@ const MainNav = () => {
                 </a>
               </li>
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
                   Dropdown
                 </a>
-                <div className="dropdown-menu tdropdown" aria-labelledby="navbarDropdown">
+                <div
+                  className="dropdown-menu tdropdown"
+                  aria-labelledby="navbarDropdown"
+                >
                   <a className="dropdown-item" href="#">
                     Action
                   </a>
@@ -57,17 +76,33 @@ const MainNav = () => {
                 </a>
               </li>
               <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
                   VI
                 </a>
-                <div className="dropdown-menu tdropdown" aria-labelledby="navbarDropdown">
+                <div
+                  className="dropdown-menu tdropdown"
+                  aria-labelledby="navbarDropdown"
+                >
                   <a className="dropdown-item" href="#">
                     English
                   </a>
                 </div>
               </li>
               <li className="nav-item">
-                <a className="nav-link btn-employers" href="#" tabIndex={-1} aria-disabled="true">
+                <a
+                  className="nav-link btn-employers"
+                  href="#"
+                  tabIndex={-1}
+                  aria-disabled="true"
+                >
                   Nhà Tuyển Dụng
                 </a>
               </li>
@@ -76,7 +111,6 @@ const MainNav = () => {
         </nav>
       </div>
     </div>
-
   );
 };
 

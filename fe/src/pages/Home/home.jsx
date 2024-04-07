@@ -7,7 +7,7 @@ import TopEmployer from "../../components/main/TopEmployer";
 import JobBestSalary from "../../components/main/JobBestSalary";
 import HomePageFooter from "../../Share/Footer/HomePageFooter";
 import JobSupport from "../../components/JobSupport";
-import "../../styles/client/style.css";
+import "../../styles/client/styleclient.css";
 
 export default function home() {
   return (
@@ -15,7 +15,6 @@ export default function home() {
       <MainNav />
       <div class="clearfix"></div>
       <MainBanner />
-      <div class="clearfix"></div>
 
       <SearchSection />
 
