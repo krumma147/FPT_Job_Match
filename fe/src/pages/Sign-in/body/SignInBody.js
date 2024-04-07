@@ -32,10 +32,10 @@ const LoginBody = () => {
             </div>
           </div>
           <div class="form-group d-block frm-text">
-            <a href="#" class="fg-login d-inline-block">
+            <a href="/forgotpassword" class="fg-login d-inline-block">
               Quên mật khẩu
             </a>
-            <a href="#" class="fg-login float-right d-inline-block">
+            <a href="/signup" class="fg-login float-right d-inline-block">
               Bạn chưa có tài khoản? Đăng ký
             </a>
           </div>

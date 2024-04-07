@@ -127,7 +127,7 @@ const SignupEmployee = ({ registerHandler }) => {
 
           <div class="form-group d-block frm-text">
             <a href="#" class="fg-login d-inline-block"></a>
-            <a href="#" class="fg-login float-right d-inline-block">
+            <a href="/signin" class="fg-login float-right d-inline-block">
               Bạn đã có tài khoản? Đăng Nhập
             </a>
           </div>

@@ -6,7 +6,7 @@ const SignInHeader = () => {
       <div class="w-login m-auto">
         <div class="login-logo">
           <h3>
-            <a href="#">
+            <a href="/">
               <img src="./assets/images/techjobs_bgw.png" alt="TechJobs" />
             </a>
           </h3>
@@ -15,7 +15,7 @@ const SignInHeader = () => {
           </span>
         </div>
         <div class="login-right">
-          <a href="#" class="btn btn-return">
+          <a href="/" class="btn btn-return">
             Return Home
           </a>
         </div>
