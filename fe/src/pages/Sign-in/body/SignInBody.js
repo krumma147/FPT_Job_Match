@@ -2,12 +2,12 @@ const LoginBody = () => {
 
   const handleGoogleLogin = (event) => {
     event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle');
+    window.location.assign('https://localhost:7282/api/Auth/LoginGoogle?role=""');
   };
 
   const handleFacebookLogin = (event) => {
     event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/signin-facebook');
+    window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=""');
   }
   return (
     <div class="row">

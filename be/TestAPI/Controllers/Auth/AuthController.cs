@@ -14,7 +14,7 @@ using TestAPI.Services;
 using TestAPI.Services.Email;
 using TestAPI.Services.Token;
 
-namespace TestAPI.Controllers
+namespace TestAPI.Controllers.Auth
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -85,8 +85,8 @@ namespace TestAPI.Controllers
         public async Task<IActionResult> ConfirmEmail(string userName, string token)
         {
             // Decode the userName
-            var base64EncodedBytes = System.Convert.FromBase64String(userName);
-            var decodedUserName = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            var base64EncodedBytes = Convert.FromBase64String(userName);
+            var decodedUserName = Encoding.UTF8.GetString(base64EncodedBytes);
 
             var result = await _authService.ConfirmEmailAsync(decodedUserName, token);
             if (result)
@@ -182,8 +182,8 @@ namespace TestAPI.Controllers
             var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
             // Encode the userName
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(user.UserName);
-            var encodedUserName = System.Convert.ToBase64String(plainTextBytes);
+            var plainTextBytes = Encoding.UTF8.GetBytes(user.UserName);
+            var encodedUserName = Convert.ToBase64String(plainTextBytes);
 
             // Generate email confirmation link
             var emailConfirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { userName = encodedUserName, token = emailConfirmationToken }, Request.Scheme);
@@ -247,7 +247,7 @@ namespace TestAPI.Controllers
         [HttpGet("LoginGoogle")]
         public IActionResult LoginGoogle(string role)
         {
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse", new { role = role }) };
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse", new { role }) };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
@@ -344,7 +344,7 @@ namespace TestAPI.Controllers
         [HttpGet("signin-facebook")]
         public IActionResult SignInFacebook(string role)
         {
-            var redirectUrl = Url.Action("FacebookResponse", "Auth", new { role = role });
+            var redirectUrl = Url.Action("FacebookResponse", "Auth", new { role });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Facebook", redirectUrl);
             return new ChallengeResult("Facebook", properties);
         }
@@ -404,12 +404,12 @@ namespace TestAPI.Controllers
                     }
                     else
                     {
-                        return BadRequest(new { Message = "Error adding external login", Errors = loginResult.Errors });
+                        return BadRequest(new { Message = "Error adding external login", loginResult.Errors });
                     }
                 }
                 else
                 {
-                    return BadRequest(new { Message = "Error creating user", Errors = identityResult.Errors });
+                    return BadRequest(new { Message = "Error creating user", identityResult.Errors });
                 }
             }
             return BadRequest(new { Message = "Error logging in with Facebook" });

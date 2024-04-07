@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\Home\" />
     <Folder Include="Services\Login\" />
   </ItemGroup>
 
