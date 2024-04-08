@@ -1,8 +1,8 @@
 import React from "react";
 import SignUpHeader from "../../Share/Header/SignUpHeader";
 import SignUpFooter from "../../Share/Footer/SignUpFooter";
-import SignupEmployee from "./body/Signup_employee";
-import SignupEmployeer from "./body/Signup_employer";
+import SignupEmployee from "./Signup_employee";
+import SignupEmployeer from "./Signup_employer";
 import { Register } from "../../hooks/authHook";
 
 const SignupView = () => {

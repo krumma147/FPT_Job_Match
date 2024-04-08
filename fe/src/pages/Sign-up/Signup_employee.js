@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Loading from "../../../Share/Loading";
+import Loading from "../../Share/Loading";
 
 const SignupEmployee = ({ registerHandler }) => {
   const [name, setName] = useState("");

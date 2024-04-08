@@ -1,28 +1,25 @@
 import ModalBtn from "../../ModalBtn";
-import CategoryForm from "../../modal body/CategoriesForm";
-const JobPanel = () => {
+import JobModal from "../Button/JobModal";
+
+const JobPanel = ({ jobs }) => {
   const TestBtnHandle = () => {
     alert("Testing Adding Job Btn!");
   };
 
   return (
     <>
-      <div class="row ">
-        <div class="col-12 grid-margin">
-          <div class="card">
-            <div class="card-body">
+      <div className="row ">
+        <div className="col-12 grid-margin">
+          <div className="card">
+            <div className="card-body">
               <div className="card-title">
                 <div className="row">
-                  <div class="col-10">
+                  <div className="col-10">
                     <h4 className="text-light">Jobs Manager</h4>
                   </div>
-                  <div class="col">
-                    <ModalBtn
-                      BtnText="Add new"
-                      ModalSaveFunction={TestBtnHandle}
-                      ModalBody={<CategoryForm />}
-                      ModalTitle="Adding Job"
-                    />
+                  <div className="col">
+                    {/* <CategoryModal AddCategory={AddCategory} /> */}
+                    <JobModal  />
                   </div>
                 </div>
               </div>
@@ -30,71 +27,47 @@ const JobPanel = () => {
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>
-                        <div class="form-check form-check-muted m-0">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" />
-                          </label>
-                        </div>
-                      </th>
-                      <th> Categories ID </th>
-                      <th> Categories Name </th>
-                      <th> Action </th>
+                      {/* Add job detail here */}
+                      <th className="col-md-3"> Job Title </th>
+                      {/* <th className="col-md"> Description </th> */}
+                      <th className="col-md-2"> SalaryRange </th>
+                      <th className="col-md-1 col-sm-0"> Experience_required </th>
+                      <th className="col-md-1 col-sm-0"> Education_required </th>
+                      <th className="col-md-1 col-sm-0"> status </th>
+                      <th className="col-md-2"> Category </th>
+                      <th className="col-md"> Action </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <div class="form-check form-check-muted m-0">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" />
-                          </label>
-                        </div>
-                      </td>
-                      <td>
-                        <img src="assets/images/faces/face1.jpg" alt="image" />
-                        <span class="pl-2">Henry Klein</span>
-                      </td>
-                      <td> Dashboard </td>
-                      <td>
-                        <div class="badge badge-outline-success">Approved</div>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        <div class="form-check form-check-muted m-0">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" />
-                          </label>
-                        </div>
-                      </td>
-                      <td>
-                        <img src="assets/images/faces/face2.jpg" alt="image" />
-                        <span class="pl-2">Estella Bryan</span>
-                      </td>
-                      <td> 02312 </td>
-                      <td>
-                        <div class="badge badge-outline-warning">Pending</div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="form-check form-check-muted m-0">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" />
-                          </label>
-                        </div>
-                      </td>
-                      <td>
-                        <img src="assets/images/faces/face5.jpg" alt="image" />
-                        <span class="pl-2">Lucy Abbott</span>
-                      </td>
-                      <td> 02312 </td>
-                      <td>
-                        <div class="badge badge-outline-danger">Rejected</div>
-                      </td>
-                    </tr>
+                    {jobs?.length > 0 ? null : "There are no job!"}
+                    {jobs?.map((job) => (
+                      <tr>
+                        <td>
+                          <span>{job.id}</span>
+                        </td>
+                        <td>{job.name}</td>
+                        <td>
+                          <div className="d-flex">
+                            {/* <EditCategoryModal
+                              EditCategory={ModifyCategory}
+                              Data={cat}
+                            /> */}
+                            <button
+                              type="button"
+                              className="btn btn-info"
+                              //onClick={(e) => HandleDelete(e, cat.id)}
+                            ></button>
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              // onClick={(e) => HandleDelete(e, cat.id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

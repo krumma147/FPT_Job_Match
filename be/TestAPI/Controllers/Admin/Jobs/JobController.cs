@@ -10,7 +10,7 @@ namespace TestAPI.Controllers.Admin.Jobs
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize(Roles="Admin")]
     public class JobController : ControllerBase
     {
         private readonly AuthDemoDbContext _context;

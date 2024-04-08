@@ -5,8 +5,12 @@ import ApplicationPanel from "./TabPanelContents/ApplicationPanel";
 import UserPanel from "./TabPanelContents/UserPanel";
 import CategoryPanel from "./TabPanelContents/CategoryPanel";
 import JobPanel from "./TabPanelContents/JobPanel";
-const Content = () => {
-  // In this area could get all data from API then send to other routes
+const Content = ({
+  categories,
+  AddCategory,
+  ModifyCategory,
+  RemoveCategory,
+}) => {
   return (
     <div class="main-panel">
       <div class="content-wrapper">
@@ -33,7 +37,12 @@ const Content = () => {
             role="tabpanel"
             aria-labelledby="v-pills-categories-tab"
           >
-            <CategoryPanel />
+            <CategoryPanel
+              categories={categories}
+              AddCategory={AddCategory}
+              ModifyCategory={ModifyCategory}
+              RemoveCategory={RemoveCategory}
+            />
           </div>
           <div
             class="tab-pane fade"

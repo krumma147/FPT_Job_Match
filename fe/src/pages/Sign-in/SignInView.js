@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LoginBody from "./body/SignInBody";
+import LoginBody from "./SignInBody";
 import SignUpFooter from "../../Share/Footer/SignUpFooter";
 import SignInHeader from "../../Share/Header/SignInHeader";
 

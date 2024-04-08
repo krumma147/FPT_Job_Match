@@ -1,5 +1,4 @@
 import ModalBtn from "../../ModalBtn";
-import CategoryForm from "../../modal body/CategoriesForm";
 
 const UserPanel = () => {
   const TestBtnHandle = () => {
@@ -18,12 +17,12 @@ const UserPanel = () => {
                     <h4 className="text-light">User Manager</h4>
                   </div>
                   <div class="col">
-                    <ModalBtn
+                    {/* <ModalBtn
                       BtnText="Add new"
                       ModalSaveFunction={TestBtnHandle}
                       ModalBody={<CategoryForm />}
                       ModalTitle="Adding User"
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>

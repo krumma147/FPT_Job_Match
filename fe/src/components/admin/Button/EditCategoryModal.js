@@ -1,15 +1,36 @@
 import React, { useState } from "react";
 
-const ModalBtn = ({
-  BtnText,
-  ModalTitle = "Title",
-  ModalBody,
-  ModalSaveFunction,
-}) => {
-  const [modal, setModal] = useState("");
-  const ToggleModal = () => {
-    setModal(!modal);
+const EditCategoryModal = ({ EditCategory, Data }) => {
+  const [name, setName] = useState(Data?.name);
+
+  const ToggleModal = async () => {
+    const category = {
+      name,
+    };
+    await EditCategory(Data.id, category);
+    CloseModal();
   };
+
+  const OpenModal = () => setName(Data.name);
+
+  const CloseModal = () => setName("");
+
+  const ModalBody = (
+    <form>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">
+          Job Type Name
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          aria-describedby="emailHelp"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+    </form>
+  );
 
   return (
     <>
@@ -17,23 +38,24 @@ const ModalBtn = ({
         type="button"
         class="btn btn-primary"
         data-bs-toggle="modal"
-        data-bs-target="#managerModal"
+        data-bs-target={`#EditCategoryModal${Data.id}`}
+        onClick={OpenModal}
       >
-        {BtnText}
+        <span class="mdi mdi-file-edit"></span> Edit
       </button>
 
       <div
         class="modal fade text-light"
-        id="managerModal"
+        id={`EditCategoryModal${Data.id}`}
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
-        aria-hidden={modal}
+        aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title text-light" id="exampleModalLabel">
-                {ModalTitle}
+                Edit Category
               </h5>
               <button
                 type="button"
@@ -47,13 +69,15 @@ const ModalBtn = ({
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={CloseModal}
               >
                 Close
               </button>
               <button
                 type="button"
                 class="btn btn-primary"
-                onClick={ModalSaveFunction}
+                data-bs-dismiss="modal"
+                onClick={ToggleModal}
               >
                 Save changes
               </button>
@@ -65,4 +89,4 @@ const ModalBtn = ({
   );
 };
 
-export default ModalBtn;
+export default EditCategoryModal;
