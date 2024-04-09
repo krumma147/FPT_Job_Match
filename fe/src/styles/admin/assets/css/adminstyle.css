@@ -15159,7 +15159,7 @@ button.bg-dark:focus {
   color: #ffffff !important; }
 
 .text-primary, .list-wrapper .completed .remove {
-  color: #0090e7 !important; }
+  color: #0090e7; }
 
 a.text-primary:hover, .list-wrapper .completed a.remove:hover, a.text-primary:focus, .list-wrapper .completed a.remove:focus {
   color: #00609b !important; }

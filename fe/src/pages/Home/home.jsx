@@ -1,49 +1,27 @@
-import React from "react";
-import MainBanner from "../../components/main/MainBanner";
-import MainNav from "../../components/main/MainNav";
-import SearchSection from "../../components/main/SearchSection";
-import JobBoard from "../../components/main/JobBoard";
-import TopEmployer from "../../components/main/TopEmployer";
-import JobBestSalary from "../../components/main/JobBestSalary";
-import HomePageFooter from "../../Share/Footer/HomePageFooter";
-import JobSupport from "../../components/JobSupport";
-import "../../styles/client/styleclient.css";
+import React from 'react'
+import Spinner from '../../components/home/Spinner'
+import Navbar from '../../components/home/Navbar '
+import Carousel from '../../components/home/Carousel'
+import Search from '../../components/home/Search'
+import Category from '../../components/home/Category'
+import About from '../../components/home/About'
+import Job from '../../components/home/Job'
+import Testimonial from '../../components/home/Testimonial'
+import HomeFooter from '../../Share/Footer/HomeFooter'
 
 export default function home() {
   return (
-    <>
-      <MainNav />
-      <div class="clearfix"></div>
-      <MainBanner />
+    <div className="container-xxl bg-white p-0">
+      {/* <Spinner /> */}
+      <Navbar />
+      <Carousel />
+      <Search />
+      <Category />
+      <About />
+      <Job />
+      <Testimonial />
+      <HomeFooter />
+    </div>
 
-      <SearchSection />
-
-      <JobBoard />
-
-      <div class="clearfix"></div>
-
-      <TopEmployer />
-
-      <div class="clearfix"></div>
-
-      <JobBestSalary />
-
-      <div class="container-fluid">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="home-ads">
-                <a href="#">
-                  <img src="./assets/images/hna2.jpg" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <JobSupport />
-      <HomePageFooter />
-    </>
-  );
+  )
 }
