@@ -10,6 +10,10 @@ const Content = ({
   AddCategory,
   ModifyCategory,
   RemoveCategory,
+  jobs,
+  AddJob,
+  ModifyJob,
+  RemoveJob
 }) => {
   return (
     <div class="main-panel">
@@ -29,7 +33,13 @@ const Content = ({
             role="tabpanel"
             aria-labelledby="v-pills-jobs-tab"
           >
-            <JobPanel />
+            <JobPanel
+              jobs={jobs}
+              categories={categories}
+              AddJob={AddJob}
+              ModifyJob={ModifyJob}
+              RemoveJob={RemoveJob}
+            />
           </div>
           <div
             class="tab-pane fade"

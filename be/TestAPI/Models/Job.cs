@@ -20,7 +20,7 @@ namespace TestAPI.Models
         [Required]
         public double Experience_required { get; set; }
         [Required]
-        public double Education_required { get; set; }
+        public string Education_required { get; set; }
 
         [Required]
         public string Skill_required { get; set; }
@@ -33,6 +33,7 @@ namespace TestAPI.Models
         // Foreign Key
         [Required]
         public int JobCategoryId { get; set; }
+        
         public virtual JobCategories? JobCategory { get; set; }
 
 

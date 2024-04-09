@@ -1,9 +1,13 @@
-import ModalBtn from "../../ModalBtn";
+import React, { Component } from "react";
 import JobModal from "../Button/JobModal";
 
-const JobPanel = ({ jobs }) => {
-  const TestBtnHandle = () => {
-    alert("Testing Adding Job Btn!");
+const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
+  const HandleDelete = (e, id) => {
+    e.preventDefault();
+    const cf = window.confirm("Are you sure you want to delete this job?");
+    if (cf) {
+      RemoveJob(id);
+    }
   };
 
   return (
@@ -19,7 +23,7 @@ const JobPanel = ({ jobs }) => {
                   </div>
                   <div className="col">
                     {/* <CategoryModal AddCategory={AddCategory} /> */}
-                    <JobModal  />
+                    <JobModal ModifyJob={ModifyJob} categories={categories} />
                   </div>
                 </div>
               </div>
@@ -31,38 +35,41 @@ const JobPanel = ({ jobs }) => {
                       <th className="col-md-3"> Job Title </th>
                       {/* <th className="col-md"> Description </th> */}
                       <th className="col-md-2"> SalaryRange </th>
-                      <th className="col-md-1 col-sm-0"> Experience_required </th>
-                      <th className="col-md-1 col-sm-0"> Education_required </th>
+                      <th className="col-md-1 col-sm-0">Experiences</th>
+                      <th className="col-md-2 col-sm-0">Education</th>
                       <th className="col-md-1 col-sm-0"> status </th>
-                      <th className="col-md-2"> Category </th>
+                      <th className="col-md-1"> Category </th>
                       <th className="col-md"> Action </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {jobs?.length > 0 ? null : "There are no job!"}
+                    {jobs?.length > 0
+                      ? null
+                      : "There are no job! Remember to add 'Job Category' first!"}
                     {jobs?.map((job) => (
                       <tr>
                         <td>
-                          <span>{job.id}</span>
+                          <span>{job.title}</span>
                         </td>
-                        <td>{job.name}</td>
+                        <td>{job.salaryRange}</td>
+                        <td>{job.experience_required} year</td>
+                        <td>{job.education_required} Level</td>
+                        <td>{job.status}</td>
+                        <td>{job.jobCategoryId}</td>
                         <td>
                           <div className="d-flex">
-                            {/* <EditCategoryModal
-                              EditCategory={ModifyCategory}
-                              Data={cat}
-                            /> */}
-                            <button
-                              type="button"
-                              className="btn btn-info"
-                              //onClick={(e) => HandleDelete(e, cat.id)}
-                            ></button>
+                            <JobModal
+                              AddJob={AddJob}
+                              categories={categories}
+                              ModifyJob={ModifyJob}
+                              data={job}
+                            />
                             <button
                               type="button"
                               className="btn btn-danger"
-                              // onClick={(e) => HandleDelete(e, cat.id)}
+                              onClick={(e) => HandleDelete(e, job.id)}
                             >
-                              Delete
+                              <span class="mdi mdi-trash-can"></span> Delete
                             </button>
                           </div>
                         </td>

@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+
 const OrderStatus = () => {
   return (
     <div class="row ">

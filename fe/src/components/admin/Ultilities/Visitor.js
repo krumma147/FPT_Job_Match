@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+
 const Visitor = () => {
     return (
         <div class="row">

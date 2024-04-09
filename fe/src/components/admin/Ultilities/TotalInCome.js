@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 const TotalInCome = () => {
     return(
         <div class="row">

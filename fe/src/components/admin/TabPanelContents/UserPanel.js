@@ -1,4 +1,4 @@
-import ModalBtn from "../../ModalBtn";
+import React, { Component } from 'react';
 
 const UserPanel = () => {
   const TestBtnHandle = () => {

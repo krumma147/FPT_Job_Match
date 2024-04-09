@@ -1,4 +1,4 @@
-import ModalBtn from "../../ModalBtn";
+import React, { Component } from "react";
 
 const ApplicationPanel = () => {
   const TestBtnHandle = () => {
@@ -30,31 +30,17 @@ const ApplicationPanel = () => {
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>
-                        <div class="form-check form-check-muted m-0">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" />
-                          </label>
-                        </div>
-                      </th>
-                      <th> Categories ID </th>
-                      <th> Categories Name </th>
-                      <th> Action </th>
+                      <th className="col-1"> ID </th>
+                      <th className="col-1"> Status </th>
+                      <th className="col"> Resume </th>
+                      <th className="col-1"> JobId </th>
+                      <th className="col-1"> UserId </th>
+                      <th className="col-3"> Apply Day </th>
+                      <th className="col-2"> Action </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
-                        <div class="form-check form-check-muted m-0">
-                          <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" />
-                          </label>
-                        </div>
-                      </td>
-                      <td>
-                        <img src="assets/images/faces/face1.jpg" alt="image" />
-                        <span class="pl-2">Henry Klein</span>
-                      </td>
                       <td> Dashboard </td>
                       <td>
                         <div class="badge badge-outline-success">Approved</div>

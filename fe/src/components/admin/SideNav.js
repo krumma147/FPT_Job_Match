@@ -103,9 +103,14 @@ const SideNav = () => {
           <a
             class="nav-link"
             data-toggle="collapse"
-            href="#ui-basic"
             aria-expanded="false"
-            aria-controls="ui-basic"
+            id="v-pills-jobs-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-jobs"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-jobs"
+            aria-selected="false"
           >
             <span class="menu-icon">
               <i class="mdi mdi-laptop"></i>
@@ -113,10 +118,9 @@ const SideNav = () => {
             <span class="menu-title">Jobs</span>
             <i class="menu-arrow"></i>
           </a>
-          <div class="collapse" id="ui-basic">
+          {/* <div class="collapse" id="ui-basic">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                {" "}
                 <a
                   class="nav-link"
                   id="v-pills-jobs-tab"
@@ -131,7 +135,6 @@ const SideNav = () => {
                 </a>
               </li>
               <li class="nav-item">
-                {" "}
                 <a
                   class="nav-link"
                   id="v-pills-jobs-tab"
@@ -146,7 +149,7 @@ const SideNav = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </li>
         {/* Category */}
         <li class="nav-item menu-items">
