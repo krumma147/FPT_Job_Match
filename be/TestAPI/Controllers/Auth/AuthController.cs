@@ -9,7 +9,7 @@ using System.Data;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
-using TestAPI.Models;
+using TestAPI.Models.Auth;
 using TestAPI.Services;
 using TestAPI.Services.Email;
 using TestAPI.Services.Token;
@@ -195,9 +195,9 @@ namespace TestAPI.Controllers.Auth
         }
 
         [HttpPost("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword([FromBody] string email)
+        public async Task<IActionResult> ForgotPassword([FromBody] Models.Auth.ForgotPassword model)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
@@ -206,18 +206,20 @@ namespace TestAPI.Controllers.Auth
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var encodedUserIdAndToken = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user.Id}:{token}"));
-            var callbackUrl = Url.Action(nameof(ResetPassword), "Auth", new { id = encodedUserIdAndToken }, protocol: HttpContext.Request.Scheme);
+            //var callbackUrl = Url.Action(nameof(ResetPassword), "Auth", new { id = encodedUserIdAndToken }, protocol: HttpContext.Request.Scheme);
+            //var callbackUrl = Url.Action(nameof(SignIn), "Auth", new { resetPassword = true, id = encodedUserIdAndToken }, protocol: HttpContext.Request.Scheme);
+            var callbackUrl = $"http://localhost:3000/signin?resetPassword=true&id={encodedUserIdAndToken}";
 
             string emailSubject = "Reset Password";
             string emailContent = $"Please reset your password by clicking <a href='{callbackUrl}'>here</a>";
 
-            await _emailService.SendEmailAsync(email, emailSubject, emailContent);
+            await _emailService.SendEmailAsync(model.Email, emailSubject, emailContent);
 
             return Ok("Your request has been successful. Please check your email to reset your password");
         }
 
         [HttpPut("ResetPassword/{id}")]
-        public async Task<IActionResult> ResetPassword(string id, [FromBody] string newPassword)
+        public async Task<IActionResult> ResetPassword(string id, [FromBody] ResetPasswordModel model)
         {
             id = WebUtility.UrlDecode(id);
             var decodedUserIdAndToken = Encoding.UTF8.GetString(Convert.FromBase64String(id));
@@ -231,7 +233,7 @@ namespace TestAPI.Controllers.Auth
                 return BadRequest("Invalid user");
             }
 
-            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            var result = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
             if (result.Succeeded)
             {
                 return Ok("Updated password successfully");

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using TestAPI.Models;
+using TestAPI.Models.Auth;
 
 namespace TestAPI.Services
 {

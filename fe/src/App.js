@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import home from "./pages/Home/home";
-import SignupView from "./pages/Sign-up/SignupView";
-import SignInView from "./pages/Sign-in/SignInView";
+import SignupView from "./pages/Auth/Sign-up/SignupView";
+import SignInView from "./pages/Auth/Sign-in/SignInView";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import AdminMainPage from "./pages/Admin/AdminMainPage";
 import ListJob from "./pages/Home/ListJob/ListJob";

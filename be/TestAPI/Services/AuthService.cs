@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using TestAPI.Contextes;
 using TestAPI.Models;
+using TestAPI.Models.Auth;
 
 namespace TestAPI.Services
 {

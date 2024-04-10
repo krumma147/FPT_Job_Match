@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Contextes;
 using TestAPI.Models;
+using TestAPI.Models.Auth;
 
 namespace TestAPI.Controllers.Admin.Users
 {
