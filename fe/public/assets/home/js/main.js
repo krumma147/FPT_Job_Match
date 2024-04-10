@@ -1,81 +1,134 @@
-(function ($) {
-    "use strict";
-
-    // Spinner
-    var spinner = function () {
-        setTimeout(function () {
-            if ($('#spinner').length > 0) {
-                $('#spinner').removeClass('show');
-            }
-        }, 1);
-    };
-    spinner();
-    
-    
-    // Initiate the wowjs
-    new WOW().init();
+const inputs = document.querySelectorAll(".input");
 
 
-    // Sticky Navbar
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 300) {
-            $('.sticky-top').css('top', '0px');
-        } else {
-            $('.sticky-top').css('top', '-100px');
-        }
+function addcl(){
+	let parent = this.parentNode.parentNode;
+	parent.classList.add("focus");
+}
+
+function remcl(){
+	let parent = this.parentNode.parentNode;
+	if(this.value == ""){
+		parent.classList.remove("focus");
+	}
+}
+
+
+inputs.forEach(input => {
+	input.addEventListener("focus", addcl);
+	input.addEventListener("blur", remcl);
+});
+
+$('#click_advance').click(function() {
+    $("i", this).toggleClass("fa fa-filter fa fa-times");
+});
+$('#clickc_advance').click(function() {
+    $("i", this).toggleClass("fa fa-angle-down fa fa-angle-up");
+});
+$('#clickc2_advance').click(function() {
+    $("i", this).toggleClass("fa fa-angle-down fa fa-angle-up");
+});
+$('#clickc3_advance').click(function() {
+    $("i", this).toggleClass("fa fa-angle-down fa fa-angle-up");
+});
+$('#clickc4_advance').click(function() {
+    $("i", this).toggleClass("fa fa-angle-down fa fa-angle-up");
+});
+$('#clickc1_advance1').click(function() {
+    $("i", this).toggleClass("fa fa-angle-down fa fa-angle-up");
+});
+$('#clickc1_advance2').click(function() {
+    $("i", this).toggleClass("fa fa-angle-down fa fa-angle-up");
+});
+$('#clickc1_advance3').click(function() {
+    $("i", this).toggleClass("fa fa-angle-down fa fa-angle-up");
+});
+$('#clickc1_advance4').click(function() {
+    $("i", this).toggleClass("fa fa-angle-down fa fa-angle-up");
+});
+
+
+let dropArea = document.getElementById("drop-area");
+let filesDone = 0;
+let filesToDo = 0;
+let progressBar = document.getElementById("progress-bar");
+
+["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+  dropArea.addEventListener(eventName, preventDefaults, false);
+});
+
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+["dragenter", "dragover"].forEach((eventName) => {
+  dropArea.addEventListener(eventName, highlight, false);
+});
+["dragleave", "drop"].forEach((eventName) => {
+  dropArea.addEventListener(eventName, unhighlight, false);
+});
+
+function highlight(e) {
+  dropArea.classList.add("highlight");
+}
+
+function unhighlight(e) {
+  dropArea.classList.remove("highlight");
+}
+dropArea.addEventListener("drop", handleDrop, false);
+
+function handleDrop(e) {
+  let dt = e.dataTransfer;
+  let files = dt.files;
+
+  handleFiles(files);
+}
+// function handleFiles(files) {
+//   [...files].forEach(uploadFile);
+// }
+function handleFiles(files) {
+  files = [...files];
+  initializeProgress(files.length); // <- Add this line
+  files.forEach(uploadFile);
+  files.forEach(previewFile);
+}
+
+function uploadFile(file) {
+  let url = "YOUR URL HERE";
+  let formData = new FormData();
+
+  formData.append("file", file);
+
+  fetch(url, {
+    method: "POST",
+    body: formData
+  })
+    .then(progressDone) // <- Add `progressDone` call here
+    .catch(() => {
+      /* Error. Inform the user */
     });
-    
-    
-    // Back to top button
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 300) {
-            $('.back-to-top').fadeIn('slow');
-        } else {
-            $('.back-to-top').fadeOut('slow');
-        }
-    });
-    $('.back-to-top').click(function () {
-        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
-        return false;
-    });
+}
+
+function previewFile(file) {
+  let reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onloadend = function () {
+    let img = document.createElement("img");
+    img.src = reader.result;
+    document.getElementById("gallery").appendChild(img);
+  };
+}
+function initializeProgress(numfiles) {
+  progressBar.value = 0;
+  filesDone = 0;
+  filesToDo = numfiles;
+}
+
+function progressDone() {
+  filesDone++;
+  progressBar.value = (filesDone / filesToDo) * 100;
+}
 
 
-    // Header carousel
-    $(".header-carousel").owlCarousel({
-        autoplay: true,
-        smartSpeed: 1500,
-        items: 1,
-        dots: true,
-        loop: true,
-        nav : true,
-        navText : [
-            '<i class="bi bi-chevron-left"></i>',
-            '<i class="bi bi-chevron-right"></i>'
-        ]
-    });
-
-
-    // Testimonials carousel
-    $(".testimonial-carousel").owlCarousel({
-        autoplay: true,
-        smartSpeed: 1000,
-        center: true,
-        margin: 24,
-        dots: true,
-        loop: true,
-        nav : false,
-        responsive: {
-            0:{
-                items:1
-            },
-            768:{
-                items:2
-            },
-            992:{
-                items:3
-            }
-        }
-    });
-    
-})(jQuery);
 
