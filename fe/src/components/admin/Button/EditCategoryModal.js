@@ -16,20 +16,19 @@ const EditCategoryModal = ({ EditCategory, Data }) => {
   const CloseModal = () => setName("");
 
   const ModalBody = (
-    <form>
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">
-          Job Type Name
-        </label>
+    <div className="bg-light rounded h-100 p-4">
+      <h6 className="mb-4">Job Type Name</h6>
+      <div className="form-floating mb-3">
         <input
           type="text"
-          class="form-control"
-          aria-describedby="emailHelp"
+          className="form-control"
+          id="floatingInput"
+          placeholder="Name of the category"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
-    </form>
+    </div>
   );
 
   return (
@@ -37,15 +36,15 @@ const EditCategoryModal = ({ EditCategory, Data }) => {
       <button
         type="button"
         class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target={`#EditCategoryModal${Data.id}`}
+        data-toggle="modal"
+        data-target={`#EditCategoryModal${Data.id}`}
         onClick={OpenModal}
       >
         <span class="mdi mdi-file-edit"></span> Edit
       </button>
 
       <div
-        class="modal fade text-light"
+        class="modal fade"
         id={`EditCategoryModal${Data.id}`}
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
@@ -54,13 +53,13 @@ const EditCategoryModal = ({ EditCategory, Data }) => {
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title text-light" id="exampleModalLabel">
+              <h5 class="modal-title" id="exampleModalLabel">
                 Edit Category
               </h5>
               <button
                 type="button"
                 class="btn-close"
-                data-bs-dismiss="modal"
+                data-dismiss="modal"
               ></button>
             </div>
             <div class="modal-body">{ModalBody}</div>
@@ -68,7 +67,7 @@ const EditCategoryModal = ({ EditCategory, Data }) => {
               <button
                 type="button"
                 class="btn btn-secondary"
-                data-bs-dismiss="modal"
+                data-dismiss="modal"
                 onClick={CloseModal}
               >
                 Close
@@ -76,7 +75,7 @@ const EditCategoryModal = ({ EditCategory, Data }) => {
               <button
                 type="button"
                 class="btn btn-primary"
-                data-bs-dismiss="modal"
+                data-dismiss="modal"
                 onClick={ToggleModal}
               >
                 Save changes

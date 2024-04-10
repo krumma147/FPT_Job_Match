@@ -79,9 +79,24 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
   };
 
   const ModalBody = (
-    <form>
-      <fieldset className="container">
-        <div className="mb-3 row">
+    <div className="bg-light rounded h-100 p-2">
+      <div className="form-floating mb-2">
+        {data ? (
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              Job still in active?
+            </label>
+          </div>
+        ) : null}
+      </div>
+      <div className="form-floating mb-3">
+        <div className="row">
           <div class="col">
             <label for="exampleInputEmail1" class="form-label">
               Job Title
@@ -94,9 +109,9 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-          <div class="col">
+          <div class="col p-1">
             <label for="exampleInputEmail1" class="form-label">
-              Category (Field)
+              Category
             </label>
             <br />
             <select
@@ -113,7 +128,9 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
             </select>
           </div>
         </div>
-        <div className="row mb-3">
+      </div>
+      <div className="form-floating mb-3">
+        <div className="row">
           <div class="col">
             <label for="exampleInputEmail1" class="form-label">
               Job Description
@@ -124,12 +141,13 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            {/* <MySummernoteEditor onContentChange={setDesciption} /> */}
           </div>
         </div>
-        <hr />
-        <div className="row mb-3">
-          <div class="col">
+      </div>
+
+      <div className="form-floating mb-3">
+        <div className="row">
+          <div class="col-md-6">
             <label for="exampleInputEmail1" class="form-label">
               Skills Required
             </label>
@@ -141,7 +159,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
               onChange={(e) => setSkill(e.target.value)}
             />
           </div>
-          <div class="col">
+          <div class="col-md-6">
             <label for="exampleInputEmail1" class="form-label">
               End Time
             </label>
@@ -154,29 +172,10 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
             />
           </div>
         </div>
+      </div>
 
-        <div className="row mb-3">
-          <div className="col form-check">
-            <label className="form-label col-8">Experiences</label>
-            <input
-              style={{ marginBottom: "10px" }}
-              className="form-check-input"
-              type="checkbox"
-              id="enableRangeCheckbox"
-              checked={!isYearEnabled} // Trạng thái của checkbox
-              onChange={() => setIsYearEnabled(!isYearEnabled)} // Sự kiện khi checkbox thay đổi
-            />
-
-            <input
-              type="number"
-              class="form-control rounded"
-              aria-describedby="emailHelp"
-              disabled={isYearEnabled}
-              value={yearRequire}
-              onChange={(e) => setYearRequire(e.target.value)}
-            />
-          </div>
-          <br />
+      <div className="form-floating mb-3">
+        <div className="row">
           <div class="col">
             <label for="selectEducation" class="form-label">
               Education
@@ -198,12 +197,37 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
               <option value="Doctoral">Doctoral degree</option>
             </select>
           </div>
-        </div>
-
-        <div className="row m-3 ">
-          <div className="form-check">
+          <div className="col form-check ml-2">
             <input
-              className="form-check-input m-4"
+              style={{ marginBottom: "10px" }}
+              className="form-check-input"
+              type="checkbox"
+              id="enableRangeCheckbox"
+              checked={!isYearEnabled}
+              onChange={() => setIsYearEnabled(!isYearEnabled)}
+            />
+            <label className="form-check-label">Experiences Required</label>
+
+            <input
+              type="number"
+              class="form-control rounded"
+              aria-describedby="emailHelp"
+              disabled={isYearEnabled}
+              value={yearRequire}
+              onChange={(e) => setYearRequire(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="form-floating mb-3">
+        <div className="row">
+          <label htmlFor="customRange1" className="form-label col">
+            Salary Range
+          </label>
+          <div className="form-check col">
+            <input
+              className="form-check-input"
               type="checkbox"
               id="enableRangeCheckbox"
               checked={!isRangeEnabled} // Trạng thái của checkbox
@@ -213,37 +237,33 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
               Include Salary
             </label>
           </div>
-          <label htmlFor="customRange1" className="form-label">
-            Salary Range
-          </label>
-          <input
-            type="range"
-            className="form-range col"
-            id="customRange1"
-            value={salaryRange}
-            min={0}
-            max={100000}
-            disabled={isRangeEnabled}
-            onChange={(e) => setSalaryRange(e.target.value)}
-          />
-          <p>Salary: ${salaryRange}</p>
         </div>
+        <input
+          type="range"
+          className="form-range col"
+          id="customRange1"
+          value={salaryRange}
+          min={0}
+          max={100000}
+          disabled={isRangeEnabled}
+          onChange={(e) => setSalaryRange(e.target.value)}
+        />
+        <p>Salary: ${salaryRange}</p>
+      </div>
 
-        {data ? (
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-            />
-            <label class="form-check-label" for="flexCheckDefault">
-              Job still in active
-            </label>
-          </div>
-        ) : null}
-      </fieldset>
-    </form>
+      <div className="form-floating mb-3">
+        <label htmlFor="floatingTextarea">Job description</label>
+        <textarea
+          className="form-control rounded"
+          placeholder="Describe about the job..."
+          id="floatingTextarea"
+          style={{ height: 150 }}
+          defaultValue={""}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
+    </div>
   );
 
   return (
@@ -251,8 +271,8 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
       <button
         type="button"
         class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target={data ? "#JobModal" : `#EditJobModal${data?.id}`}
+        data-toggle="modal"
+        data-target={data ? "#JobModal" : `#EditJobModal${data?.id}`}
         onClick={ActiveModal}
       >
         {data ? (
@@ -264,7 +284,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
       </button>
 
       <div
-        class="modal fade text-light"
+        class="modal fade "
         id={data ? "JobModal" : `EditJobModal${data?.id}`}
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
@@ -273,13 +293,13 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title text-light" id="exampleModalLabel">
+              <h5 class="modal-title " id="exampleModalLabel">
                 {data ? "Edit" : "Add"} Job
               </h5>
               <button
                 type="button"
                 class="btn-close"
-                data-bs-dismiss="modal"
+                data-dismiss="modal"
               ></button>
             </div>
             <div class="modal-body">{ModalBody}</div>
@@ -287,7 +307,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
               <button
                 type="button"
                 class="btn btn-secondary"
-                data-bs-dismiss="modal"
+                data-dismiss="modal"
                 onClick={CloseModal}
               >
                 Close
@@ -295,7 +315,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
               <button
                 type="button"
                 class="btn btn-primary"
-                data-bs-dismiss="modal"
+                data-dismiss="modal"
                 onClick={ToggleModal}
               >
                 Save changes
