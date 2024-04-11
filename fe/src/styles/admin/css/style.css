@@ -96,7 +96,7 @@
 }
 
 .bg-grayE8 {
-  background-color: #e8e8e8;
+  background-color: #E8E8E8;
 }
 
 @media (min-width: 992px) {
@@ -145,11 +145,12 @@
 
 .sidebar .navbar .navbar-nav .nav-link:hover,
 .sidebar .navbar .navbar-nav .nav-link.active {
-  /* padding: 7px 20px;
+  padding: 7px 20px;
+  padding: 7px 30px;
   color: var(--primary);
   background: #ffffff;
-  border-color: var(--primary); */
-  /* border-width: 3px; */
+  border-color: var(--primary);
+  border-width: 3px;
 }
 
 .sidebar .navbar .navbar-nav .nav-link i {

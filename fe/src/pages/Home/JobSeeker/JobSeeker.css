@@ -1,0 +1,146 @@
+.featured_candidates_area {
+  background: #F5F7FA;
+  padding-bottom: 100px;
+}
+
+.featured_candidates_area.candidate_page_padding {
+  padding-top: 100px;
+}
+
+.featured_candidates_area.candidate_page_padding .single_candidates {
+  margin-bottom: 30px;
+}
+
+.featured_candidates_area .single_candidates {
+  background: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 35px 45px;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .featured_candidates_area .single_candidates {
+    padding: 25px 30px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .featured_candidates_area .single_candidates {
+    padding: 25px 20px;
+  }
+}
+
+.featured_candidates_area .single_candidates .thumb {
+  width: 110px;
+  height: 110px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.featured_candidates_area .single_candidates .thumb img {
+  width: 100%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.featured_candidates_area .single_candidates h4 {
+  font-size: 20px;
+  font-weight: 400;
+  color: #001D38;
+  margin-top: 24px;
+  margin-bottom: 6px;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.featured_candidates_area .single_candidates p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #AAB1B7;
+  margin-bottom: 0;
+}
+
+.featured_candidates_area .single_candidates:hover h4 {
+  color: #00D363;
+}
+
+.featured_candidates_area .owl-carousel .owl-nav div {
+  background: rgba(10, 140, 255, 0.1);
+  height: 38px;
+  left: 0px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  -webkit-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  width: 38px;
+  color: #0A8CFF;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  left: 50px;
+  font-size: 15px;
+  line-height: 38px;
+  border: none;
+  left: -19px;
+}
+
+.featured_candidates_area .owl-carousel .owl-nav div.owl-next {
+  left: auto;
+  right: -19px;
+}
+
+.featured_candidates_area .owl-carousel .owl-nav div:hover {
+  background: rgba(10, 140, 255, 0.5);
+  color: #fff;
+  border: none;
+}
+
+.pagination_wrap {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination_wrap ul li {
+  display: inline-block;
+  vertical-align: middle; 
+}
+
+.pagination_wrap ul li a {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #EAEAEA;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  font-size: 16px;
+  text-align: center;
+  line-height: 38px;
+  display: inline-block;
+  color: #AAB1B7;
+  font-size: 14px;
+  margin: 0 4px;
+}
+
+.pagination_wrap ul li a i {
+  line-height: 38px;
+}
+
+.pagination_wrap ul li a span {
+  line-height: 38px;
+}
+
+.pagination_wrap ul li a:hover {
+  border-color: #00D363;
+  color: #00D363;
+}

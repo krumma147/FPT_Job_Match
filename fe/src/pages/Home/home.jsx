@@ -1,50 +1,46 @@
-import React from "react";
-import MainBanner from "../../components/main/MainBanner";
-import MainNav from "../../components/main/MainNav";
-import SearchSection from "../../components/main/SearchSection";
-import JobBoard from "../../components/main/JobBoard";
-import TopEmployer from "../../components/main/TopEmployer";
-import JobBestSalary from "../../components/main/JobBestSalary";
-import HomePageFooter from "../../Share/Footer/HomePageFooter";
-import JobSupport from "../../components/JobSupport";
-import "../../styles/client/style.css";
+import React from 'react'
+import Navbar from '../../components/home/Navbar'
+import Search from '../../components/home/Search'
+import Banner from '../../components/home/Banner'
+import SideBar from '../../components/home/SideBar'
+import JobBoard from '../../components/home/JobBoard'
+import TopEmployer from '../../components/home/TopEmployer'
+import JobSalary from '../../components/home/JobSalary'
+import News from '../../components/home/News'
+import JobSupport from '../../components/home/JobSupport'
+import Footer from '../../components/home/Footer'
 
 export default function home() {
   return (
-    <>
-      <MainNav />
+    <div>
+      <Navbar />
       <div class="clearfix"></div>
-      <MainBanner />
+      <Banner />
+      <Search searchHome={{ marginTop: '-11rem' }} />
+      <SideBar />
       <div class="clearfix"></div>
-
-      <SearchSection />
-
       <JobBoard />
-
       <div class="clearfix"></div>
-
       <TopEmployer />
-
       <div class="clearfix"></div>
-
-      <JobBestSalary />
-
-      <div class="container-fluid">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="home-ads">
+      <JobSalary />
+      <div className="container-fluid">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="home-ads">
                 <a href="#">
-                  <img src="./assets/images/hna2.jpg" />
+                  <img src="assets/home/img/hna2.jpg" />
                 </a>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+      <div class="clearfix"></div>
+      <News />
       <JobSupport />
-      <HomePageFooter />
-    </>
-  );
+      <Footer />
+    </div>
+  )
 }

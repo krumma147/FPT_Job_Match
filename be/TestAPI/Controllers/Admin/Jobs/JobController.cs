@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
@@ -9,6 +10,7 @@ namespace TestAPI.Controllers.Admin.Jobs
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Roles="Admin")]
     public class JobController : ControllerBase
     {
         private readonly AuthDemoDbContext _context;
@@ -116,8 +118,15 @@ namespace TestAPI.Controllers.Admin.Jobs
             {
                 var jobUpdate = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == id && j.Deleted == 0);
                 if (jobUpdate == null) return NotFound(new { message = "Id not found" });
-                jobUpdate.Deleted = 1;
 
+                var relatedApplications = await _context.Applications.AnyAsync(a => a.JobId == id);
+
+                if (relatedApplications)
+                {
+                    return BadRequest(new { message = "Please delete related applications before deleting this job." });
+                }
+
+                jobUpdate.Deleted = 1;
                 _context.SaveChanges();
 
                 return Ok(new { message = "Delete category successfully" });

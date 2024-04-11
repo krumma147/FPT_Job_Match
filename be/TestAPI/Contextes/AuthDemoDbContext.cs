@@ -23,6 +23,7 @@ namespace TestAPI.Contextes
         public DbSet<UserInfo> UserInfos { get; set; }
         public DbSet<Job> Jobs { get; set; }
 
+        public DbSet<Application> Applications { get; set; }
 
         //add role
         protected override void OnModelCreating(ModelBuilder builder)
