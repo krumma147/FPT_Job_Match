@@ -48,9 +48,9 @@ namespace TestAPI.Controllers.Auth
                 try
                 {
                     var identityUser = await _userManager.FindByEmailAsync(user.Email);
-                    await SendConfirmationEmail(user, identityUser);
+                    await SendConfirmationEmail(user.UserName, identityUser);
                     // Check if the selected role is valid
-                    if (user.Role != "Jobseeker" && user.Role != "Employer")
+                    if (user.Role != "JobSeeker" && user.Role != "Employer")
                     {
                         return BadRequest(new { status = false, message = "Invalid role selected" });
                     }
@@ -97,7 +97,7 @@ namespace TestAPI.Controllers.Auth
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginUser user)
+        public async Task<IActionResult> Login(LoginRequest user)
         {
             if (!ModelState.IsValid)
             {
@@ -117,7 +117,10 @@ namespace TestAPI.Controllers.Auth
 
             if (!identityUser.EmailConfirmed)
             {
-                await SendConfirmationEmail(user, identityUser);
+                if (user != null)
+                {
+                    await SendConfirmationEmail(user.UserName, identityUser);
+                }
                 return BadRequest("Email not confirmed. A confirmation email has been sent.");
             }
 
@@ -130,7 +133,13 @@ namespace TestAPI.Controllers.Auth
 
                 return Ok(new { Message = "OTP has been sent to your email. Please verify it." });
             }
-            var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
+
+            // Get user roles
+            var roles = await _userManager.GetRolesAsync(identityUser);
+
+            // Generate token with roles
+            var tokenString = _authService.GenerateTokenString(user.UserName, roles);
+
             return Ok(new { Message = "Login Success!", Token = tokenString });
         }
 
@@ -146,8 +155,10 @@ namespace TestAPI.Controllers.Auth
                 return BadRequest("Invalid OTP.");
             }
 
-            // Generate JWT token
-            var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = userFA.UserName });
+            // Get user roles
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var tokenString = _authService.GenerateTokenString(userFA.UserName, roles);
             return Ok(new { Message = "Login Success!", Token = tokenString });
         }
 
@@ -176,13 +187,13 @@ namespace TestAPI.Controllers.Auth
         }
 
 
-        private async Task SendConfirmationEmail(LoginUser user, IdentityUser identityUser)
+        private async Task SendConfirmationEmail(string userName, IdentityUser identityUser)
         {
             // Generate confirmation token
             var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
             // Encode the userName
-            var plainTextBytes = Encoding.UTF8.GetBytes(user.UserName);
+            var plainTextBytes = Encoding.UTF8.GetBytes(userName);
             var encodedUserName = Convert.ToBase64String(plainTextBytes);
 
             // Generate email confirmation link
@@ -191,7 +202,7 @@ namespace TestAPI.Controllers.Auth
             string emailSubject = "Confirm your email";
             string emailContent = $"<h1>Welcome to our application!</h1><p>Thank you for registering. Please click the following <a href='{emailConfirmationLink}'>Click Here</a> to confirm your account...";
 
-            await _emailService.SendEmailAsync(user.UserName, emailSubject, emailContent);
+            await _emailService.SendEmailAsync(userName, emailSubject, emailContent);
         }
 
         [HttpPost("ForgotPassword")]
@@ -280,7 +291,7 @@ namespace TestAPI.Controllers.Auth
 
                     // Send confirmation email
                     var loginUser = new LoginUser { UserName = user.UserName };
-                    await SendConfirmationEmail(loginUser, user);
+                    await SendConfirmationEmail(loginUser.UserName, user);
 
                     await _authService.AddUserInfo(result.Principal, newUser);
 
@@ -315,7 +326,7 @@ namespace TestAPI.Controllers.Auth
             if (!user.EmailConfirmed)
             {
                 var loginUser = new LoginUser { UserName = user.UserName };
-                await SendConfirmationEmail(loginUser, user);
+                await SendConfirmationEmail(loginUser.UserName, user);
                 return BadRequest("Email not confirmed. A confirmation email has been sent.");
             }
 
@@ -329,11 +340,14 @@ namespace TestAPI.Controllers.Auth
                 return Ok(new { Message = "OTP has been sent to your email. Please verify it." });
             }
 
+            // Get user roles
+            var roles = await _userManager.GetRolesAsync(user);
+
             // Generate a JWT for the user
-            var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
+            var tokenString = _authService.GenerateTokenString(user.UserName, roles);
 
             // Return the token to the client
-            return Ok(new { Message = "Login Success!", Token = tokenString });
+            return Ok(new { Message = "Login Success!", Token = tokenString, user= user,role = roles });
         }
 
         [HttpPost("LogoutGoogle")]
@@ -364,7 +378,11 @@ namespace TestAPI.Controllers.Auth
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-                var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
+
+                // Get user roles
+                var roles = await _userManager.GetRolesAsync(user);
+
+                var tokenString = _authService.GenerateTokenString(user.UserName, roles);
                 return Ok(new { Message = "Login Success!", Token = tokenString });
             }
             else
@@ -401,8 +419,10 @@ namespace TestAPI.Controllers.Auth
                         }
 
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        var tokenString = _authService.GenerateTokenString(new LoginUser { UserName = user.UserName });
-                        return Ok(new { Message = "User created and logged in!", Token = tokenString });
+                        var roles = await _userManager.GetRolesAsync(user);
+
+                        var tokenString = _authService.GenerateTokenString(user.UserName, roles);
+                        return Ok(new { Message = "Login Success!", Token = tokenString });
                     }
                     else
                     {

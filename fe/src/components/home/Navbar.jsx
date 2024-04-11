@@ -1,6 +1,15 @@
-import React from 'react'
+import React from 'react';
+import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom';
 
 export default function Navbar(props) {
+    const isLoggedIn = !!Cookies.get('token');
+    const history = useHistory();
+
+    const HandleLogout = () => {
+        Cookies.remove('token');
+        history.push('/signin');
+    }
     return (
         <div className={`container-fluid fluid-nav ${props.page}`}>
             <div className="container cnt-tnar">
@@ -36,12 +45,26 @@ export default function Navbar(props) {
                             <li className="nav-item active">
                                 <a className="nav-link" href="#"><i className="fa fa-search" aria-hidden="true" /> <span className="hidden-text">Tìm kiếm</span></a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/signup">Đăng Ký</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/signin">Đăng Nhập</a>
-                            </li>
+                            {isLoggedIn ? (
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Account
+                                    </a>
+                                    <div className="dropdown-menu tdropdown" aria-labelledby="navbarDropdown">
+                                        <a className="dropdown-item" href="/profile">Profile</a>
+                                        <a className="dropdown-item" onClick={HandleLogout}>Logout</a>
+                                    </div>
+                                </li>
+                            ) : (
+                                <>
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="/signup">Đăng Ký</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="/signin">Đăng Nhập</a>
+                                    </li>
+                                </>
+                            )}
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     VI

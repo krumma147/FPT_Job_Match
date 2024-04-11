@@ -47,9 +47,9 @@ namespace TestAPI.Services
             return result.Succeeded;
         }
 
-        public async Task<bool> Login(LoginUser user)
+        public async Task<bool> Login(LoginRequest user)
         {
-            var iUser = await _userManager.FindByEmailAsync(user.Email);
+            var iUser = await _userManager.FindByEmailAsync(user.UserName);
             if (iUser is null)
             {
                 return false;
@@ -57,11 +57,11 @@ namespace TestAPI.Services
             return await _userManager.CheckPasswordAsync(iUser, user.Password);
         }
 
-        public string GenerateTokenString(LoginUser user)
+        public string GenerateTokenString(string userName, IList<string> roles)
         {
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.Email, user.UserName),
-                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(ClaimTypes.Email, userName),
+                new Claim("Role", string.Join(",", roles)),
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Value));
             var signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -73,7 +73,7 @@ namespace TestAPI.Services
                 signingCredentials: signingCred
             );
             string tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
-            return tokenString; 
+            return tokenString;
         }
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(LoginUser user)
