@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from "react";
-import JobHooks from "../../hooks/JobHook";
-export default function SideBar() {
+
+export default function SideBar({jobs}) {
   const [visibleJobs, setVisibleJobs] = useState(7);
   const [showAll, setShowAll] = useState(false);
-  const [jobs, setJobs] = useState([]);
-
-  const fetchData = async () => {
-    const jobdata = await JobHooks.GetAllJob();
-    console.log(jobdata);
-    setJobs(jobdata.jobs);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const toggleShowAll = () => {
     setShowAll(!showAll);
@@ -47,7 +36,7 @@ export default function SideBar() {
                           </div>
                           <div className="job-desc">
                             <div className="job-title">
-                              <a href={`/jobDetail/${j.id}`}>{j.title}</a>
+                              <a href={`/jobs/detail/${j.id}`}>{j.title}</a>
                             </div>
                             <div className="job-company">
                               <a href="#">Fpt Software</a>
