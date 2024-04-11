@@ -9,6 +9,7 @@ import ListJob from "./pages/Home/ListJob/ListJob";
 import JobDetail from "./pages/Home/JobDetail/JobDetail";
 import Profile from "./pages/Home/Profile/Profile";
 import PostNews from "./pages/Home/PostNews/PostNews";
+import JobSeeker from "./pages/Home/JobSeeker/JobSeeker";
 export default function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/jobDetail" exact component={JobDetail} />
         <Route path="/profile" exact component={Profile} />
         <Route path="/postnews" exact component={PostNews} />
+        <Route path="/jobseeker" exact component={JobSeeker} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     </BrowserRouter>

@@ -21,13 +21,14 @@ export default function Navbar(props) {
                             </li>
                             <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Dropdown
+                                    Page
                                 </a>
                                 <div className="dropdown-menu tdropdown" aria-labelledby="navbarDropdown">
-                                    <a className="dropdown-item" href="#">Action</a>
-                                    <a className="dropdown-item" href="#">Another action</a>
+                                    <a className="dropdown-item" href="/jobDetail">Job detail</a>
+                                    <a className="dropdown-item" href="/profile">Profile</a>
+                                    <a className="dropdown-item" href="/postnews">Post news</a>
                                     <div className="dropdown-divider" />
-                                    <a className="dropdown-item" href="#">Something else here</a>
+                                    <a className="dropdown-item" href="/jobseeker">Job Seeker</a>
                                 </div>
                             </li>
                         </ul>
