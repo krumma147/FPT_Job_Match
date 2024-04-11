@@ -7,7 +7,7 @@ const ApplicationHook = {
       const response = await axios.get(`${apiURL}/Application`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },
@@ -17,7 +17,7 @@ const ApplicationHook = {
       const response = await axios.post(`${apiURL}/Application`, application);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },
@@ -27,7 +27,7 @@ const ApplicationHook = {
       const response = await axios.put(`${apiURL}/Application/${id}`, application);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },

@@ -7,7 +7,7 @@ const CategoryHook = {
       const response = await axios.get(`${apiURL}/Categories`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },
@@ -18,7 +18,7 @@ const CategoryHook = {
       const response = await axios.post(`${apiURL}/Categories`, category);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },
@@ -29,7 +29,7 @@ const CategoryHook = {
       const response = await axios.put(`${apiURL}/Categories/${id}`, category);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },
@@ -40,7 +40,7 @@ const CategoryHook = {
       const response = await axios.delete(`${apiURL}/Categories/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },
@@ -50,7 +50,7 @@ const CategoryHook = {
       const response = await axios.get(`${apiURL}/Categories/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },

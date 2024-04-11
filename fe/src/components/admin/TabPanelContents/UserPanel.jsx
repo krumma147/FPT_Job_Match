@@ -33,7 +33,7 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
             </thead>
             <tbody>
               {users?.length > 0 ? null : "There are no application yet!"}
-              {users?.map((user, index) => (
+              {users.length > 0 ? (users?.map((user, index) => (
                 <tr>
                   <td className="col-md-1">
                     <span>{index + 1}</span>
@@ -60,7 +60,7 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
                     </div>
                   </td>
                 </tr>
-              ))}
+              ))) : <span> There is no application yet!</span>}
             </tbody>
           </table>
         </div>

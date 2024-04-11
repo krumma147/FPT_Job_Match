@@ -7,7 +7,7 @@ const UserHook = {
       const response = await axios.get(`${apiURL}/User`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      //console.error(`Can't create account! ${error}`);
       return error;
     }
   },

@@ -67,13 +67,12 @@ const ApplicationModal = ({
             onChange={(e) => setUser(e.target.value)}
           >
             <option selected>Select user here</option>
-            {users
-              ?.filter((u) => u.roles[0].toLowerCase() === "jobseeker")
+            {users.length > 0 ? (users?.filter((u) => u.roles[0].toLowerCase() === "jobseeker")
               .map((u) => (
                 <option key={u.user.id} value={u.user.id}>
                   {u.user.userName}
                 </option>
-              ))}
+              ))) : <option>No jobseeker found</option>}
           </select>
         </div>
       </div>
