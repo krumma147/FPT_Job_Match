@@ -9,6 +9,7 @@ import JobRoute from "./pages/Home/ListJob/JobRoute";
 import Profile from "./pages/Home/Profile/Profile";
 import PostNews from "./pages/Home/PostNews/PostNews";
 import JobSeeker from "./pages/Home/JobSeeker/JobSeeker";
+import JobDetail from "./pages/Home/JobDetail/JobDetail";
 export default function App() {
   return (
     <BrowserRouter>
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/signin" exact component={SignInView} />
         <Route path="/admin" exact component={AdminMainPage} />
         <Route path="/jobs" exact component={JobRoute} />
+        <Route path="/jobDetail/:id" exact component={JobDetail} />
         <Route path="/profile" exact component={Profile} />
         <Route path="/postnews" exact component={PostNews} />
         <Route path="/jobseeker" exact component={JobSeeker} />

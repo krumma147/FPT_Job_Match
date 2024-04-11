@@ -15,7 +15,7 @@ export default function Navbar(props) {
       <div className="container cnt-tnar">
         <nav className="navbar navbar-expand-lg navbar-light bg-light tjnav-bar">
           <a href="/" className="nav-logo">
-            <img src="assets/home/img/techjobs_bgb.png" />
+            <img src="/assets/home/img/techjobs_bgb.png" />
           </a>
           <button
             className="navbar-toggler tnavbar-toggler"

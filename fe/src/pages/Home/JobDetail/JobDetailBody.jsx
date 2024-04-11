@@ -13,7 +13,7 @@ export default function JobDetailBody() {
                 <div className="job-detail-header-logo">
                   <a href="#">
                     <img
-                      src="assets/home/img/fpt-logo.png"
+                      src="/assets/home/img/fpt-logo.png"
                       className="job-logo-ima"
                       alt="job-logo"
                     />
@@ -339,7 +339,7 @@ export default function JobDetailBody() {
                 <div className="company-intro">
                   <a href="#">
                     <img
-                      src="assets/home/img/fpt-logo.png"
+                      src="/assets/home/img/fpt-logo.png"
                       className="job-logo-ima"
                       alt="job-logo"
                     />
@@ -375,7 +375,7 @@ export default function JobDetailBody() {
                       <div
                         style={{
                           backgroundImage:
-                            "url(assets/home/img/alipay-logo.png)",
+                            "url(/assets/home/img/alipay-logo.png)",
                         }}
                       />
                     </a>
@@ -392,7 +392,7 @@ export default function JobDetailBody() {
                     <a href="#" className="thumb">
                       <div
                         style={{
-                          backgroundImage: "url(assets/home/img/fpt-logo.png)",
+                          backgroundImage: "url(/assets/home/img/fpt-logo.png)",
                         }}
                       />
                     </a>
@@ -410,7 +410,7 @@ export default function JobDetailBody() {
                       <div
                         style={{
                           backgroundImage:
-                            "url(assets/home/img/alipay-logo.png)",
+                            "url(/assets/home/img/alipay-logo.png)",
                         }}
                       />
                     </a>
@@ -428,7 +428,7 @@ export default function JobDetailBody() {
                       <div
                         style={{
                           backgroundImage:
-                            "url(assets/home/img/alipay-logo.png)",
+                            "url(/assets/home/img/alipay-logo.png)",
                         }}
                       />
                     </a>
@@ -446,7 +446,7 @@ export default function JobDetailBody() {
                       <div
                         style={{
                           backgroundImage:
-                            "url(assets/home/img/alipay-logo.png)",
+                            "url(/assets/home/img/alipay-logo.png)",
                         }}
                       />
                     </a>
@@ -464,7 +464,7 @@ export default function JobDetailBody() {
                       <div
                         style={{
                           backgroundImage:
-                            "url(assets/home/img/alipay-logo.png)",
+                            "url(/assets/home/img/alipay-logo.png)",
                         }}
                       />
                     </a>
@@ -482,7 +482,7 @@ export default function JobDetailBody() {
                       <div
                         style={{
                           backgroundImage:
-                            "url(assets/home/img/alipay-logo.png)",
+                            "url(/assets/home/img/alipay-logo.png)",
                         }}
                       />
                     </a>
@@ -503,7 +503,7 @@ export default function JobDetailBody() {
                     <div className="col-md-12">
                       <div className="home-ads">
                         <a href="#">
-                          <img src="assets/home/img/ads1.jpg" />
+                          <img src="/assets/home/img/ads1.jpg" />
                         </a>
                       </div>
                     </div>
