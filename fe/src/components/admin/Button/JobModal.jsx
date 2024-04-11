@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import MySummernoteEditor from "../../SummerNoteEditor";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [salaryRange, setSalaryRange] = useState(0);
+  const [salaryRange, setSalaryRange] = useState("");
   const [yearRequire, setYearRequire] = useState(0);
   const [skill, setSkill] = useState("");
   const [category, setCategory] = useState("");
@@ -20,6 +21,9 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
   const ToggleModal = async () => {
     const salary = "$ " + salaryRange.toString();
     const jobDate = new Date(selectedDate).toISOString();
+    if (isRangeEnabled) {
+      setSalaryRange("Discuss during interview");
+    }
     const job = {
       title,
       description,
@@ -48,7 +52,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
     } else {
       await AddJob(job);
     }
-    console.log(job);
+    //console.log(job);
     CloseModal();
   };
 
@@ -238,14 +242,13 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
 
       <div className="form-floating mb-3">
         <label htmlFor="floatingTextarea">Job description</label>
-        <textarea
-          className="form-control rounded"
-          placeholder="Describe about the job..."
-          id="floatingTextarea"
-          style={{ height: 150 }}
-          defaultValue={""}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+        <CKEditor
+          editor={ClassicEditor}
+          data={description}
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            setDescription(data);
+          }}
         />
       </div>
     </div>

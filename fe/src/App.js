@@ -19,7 +19,7 @@ export default function App() {
         <Route path="/signin" exact component={SignInView} />
         <Route path="/admin" exact component={AdminMainPage} />
         <Route path="/joblist" exact component={ListJob} />
-        <Route path="/jobDetail" exact component={JobDetail} />
+        <Route path="/jobDetail/:id" exact component={JobDetail} />
         <Route path="/profile" exact component={Profile} />
         <Route path="/postnews" exact component={PostNews} />
         <Route path="/jobseeker" exact component={JobSeeker} />

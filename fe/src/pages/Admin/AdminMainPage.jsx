@@ -29,11 +29,11 @@ export default function AdminMainPage() {
     // console.log(categorydata.jobCategories);
     setCategories(categorydata.jobCategories);
     const jobdata = await JobHooks.GetAllJob();
-    //console.log(jobdata);
     setJobs(jobdata.jobs);
+    console.log(jobdata);
     const usersData = await UserHook.GetAllUsers();
     setUsers(usersData);
-    console.log(usersData);
+    //console.log(usersData);
     const applicationsData = await ApplicationHook.GetAllApplications();
     //console.log(applicationsData);
     setApplications(applicationsData.applications);
@@ -65,10 +65,8 @@ export default function AdminMainPage() {
   };
 
   const AddJob = async (job) => {
-    alert("Tesing!");
     const res = await JobHooks.CreateJob(job);
-    //alert(res);
-    console.log(res);
+    //console.log(res);
     if (res.job !== null) alert("Create Job success!");
     await fetchData();
   };

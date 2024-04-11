@@ -21,7 +21,7 @@ const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
         <div className="row mb-4">
           <h4 className="col">Jobs Manager</h4>
           <div className="col-2">
-            <JobModal ModifyJob={ModifyJob} categories={categories} />
+            <JobModal AddJob={AddJob} categories={categories} />
           </div>
         </div>
         <div className="table-responsive">

@@ -115,6 +115,8 @@ namespace TestAPI.Controllers.Auth
                 return BadRequest("User not Found");
             }
 
+            //Add check exist account with password
+
             if (!identityUser.EmailConfirmed)
             {
                 await SendConfirmationEmail(user, identityUser);

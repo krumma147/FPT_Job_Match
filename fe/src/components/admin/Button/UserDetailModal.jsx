@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const UserDetailsModal = ({ user, id }) => {
   const [showModal, setShowModal] = useState(false);
-  console.log(user);
+  //console.log(user);
 
   const toggleModal = () => {
     setShowModal(!showModal);
