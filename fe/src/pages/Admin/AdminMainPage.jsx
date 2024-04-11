@@ -8,21 +8,35 @@ import RecentSales from "../../components/admin/RecentSales";
 import Widget from "../../components/admin/Widget";
 import Spinner from "../../components/admin/Spinner";
 import Footer from "../../components/admin/Footer";
-import JobPanel from "../../components/admin/TabPanelContents/JobPanel";
-import CategoryPanel from "../../components/admin/TabPanelContents/CategoryPanel";
+// Hooks
 import CategoryHook from "../../hooks/CategoryHook";
 import JobHooks from "../../hooks/JobHook";
+import UserHook from "../../hooks/UserHook";
+import ApplicationHook from "../../hooks/ApplicationHook";
+// Panel
+import ApplicationPanel from "../../components/admin/TabPanelContents/ApplicationPanel";
+import UserPanel from "../../components/admin/TabPanelContents/UserPanel";
+import CategoryPanel from "../../components/admin/TabPanelContents/CategoryPanel";
+import JobPanel from "../../components/admin/TabPanelContents/JobPanel";
 export default function AdminMainPage() {
   const [categories, setCategories] = useState([]);
   const [jobs, setJobs] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [applications, setApplications] = useState([]);
 
   const fetchData = async () => {
     const categorydata = await CategoryHook.GetAllCategory();
     // console.log(categorydata.jobCategories);
     setCategories(categorydata.jobCategories);
     const jobdata = await JobHooks.GetAllJob();
-    console.log(jobdata);
+    //console.log(jobdata);
     setJobs(jobdata.jobs);
+    const usersData = await UserHook.GetAllUsers();
+    setUsers(usersData);
+    console.log(usersData);
+    const applicationsData = await ApplicationHook.GetAllApplications();
+    //console.log(applicationsData);
+    setApplications(applicationsData.applications);
   };
 
   useEffect(() => {
@@ -70,6 +84,57 @@ export default function AdminMainPage() {
     const res = await JobHooks.DeleteJob(id);
     console.log(res);
     alert("Delete Job successful!");
+    await fetchData();
+  };
+
+  const AddApplication = async (application) => {
+    try {
+      const res = await ApplicationHook.CreateApplication(application);
+      if (res.message !== null) alert("Create Application success!");
+    } catch (err) {
+      alert(err);
+    }
+    //alert(res);
+    //console.log(res);
+    await fetchData();
+  };
+
+  const ModifyApplication = async (id, application) => {
+    const res = await ApplicationHook.EditApplication(id, application);
+    console.log(res);
+    if (res !== null) alert("Edit User success!");
+    await fetchData();
+  };
+
+  const RemoveApplication = async (id) => {
+    const res = await ApplicationHook.DeleteApplication(id);
+    console.log(res);
+    alert("Delete User successful!");
+    await fetchData();
+  };
+  const AddUser = async (user) => {
+    try {
+      const res = await UserHook.CreateUser(user);
+      if (res !== null) alert("Create User success!");
+    } catch (err) {
+      alert(err);
+    }
+    //alert(res);
+    //console.log(res);
+    await fetchData();
+  };
+
+  const ModifyUser = async (id, user) => {
+    const res = await UserHook.EditUser(id, user);
+    console.log(res);
+    if (res !== null) alert("Edit User success!");
+    await fetchData();
+  };
+
+  const RemoveUser = async (id) => {
+    const res = await UserHook.DeleteUser(id);
+    console.log(res);
+    alert("Delete User successful!");
     await fetchData();
   };
 
@@ -127,7 +192,14 @@ export default function AdminMainPage() {
             role="tabpanel"
             aria-labelledby="application-tab"
           >
-            Application Panel
+            <ApplicationPanel
+              AddApplication={AddApplication}
+              ModifyApplication={ModifyApplication}
+              RemoveApplication={RemoveApplication}
+              jobs={jobs}
+              users={users}
+              applications={applications}
+            />
           </div>
           <div
             class="tab-pane fade"
@@ -135,7 +207,12 @@ export default function AdminMainPage() {
             role="tabpanel"
             aria-labelledby="users-tab"
           >
-            Users Panel
+            <UserPanel
+              users={users}
+              AddUser={AddUser}
+              ModifyUser={ModifyUser}
+              RemoveUser={RemoveUser}
+            />
           </div>
         </div>
       </div>

@@ -41,6 +41,16 @@ const JobHooks = {
       return error;
     }
   },
+  GetJobById: async (id) => {
+    try {
+      //const data = JSON.stringify(category);
+      const response = await axios.get(`${apiURL}/Job/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Can't create account! ${error}`);
+      return error;
+    }
+  },
 };
 
 export default JobHooks;

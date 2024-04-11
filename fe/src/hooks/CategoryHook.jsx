@@ -44,6 +44,16 @@ const CategoryHook = {
       return error;
     }
   },
+  GetCategoryById: async (id) => {
+    try {
+      //const data = JSON.stringify(category);
+      const response = await axios.get(`${apiURL}/Categories/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Can't create account! ${error}`);
+      return error;
+    }
+  },
 };
 
 export default CategoryHook;

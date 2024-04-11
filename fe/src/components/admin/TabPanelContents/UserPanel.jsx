@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import UserModal from "../Button/UserModal";
+import UserDetailsModal from "../Button/UserDetailModal";
 const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
-  const TestBtnHandle = () => {
-    alert("Testing Adding User Btn!");
-  };
-
   const HandleDelete = (e, id) => {
     e.preventDefault();
     const cf = window.confirm("Are you sure you want to delete");
@@ -41,7 +38,8 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
                   <td className="col-md-1">
                     <span>{index + 1}</span>
                   </td>
-                  <td className="col-md-2">{user.user.userName}</td>
+                  <td className="col-md-2"><UserDetailsModal user={user} id={index + 1} />
+                  </td>
                   <td className="col-md-2">{user.user.email}</td>
                   <td className="col-md-2">{user.user.phoneNumber}</td>
                   <td className="col-md-2">{user.roles[0]}</td>

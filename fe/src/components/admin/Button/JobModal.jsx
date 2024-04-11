@@ -129,21 +129,6 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
           </div>
         </div>
       </div>
-      <div className="form-floating mb-3">
-        <div className="row">
-          <div class="col">
-            <label for="exampleInputEmail1" class="form-label">
-              Job Description
-            </label>
-            <textarea
-              class="form-control rounded"
-              aria-describedby="emailHelp"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
 
       <div className="form-floating mb-3">
         <div className="row">

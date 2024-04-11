@@ -10,6 +10,11 @@ const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
     }
   };
 
+  const GetCategoryName = (id) => {
+    const category = categories.find((cat) => cat.id === id);
+    return category ? category.name : "Unknown Category";
+  };
+
   return (
     <>
       <div className="bg-grayE8 rounded h-100 p-4 m-4">
@@ -49,7 +54,7 @@ const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
                   </td>
                   <td>{job.education_required}</td>
                   <td>{job.status}</td>
-                  <td>{job.jobCategoryId}</td>
+                  <td>{GetCategoryName(job.jobCategoryId)}</td>
                   <td>
                     <div className="d-flex">
                       <JobModal

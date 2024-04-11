@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import ApplicationModal from "../Button/ApplicationModal";
-const ApplicationPanel = ({applications, jobs}) => {
-
-  const TestBtnHandle = () => {
-    alert("Testing Adding Application Btn!");
-  };
-
+const ApplicationPanel = ({
+  applications,
+  jobs,
+  AddApplication,
+  ModifyApplication,
+  RemoveApplication,
+  users,
+}) => {
   const HandleDelete = (e, id) => {
     e.preventDefault();
     const cf = window.confirm("Are you sure you want to delete");
     if (cf) {
-      //RemoveCategory(id);
+      RemoveApplication(id);
     }
+  };
+
+  const GetUserData = (id) => {
+    const user = users.find((u) => u.user.id === id);
+    return user ? user.user.userName : "Unknown User";
+  };
+  const GetJobData = (id) => {
+    const job = jobs.find((j) => j.id === id);
+    return job ? job.title : "Unknown job";
   };
 
   return (
@@ -20,7 +31,11 @@ const ApplicationPanel = ({applications, jobs}) => {
         <div className="row mb-4">
           <h4 className="col">Category Manager</h4>
           <div className="col-2">
-            <ApplicationModal jobs={jobs} />
+            <ApplicationModal
+              jobs={jobs}
+              AddApplication={AddApplication}
+              users={users}
+            />
           </div>
         </div>
         <div className="table-responsive">
@@ -28,27 +43,38 @@ const ApplicationPanel = ({applications, jobs}) => {
             <thead>
               <tr>
                 <th scope="col">No</th>
-                <th scope="col">Job Category Name</th>
+                <th scope="col">User</th>
+                <th scope="col">Resume</th>
+                <th scope="col">Job</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {applications?.length > 0 ? null : "There are no application yet!"}
-              {applications?.map((cat) => (
+              {applications?.length > 0
+                ? null
+                : "There are no application yet!"}
+              {applications?.map((ap, index) => (
                 <tr>
-                  <td>
-                    <span className="col">{cat.id}</span>
+                  <td className="col-md-1">
+                    <span>{index + 1}</span>
                   </td>
-                  <td className="col">{cat.name}</td>
+                  <td className="col-md-2">{GetUserData(ap.userId)}</td>
+                  <td className="col-md-2">{ap.resume}</td>
+                  <td className="col-md-3">{GetJobData(ap.jobId)}</td>
+                  <td className="col-md-1">{ap.status}</td>
                   <td>
                     <div className="d-flex">
-                      <ApplicationModal jobs={jobs}
-                        data={cat}
+                      <ApplicationModal
+                        jobs={jobs}
+                        data={ap}
+                        ModifyApplication={ModifyApplication}
+                        users={users}
                       />
                       <button
                         type="button"
                         className="btn btn-danger"
-                        onClick={(e) => HandleDelete(e, cat.id)}
+                        onClick={(e) => HandleDelete(e, ap.id)}
                       >
                         Delete
                       </button>
