@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiFileEdit, mdiPlusCircle } from "@mdi/js";
-
+// To Do: Add notification!
 const ApplicationModal = ({
   AddApplication,
   data,
@@ -67,12 +67,17 @@ const ApplicationModal = ({
             onChange={(e) => setUser(e.target.value)}
           >
             <option selected>Select user here</option>
-            {users.length > 0 ? (users?.filter((u) => u.roles[0].toLowerCase() === "jobseeker")
-              .map((u) => (
-                <option key={u.user.id} value={u.user.id}>
-                  {u.user.userName}
-                </option>
-              ))) : <option>No jobseeker found</option>}
+            {users.length > 0 ? (
+              users
+                ?.filter((u) => u.roles[0].toLowerCase() === "jobseeker")
+                .map((u) => (
+                  <option key={u.user.id} value={u.user.id}>
+                    {u.user.userName}
+                  </option>
+                ))
+            ) : (
+              <option>No jobseeker found</option>
+            )}
           </select>
         </div>
       </div>
