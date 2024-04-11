@@ -6,7 +6,7 @@ namespace TestAPI.Services
 {
     public interface IAuthService
     {
-        string GenerateTokenString(string userName, IList<string> roles);
+        string GenerateTokenString(string userName, IList<string> roles, string userId);
         Task<bool> Login(LoginRequest user);
         Task<bool> RegisterUser(LoginUser user);
         Task<string> GenerateEmailConfirmationTokenAsync(LoginUser user);

@@ -13,3 +13,15 @@ export const checkAccess = (allowedRoles) => {
 
     return allowedRoles.includes(decodedToken.Role);
 };
+
+export const getUserId = () => {
+    const token = Cookies.get('token');
+
+    if (!token) {
+        return null;
+    }
+
+    const decodedToken = jwtDecode(token);
+
+    return decodedToken.userId;
+};

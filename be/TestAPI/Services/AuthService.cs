@@ -57,11 +57,12 @@ namespace TestAPI.Services
             return await _userManager.CheckPasswordAsync(iUser, user.Password);
         }
 
-        public string GenerateTokenString(string userName, IList<string> roles)
+        public string GenerateTokenString(string userName, IList<string> roles, string userId)
         {
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.Email, userName),
                 new Claim("Role", string.Join(",", roles)),
+                new Claim("UserId", userId)
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Jwt:Key").Value));
             var signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

@@ -18,7 +18,7 @@ export default function SideBar() {
   const toggleShowAll = () => {
     setShowAll(!showAll);
   };
-
+  let safeJobs = jobs || [];
   return (
     <div className="container-fluid jb-wrapper">
       <div className="container">
@@ -31,7 +31,7 @@ export default function SideBar() {
               </h2>
               <div className="job-group">
                 <div className="job pagi">
-                  {jobs.length > 0 &&
+                  {jobs?.length > 0 &&
                     jobs
                       .slice(0, showAll ? jobs.length : visibleJobs)
                       .map((j, index) => (
@@ -102,7 +102,7 @@ export default function SideBar() {
                       ))}
                 </div>
                 <div className="readmorestyle-wrap">
-                  {jobs.length > visibleJobs && (
+                  {jobs?.length > visibleJobs && (
                     <a className="readallstyle reads1" onClick={toggleShowAll}>
                       {showAll ? "Collapse" : "Show More"}
                     </a>

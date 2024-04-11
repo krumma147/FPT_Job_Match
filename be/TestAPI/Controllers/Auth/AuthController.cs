@@ -140,7 +140,7 @@ namespace TestAPI.Controllers.Auth
             var roles = await _userManager.GetRolesAsync(identityUser);
 
             // Generate token with roles
-            var tokenString = _authService.GenerateTokenString(user.UserName, roles);
+            var tokenString = _authService.GenerateTokenString(user.UserName, roles, identityUser.Id);
 
             return Ok(new { Message = "Login Success!", Token = tokenString });
         }
@@ -160,7 +160,7 @@ namespace TestAPI.Controllers.Auth
             // Get user roles
             var roles = await _userManager.GetRolesAsync(user);
 
-            var tokenString = _authService.GenerateTokenString(userFA.UserName, roles);
+            var tokenString = _authService.GenerateTokenString(userFA.UserName, roles, user.Id);
             return Ok(new { Message = "Login Success!", Token = tokenString });
         }
 
@@ -346,7 +346,7 @@ namespace TestAPI.Controllers.Auth
             var roles = await _userManager.GetRolesAsync(user);
 
             // Generate a JWT for the user
-            var tokenString = _authService.GenerateTokenString(user.UserName, roles);
+            var tokenString = _authService.GenerateTokenString(user.UserName, roles, user.Id);
 
             // Return the token to the client
             return Ok(new { Message = "Login Success!", Token = tokenString, user= user,role = roles });
@@ -384,7 +384,7 @@ namespace TestAPI.Controllers.Auth
                 // Get user roles
                 var roles = await _userManager.GetRolesAsync(user);
 
-                var tokenString = _authService.GenerateTokenString(user.UserName, roles);
+                var tokenString = _authService.GenerateTokenString(user.UserName, roles, user.Id);
                 return Ok(new { Message = "Login Success!", Token = tokenString });
             }
             else
@@ -423,7 +423,7 @@ namespace TestAPI.Controllers.Auth
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         var roles = await _userManager.GetRolesAsync(user);
 
-                        var tokenString = _authService.GenerateTokenString(user.UserName, roles);
+                        var tokenString = _authService.GenerateTokenString(user.UserName, roles, user.Id);
                         return Ok(new { Message = "Login Success!", Token = tokenString });
                     }
                     else
