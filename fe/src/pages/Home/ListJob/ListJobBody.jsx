@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
+
 const ListJobBody = () => {
   const [jobs, setJobs] = useState([]);
 
@@ -426,7 +426,7 @@ const ListJobBody = () => {
                         </div>
                         <div className="job-desc">
                           <div className="job-title">
-                            <Link to={`/jobs/${j.id}`}>{j.title}</Link>
+                            <a href={`/jobDetail/${j.id}`}>{j.title}</a>
                           </div>
                           <div className="job-company">
                             <a href="#">Fpt Software</a> |
@@ -465,9 +465,12 @@ const ListJobBody = () => {
                           </div>
                         </div>
                         <div className="wrap-btn-appl">
-                          <Link to={`/jobs/${j.id}`} className="btn btn-appl">
+                          <a
+                            href={`/jobDetail/${j.id}`}
+                            className="btn btn-appl"
+                          >
                             Apply Now
-                          </Link>
+                          </a>
                         </div>
                       </div>
                     </div>

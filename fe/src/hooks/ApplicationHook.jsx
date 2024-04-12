@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiURL = "http://localhost:5253/api";
+const apiURL = "https://localhost:7282/api";
 
 const ApplicationHook = {
   GetAllApplications: async () => {
@@ -24,7 +24,10 @@ const ApplicationHook = {
 
   EditApplication: async (id, application) => {
     try {
-      const response = await axios.put(`${apiURL}/Application/${id}`, application);
+      const response = await axios.put(
+        `${apiURL}/Application/${id}`,
+        application
+      );
       return response.data;
     } catch (error) {
       //console.error(`Can't create account! ${error}`);

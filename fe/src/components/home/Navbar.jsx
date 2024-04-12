@@ -9,6 +9,7 @@ export default function Navbar(props) {
   const HandleLogout = () => {
     Cookies.remove("token");
     history.push("/signin");
+    window.location.reload();
   };
   return (
     <div className={`container-fluid fluid-nav ${props.page}`}>

@@ -2,25 +2,32 @@ import React, { useState } from "react";
 import Cookies from "js-cookie";
 import Icon from "@mdi/react";
 import { useHistory } from "react-router-dom";
-import { mdiFileEdit, mdiPlusCircle, mdiArrowUpBox } from "@mdi/js";
-// To Do: Add notification!
+import { mdiArrowUpBox } from "@mdi/js";
+import { getUserId, checkAccess } from "../../../pages/Auth/Auth";
+
 const SubmitApplicationModal = ({ handleSubmit, id }) => {
-  const userData = Cookies.get("userData");
+  const token = Cookies.get("token");
   const history = useHistory();
   const [resume, setResume] = useState("");
   const [coverLetter, setCoverLetter] = useState("");
   const [selfIntroduction, setSelfIntroduction] = useState("");
-
-  const ActiveModal = () => {
-    if (!userData) {
+  const [userId, setUserId] = useState({});
+  const activeModal = (e) => {
+    e.preventDefault();
+    if (!token && checkAccess("JobSeeker")) {
       alert("You must sign in to apply for this job!");
       history.push("/signin");
+      window.location.reload();
+    } else {
+      console.log(getUserId());
+      const id = getUserId();
+      setUserId(id);
     }
   };
 
-  const ToggleModal = async () => {
+  const toggleModal = async () => {
     const application = {
-      userId: userData.id,
+      userId: userId,
       resume,
       coverLetter,
       selfIntroduction,
@@ -33,45 +40,45 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
       alert("Please fill in all fields");
       return;
     }
-    CloseModal();
+    closeModal();
   };
 
-  const CloseModal = () => {
+  const closeModal = () => {
     setResume("");
     setCoverLetter("");
     setSelfIntroduction("");
   };
 
-  const ModalBody = (
+  const modalBody = (
     <div className="bg-light rounded h-100 p-3 text-left">
       <div className="form-floating mb-3">
-        <label htmlFor="floatingInput">Resume</label>
+        <label htmlFor="resume">Resume</label>
         <input
           type="text"
           className="form-control"
-          id="floatingInput"
+          id="resume"
           placeholder="Resume"
           value={resume}
           onChange={(e) => setResume(e.target.value)}
         />
       </div>
       <div className="form-floating mb-3">
-        <label htmlFor="floatingInput">Cover Letter</label>
+        <label htmlFor="coverLetter">Cover Letter</label>
         <input
           type="text"
           className="form-control"
-          id="floatingInput"
+          id="coverLetter"
           placeholder="Cover Letter"
           value={coverLetter}
           onChange={(e) => setCoverLetter(e.target.value)}
         />
       </div>
       <div className="form-floating mb-3">
-        <label htmlFor="floatingInput">Self Introduction</label>
+        <label htmlFor="selfIntroduction">Self Introduction</label>
         <input
           type="text"
           className="form-control"
-          id="floatingInput"
+          id="selfIntroduction"
           placeholder="Self Introduction"
           value={selfIntroduction}
           onChange={(e) => setSelfIntroduction(e.target.value)}
@@ -87,46 +94,45 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
         className="btn btn-primary btn-apply"
         data-toggle="modal"
         data-target={`#EditApplicationModal${id}`}
-        onClick={ActiveModal}
+        onClick={(e) => activeModal(e)}
       >
         <Icon path={mdiArrowUpBox} size={1} />
         Submit
       </button>
-
       <div
-        class="modal fade"
+        className="modal fade"
         id={`EditApplicationModal${id}`}
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Apply for the job
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-dismiss="modal"
               ></button>
             </div>
-            <div class="modal-body">{ModalBody}</div>
-            <div class="modal-footer">
+            <div className="modal-body">{modalBody}</div>
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-dismiss="modal"
-                onClick={CloseModal}
+                onClick={closeModal}
               >
                 Close
               </button>
               <button
                 type="button"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 data-dismiss="modal"
-                onClick={ToggleModal}
+                onClick={toggleModal}
               >
                 Save changes
               </button>
