@@ -22,7 +22,8 @@ const Home = () => {
     setJobs(jobdata.jobs);
     //console.log(jobdata.jobs);
     const jobsJSON = JSON.stringify(jobs);
-    if(!localStorage.getItem('JobsData')) localStorage.setItem("JobsData", jobsJSON);
+    if (!localStorage.getItem("JobsData"))
+      localStorage.setItem("JobsData", jobsJSON);
   };
 
   useEffect(() => {

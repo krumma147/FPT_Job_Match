@@ -8,12 +8,23 @@ import { useParams } from "react-router-dom";
 
 const JobDetail = () => {
   let { id } = useParams();
+  const jobDataJSON = localStorage.getItem("JobsData");
+  const jobData = JSON.parse(jobDataJSON);
+  //console.log(jobData);
+  if (!jobData) {
+    console.log("No data in local storage");
+    return null;
+  }
+  const jobId = parseInt(id);
+  const job = jobData.find((j) => j.id === jobId);
+  const relatedJobs = jobData.filter(
+    (j) => j.jobCategoryId === job.jobCategoryId
+  );
+  //console.log(job);
   return (
     <div>
       <Navbar page={"another-page"} />
-      <div class="clearfix"></div>
-      {id}
-      <JobDetailBody />
+      <JobDetailBody job={job} relatedJobs={relatedJobs} />
       <JobSupport />
       <Footer />
     </div>

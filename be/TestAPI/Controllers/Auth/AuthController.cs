@@ -108,7 +108,7 @@ namespace TestAPI.Controllers.Auth
             {
                 return BadRequest(new { status = false, message = "User not Found" });
             }
-            var identityUser = await _userManager.FindByNameAsync(user.UserName);
+            var identityUser = await _userManager.FindByEmailAsync(user.UserName);
 
             if (identityUser == null)
             {
