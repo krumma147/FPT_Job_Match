@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-export default function PostNewBody() {
-  const [categories, setCategories] = useState([]);
+import JobHooks from "../../../hooks/JobHook";
+export default function PostNewBody({ categories }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
@@ -15,18 +15,52 @@ export default function PostNewBody() {
   const [isRangeEnabled, setIsRangeEnabled] = useState(false);
   const [isYearEnabled, setIsYearEnabled] = useState(false);
 
-  const GetAllCategories = () => {
-    const categoriesJSON = localStorage.getItem("JobCategories");
-    const categoriesdata = JSON.parse(categoriesJSON);
-    if (categoriesdata !== null && categoriesdata.length > 0)
-      setCategories(categoriesdata);
+  const HandleSubmit = async () => {
+    if (
+      title === "" &&
+      categories === "" &&
+      description === "" &&
+      skill === "" &&
+      category === ""
+    ) {
+      alert("Please fill required data");
+      return;
+    } else {
+      //console.log(job);
+
+      const job = {
+        title,
+        description,
+        salaryRange: isRangeEnabled ? "Discuss during interview" : salaryRange,
+        experience_required: isYearEnabled ? 0 : experience,
+        skill_required: skill,
+        jobCategoryId: category,
+        education_required: education,
+        application_deadline: deadline,
+        status: "open",
+      };
+      //    console.log(isRangeEnabled, job);
+      try {
+        const res = await JobHooks.CreateJob(job);
+        if (res.message.toLowerCase().includes("success"))
+          alert("Job created successfully!");
+      } catch (error) {
+        console.log(error.message);
+      }
+      ResetInput();
+    }
   };
 
-  const GetCategoryById = (id) => {};
-
-  useEffect(() => {
-    GetAllCategories();
-  }, []);
+  const ResetInput = () => {
+    setTitle("");
+    setDescription("");
+    setSalaryRange("");
+    setExperience(0);
+    setEducation("");
+    setSkill("");
+    setDeadline("");
+    setCategory("");
+  };
 
   return (
     <div>
@@ -168,29 +202,10 @@ export default function PostNewBody() {
                                 onChange={(e) => setCategory(e.target.value)}
                               >
                                 <option value>Please choose job field</option>
-                                {categories.map((cat) => (
+                                {categories?.map((cat) => (
                                   <option value={cat.id}>{cat.name}</option>
                                 ))}
                               </select>
-                            </div>
-                          </div>
-
-                          <div className="form-group row">
-                            <label className="col-sm-3 col-form-label text-right label">
-                              Job Descriptions
-                              <span style={{ color: "red" }} className="pl-2">
-                                *
-                              </span>
-                            </label>
-                            <div className="col-sm-9">
-                              <CKEditor
-                                editor={ClassicEditor}
-                                data={description}
-                                onChange={(event, editor) => {
-                                  const data = editor.getData();
-                                  setDescription(data);
-                                }}
-                              />
                             </div>
                           </div>
 
@@ -283,8 +298,8 @@ export default function PostNewBody() {
                                     setIsYearEnabled(!isYearEnabled)
                                   }
                                 />
-                                <lavel className="label p-2">
-                                  Experience
+                                <lavel className="label p-1">
+                                  Experience (Years)
                                   <span
                                     style={{ color: "red" }}
                                     className="pl-2"
@@ -339,6 +354,25 @@ export default function PostNewBody() {
                                 onChange={(date) => setDeadline(date)}
                                 className="form-control rounded"
                                 aria-describedby="emailHelp"
+                              />
+                            </div>
+                          </div>
+
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label text-right label">
+                              Job Descriptions
+                              <span style={{ color: "red" }} className="pl-2">
+                                *
+                              </span>
+                            </label>
+                            <div className="col-sm-9">
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={description}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  setDescription(data);
+                                }}
                               />
                             </div>
                           </div>
@@ -870,9 +904,9 @@ export default function PostNewBody() {
                   </div>
                   <div className="rec-submit">
                     <button
-                      type="submit"
+                      type="button"
                       className="btn-submit-recuitment"
-                      name
+                      onClick={() => HandleSubmit()}
                     >
                       <i className="fa fa-floppy-o pr-2" />
                       Post

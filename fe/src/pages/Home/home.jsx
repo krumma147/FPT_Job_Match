@@ -23,7 +23,7 @@ const Home = () => {
     //console.log(categorydata.jobCategories);
     setJobs(jobdata.jobs);
     //console.log(jobdata.jobs);
-    const jobsJSON = JSON.stringify(jobs);
+    const jobsJSON = JSON.stringify(jobdata.jobs);
     const categoriesJSON = JSON.stringify(categorydata.jobCategories);
 
     if(localStorage.getItem("JobCategories") == null)
