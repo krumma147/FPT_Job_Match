@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import UserModal from "../Button/UserModal";
 import UserDetailsModal from "../Button/UserDetailModal";
+import Icon from "@mdi/react";
+import { mdiTrashCan } from "@mdi/js";
 const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
   const HandleDelete = (e, id) => {
     e.preventDefault();
@@ -33,34 +35,39 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
             </thead>
             <tbody>
               {users?.length > 0 ? null : "There are no application yet!"}
-              {users.length > 0 ? (users?.map((user, index) => (
-                <tr>
-                  <td className="col-md-1">
-                    <span>{index + 1}</span>
-                  </td>
-                  <td className="col-md-2"><UserDetailsModal user={user} id={index + 1} />
-                  </td>
-                  <td className="col-md-2">{user.user.email}</td>
-                  <td className="col-md-2">{user.user.phoneNumber}</td>
-                  <td className="col-md-2">{user.roles[0]}</td>
-                  <td>
-                    <div className="d-flex">
-                      <UserModal
-                        data={user}
-                        ModifyUser={ModifyUser}
-                        id={index + 1}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={(e) => HandleDelete(e, user.user.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))) : <span> There is no application yet!</span>}
+              {users.length > 0 ? (
+                users?.map((user, index) => (
+                  <tr>
+                    <td className="col-md-1">
+                      <span>{index + 1}</span>
+                    </td>
+                    <td className="col-md-2">
+                      <UserDetailsModal user={user} id={index + 1} />
+                    </td>
+                    <td className="col-md-2">{user.user.email}</td>
+                    <td className="col-md-2">{user.user.phoneNumber}</td>
+                    <td className="col-md-2">{user.roles[0]}</td>
+                    <td>
+                      <div className="d-flex">
+                        <UserModal
+                          data={user}
+                          ModifyUser={ModifyUser}
+                          id={index + 1}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          onClick={(e) => HandleDelete(e, user.user.id)}
+                        >
+                          <Icon path={mdiTrashCan} size={1} /> Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <span> There is no application yet!</span>
+              )}
             </tbody>
           </table>
         </div>

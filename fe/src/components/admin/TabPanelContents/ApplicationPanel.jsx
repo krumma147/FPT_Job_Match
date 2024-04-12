@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import ApplicationModal from "../Button/ApplicationModal";
+import Icon from "@mdi/react";
+import { mdiTrashCan } from "@mdi/js";
+
 const ApplicationPanel = ({
   applications,
   jobs,
@@ -76,7 +79,7 @@ const ApplicationPanel = ({
                         className="btn btn-danger"
                         onClick={(e) => HandleDelete(e, ap.id)}
                       >
-                        Delete
+                        <Icon path={mdiTrashCan} size={1} /> Delete
                       </button>
                     </div>
                   </td>

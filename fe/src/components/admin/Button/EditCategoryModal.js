@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Icon from "@mdi/react";
+import { mdiFileEdit } from "@mdi/js";
 
 const EditCategoryModal = ({ EditCategory, Data }) => {
   const [name, setName] = useState(Data?.name);
@@ -40,7 +42,7 @@ const EditCategoryModal = ({ EditCategory, Data }) => {
         data-target={`#EditCategoryModal${Data.id}`}
         onClick={OpenModal}
       >
-        <span class="mdi mdi-file-edit"></span> Edit
+        <Icon path={mdiFileEdit} size={1} /> Edit
       </button>
 
       <div

@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-export default function SideBar({jobs}) {
+export default function SideBar({ jobs, categories }) {
   const [visibleJobs, setVisibleJobs] = useState(7);
   const [showAll, setShowAll] = useState(false);
 
   const toggleShowAll = () => {
     setShowAll(!showAll);
+  };
+
+  const getCatByID = (id) => {
+    const cat = categories.find((c) => c.id === id);
+    return cat.name;
   };
   let safeJobs = jobs || [];
   return (
@@ -50,8 +55,7 @@ export default function SideBar({jobs}) {
                             </div>
                             <div className="job-inf">
                               <div className="job-main-skill">
-                                <i className="fa fa-code" aria-hidden="true" />
-                                <a href="#">{j.jobCategoryId}</a>
+                                <a href="#">{getCatByID(j.jobCategoryId)}</a>
                               </div>
                               <div className="job-salary">
                                 <p>

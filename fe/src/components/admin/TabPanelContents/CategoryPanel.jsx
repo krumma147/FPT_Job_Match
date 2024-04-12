@@ -1,7 +1,8 @@
 import React from "react";
 import CategoryModal from "../Button/CategoryModal";
 import EditCategoryModal from "../Button/EditCategoryModal";
-
+import Icon from "@mdi/react";
+import { mdiTrashCan } from "@mdi/js";
 const CategoryPanel = ({
   categories,
   AddCategory,
@@ -38,10 +39,10 @@ const CategoryPanel = ({
               {categories?.length > 0 ? null : "There are no category!"}
               {categories?.map((cat) => (
                 <tr>
-                  <td>
-                    <span className="col">{cat.id}</span>
+                  <td className="col-md-1">
+                    <span>{cat.id}</span>
                   </td>
-                  <td className="col">{cat.name}</td>
+                  <td className="col-md-8">{cat.name}</td>
                   <td>
                     <div className="d-flex">
                       <EditCategoryModal
@@ -53,7 +54,7 @@ const CategoryPanel = ({
                         className="btn btn-danger"
                         onClick={(e) => HandleDelete(e, cat.id)}
                       >
-                        Delete
+                        <Icon path={mdiTrashCan} size={1} /> Delete
                       </button>
                     </div>
                   </td>
