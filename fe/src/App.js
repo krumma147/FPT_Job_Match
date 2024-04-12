@@ -10,6 +10,7 @@ import Profile from "./pages/Home/Profile/Profile";
 import PostNews from "./pages/Home/PostNews/PostNews";
 import JobSeeker from "./pages/Home/JobSeeker/JobSeeker";
 import JobDetail from "./pages/Home/JobDetail/JobDetail";
+import { Callback } from "./pages/Auth/Callback";
 export default function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/profile" exact component={Profile} />
         <Route path="/postnews" exact component={PostNews} />
         <Route path="/jobseeker" exact component={JobSeeker} />
+        <Route path="/callback" exact component={Callback} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     </BrowserRouter>

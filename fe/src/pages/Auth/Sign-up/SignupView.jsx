@@ -3,16 +3,11 @@ import Header from "../../../components/Auth/Header";
 import Footer from "../../../components/Auth/Footer";
 import SignupEmployee from "./Signup_employee";
 import SignupEmployeer from "./Signup_employer";
-import { Register } from "../../../hooks/authHook";
 
 const SignupView = () => {
-  const registerHandler = async (e, user) => {
-    const res = await Register(user);
-    console.log(res);
-  };
 
-  const employeeTab = <SignupEmployee registerHandler={registerHandler} />;
-  const employerTab = <SignupEmployeer registerHandler={registerHandler} />;
+  const employeeTab = <SignupEmployee />;
+  const employerTab = <SignupEmployeer />;
 
   return (
     <>

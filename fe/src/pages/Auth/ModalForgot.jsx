@@ -1,26 +1,16 @@
 import React, { useRef } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2'
 import CustomModal from './CustomModal';
-
-const handleForgotPassword = async (event, emailRef) => {
-    event.preventDefault();
-    const email = emailRef.current.value;
-    console.log("Email: ", email);
-    try {
-        const response = await axios.post('https://localhost:7282/api/Auth/ForgotPassword', { email }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        Swal.fire('Successful', 'Your request has been successful. Please check your email to reset your password', 'success');
-    } catch (error) {
-        Swal.fire('Error', 'An error occurred. Please try again', 'error');
-    }
-};
+import useAuth from '../../hooks/authHook';
 
 export default function ModalForgot() {
     const emailRef = useRef();
+    const { forgotPassword } = useAuth();
+
+    const handleForgotPassword = (event) => {
+        event.preventDefault();
+        const email = emailRef.current.value;
+        forgotPassword(email);
+    };
     return (
         <CustomModal id="forgotPasswordModal" title="Forgot Password">
             <form className="modal-body">

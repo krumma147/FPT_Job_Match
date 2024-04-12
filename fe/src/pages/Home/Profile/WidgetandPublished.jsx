@@ -1,6 +1,49 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { getUserId } from '../../Auth/Auth';
 
+const toggle2FA = async (userId, enable) => {
+    try {
+        const response = await axios.put(`https://localhost:7282/api/Home/Check2FA/${userId}`, { enable });
+        Swal.fire({
+            title: 'Success!',
+            text: 'Two-factor authentication has been ' + (enable ? 'enabled' : 'disabled') + ' for your account.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+        return response.data;
+    } catch (error) {
+        console.error('There was an error!', error.response.data);
+        Swal.fire({
+            title: 'Error!',
+            text: 'There was an error!',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return null;
+    }
+}
 export default function WidgetandPublished() {
+    const [is2FAEnabled, setIs2FAEnabled] = useState(false); // Assume 2FA is disabled initially
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            const id = await getUserId();
+            console.log('userId:', id);
+            setUserId(id);
+        };
+
+        fetchUserId();
+    }, []);
+
+    const handleToggle2FA = async (event) => {
+        event.preventDefault();
+        // Cập nhật trạng thái is2FAEnabled
+        setIs2FAEnabled(!is2FAEnabled);
+        await toggle2FA(userId, is2FAEnabled);
+    }
     return (
         <div>
             {/* widget recuitment  */}
@@ -43,12 +86,16 @@ export default function WidgetandPublished() {
                                                         <div className="avatar-edit">
                                                             <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg" />
                                                             <label htmlFor="imageUpload" />
+
                                                         </div>
                                                         <div className="avatar-preview">
                                                             <div id="imagePreview" style={{ backgroundImage: 'url(https://i.pravatar.cc/500?img=7)' }}>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <button onClick={handleToggle2FA}>
+                                                        {is2FAEnabled ? 'Turn off 2FA' : 'Turn on 2FA'}
+                                                    </button>
                                                 </div>
                                                 <div className="col-md-9">
                                                     <div className="form-group row">

@@ -1,45 +1,16 @@
 import React, { useState } from "react";
-// import Loading from "../../Share/Loading";
+import useAuth from "../../../hooks/authHook";
 
-const SignupEmployee = ({ registerHandler }) => {
+const SignupEmployee = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
+  const { signup } = useAuth();
   const signupBtn = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    if (
-      name === "" &&
-      email === "" &&
-      phone === "" &&
-      password === "" &&
-      confirmPassword === ""
-    ) {
-      setLoading(false);
-      alert("Please fill all input!");
-      return;
-    }
-    if (password === confirmPassword) {
-      const user = {
-        name,
-        email,
-        password,
-        phone,
-        role: "JobSeeker",
-      };
-
-      //console.log(user);
-      await registerHandler(user);
-      alert("Đăng ký thành công");
-    } else {
-      alert("Confirm password not matching!");
-    }
-    setLoading(false);
-    //console.log({name, email, phone, password, confirmPassword});
+    signup(name, email, phone, password, confirmPassword, "JobSeeker");
   };
 
   const handleGoogleLogin = (event) => {

@@ -1,29 +1,21 @@
 import React, { useRef, useState } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2';
 import CustomModal from './CustomModal';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-const handleResetPassword = async (event, passwordRef, id, handleClose) => {
-    event.preventDefault();
-    const newPassword = passwordRef.current.value;
-
-    try {
-        const response = await axios.put(`https://localhost:7282/api/Auth/ResetPassword/${id}`, { NewPassword: newPassword }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        Swal.fire('Successful', 'Updated password successfully', 'success');
-        handleClose();
-    } catch (error) {
-        Swal.fire('Error', 'An error occurred. Please try again', 'error');
-    }
-};
+import useAuth from '../../hooks/authHook';
 
 export default function ModalResetPassword({ show, handleClose, id }) {
     const passwordRef = useRef();
     const [showPassword, setShowPassword] = useState(false); // state to toggle password visibility
+    const { resetPassword } = useAuth();
+
+    const handleResetPassword = async (event) => {
+        event.preventDefault();
+        const newPassword = passwordRef.current.value;
+        const isSuccessful = await resetPassword(newPassword, id);
+        if (isSuccessful) {
+            handleClose();
+        }
+    };
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

@@ -43,6 +43,12 @@ namespace TestAPI.Controllers.Auth
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterUser(LoginUser user)
         {
+            var existingUser = await _userManager.FindByEmailAsync(user.Email);
+            if (existingUser != null)
+            {
+                return BadRequest(new { status = false, message = "Error, email already in use!" });
+            }
+
             if (await _authService.RegisterUser(user))
             {
                 try
@@ -81,6 +87,7 @@ namespace TestAPI.Controllers.Auth
             return BadRequest(new { status = false, message = "Error, email already in use exist!" });
         }
 
+
         [HttpGet("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string userName, string token)
         {
@@ -91,7 +98,7 @@ namespace TestAPI.Controllers.Auth
             var result = await _authService.ConfirmEmailAsync(decodedUserName, token);
             if (result)
             {
-                return Ok("Email confirmed successfully!");
+                return Redirect("http://localhost:3000/signin?confirmEmail=true");
             }
             return BadRequest("Error confirming email");
         }
@@ -108,7 +115,7 @@ namespace TestAPI.Controllers.Auth
             {
                 return BadRequest(new { status = false, message = "User not Found" });
             }
-            var identityUser = await _userManager.FindByEmailAsync(user.UserName);
+            var identityUser = await _userManager.FindByNameAsync(user.UserName);
 
             if (identityUser == null)
             {
@@ -200,6 +207,7 @@ namespace TestAPI.Controllers.Auth
 
             // Generate email confirmation link
             var emailConfirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { userName = encodedUserName, token = emailConfirmationToken }, Request.Scheme);
+            //var emailConfirmationLink = $"http://localhost:3000/signin?confirmEmail=true";
 
             string emailSubject = "Confirm your email";
             string emailContent = $"<h1>Welcome to our application!</h1><p>Thank you for registering. Please click the following <a href='{emailConfirmationLink}'>Click Here</a> to confirm your account...";
@@ -349,14 +357,18 @@ namespace TestAPI.Controllers.Auth
             var tokenString = _authService.GenerateTokenString(user.UserName, roles, user.Id);
 
             // Return the token to the client
-            return Ok(new { Message = "Login Success!", Token = tokenString, user= user,role = roles });
+            //return Ok(new { Message = "Login Success!", Token = tokenString });
+            return Redirect($"http://localhost:3000/callback?token={tokenString}");
         }
 
         [HttpPost("LogoutGoogle")]
-        public IActionResult LogoutGoogle()
+        public async Task<IActionResult> LogoutGoogle()
         {
-            // Redirect the user to the Google logout URL
-            return Redirect("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://www.yourapp.com");
+            // Sign out the user from the application
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+
+            // Redirect the user to the home page after they have logged out
+            return Redirect("http://localhost:3000");
         }
 
         [HttpGet("signin-facebook")]

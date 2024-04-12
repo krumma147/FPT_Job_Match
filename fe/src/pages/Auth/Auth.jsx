@@ -1,10 +1,10 @@
 import React from 'react'
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 
 export const checkAccess = (allowedRoles) => {
     const token = Cookies.get('token');
-    
+
     if (!token) {
         return false;
     }
@@ -23,5 +23,5 @@ export const getUserId = () => {
 
     const decodedToken = jwtDecode(token);
 
-    return decodedToken.userId;
+    return decodedToken.UserId;
 };

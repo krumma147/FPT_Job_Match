@@ -1,18 +1,19 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import ModalResetForgot from '../ModalForgot';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import ModalOTP from '../ModalOTP';
+import useAuth from '../../../hooks/authHook';
 
 const LoginBody = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
+  const { login } = useAuth();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
   const handleGoogleLogin = (event) => {
     event.preventDefault();
     window.location.assign('https://localhost:7282/api/Auth/LoginGoogle?role=JobSeeker');
@@ -22,40 +23,28 @@ const LoginBody = () => {
     event.preventDefault();
     window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=JobSeeker');
   }
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+
+  //login
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(username, password);
-    try {
-      const response = await axios.post('https://localhost:7282/api/Auth/Login', {
-        UserName: username,
-        Password: password,
-      });
-
-      console.log(response);
-
-      if (typeof response.data.token === 'string') {
-        // Decode the token
-        const decodedToken = jwtDecode(response.data.token);
-
-        // Check the role and redirect the user
-        if (decodedToken.Role === 'Admin') {
-          window.location.href ='/admin';
-        } else if (decodedToken.Role === 'JobSeeker' || decodedToken.Role === 'Employer') {
-          window.location.href = '/';
-        }
-
-        Cookies.set('token', response.data.token);
-      } else {
-        console.error('Invalid token:', response.data.token);
-        Swal.fire('Error', 'Invalid token: ' + response.data.token, 'error');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      Swal.fire('Error', 'Email or Password is wrong!', 'error');
+    const isOTPRequired = await login(username, password);
+    if (isOTPRequired) {
+      setIsModalOpen(true);
     }
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const confirmEmail = params.get('confirmEmail');
+
+    if (confirmEmail === 'true') {
+      Swal.fire('Successful', 'Email confirmed. You can now log in.', 'success');
+    }
+  }, [location]);
 
   return (
     <div className="row">
@@ -99,7 +88,7 @@ const LoginBody = () => {
             <a type="button" data-toggle="modal" data-target="#forgotPasswordModal" className="fg-login d-inline-block">
               Forgot Password
             </a>
-            
+
             <a href="/signup" className="fg-login float-right d-inline-block">
               Do not have an account? Register
             </a>
@@ -114,6 +103,7 @@ const LoginBody = () => {
             <div className="text-or text-center">
               <span>Or</span>
             </div>
+            <ModalOTP isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} username={username} />
             <ModalResetForgot />
             <div className="row">
               <div className="col-sm-6 col-12 pr-7">

@@ -17,19 +17,19 @@ const StyledModal = styled.div`
 `;
 
 export default function CustomModal({ show, children, handleClose, id, title }) {
-    return (
-        <StyledModal className={`modal fade ${show ? 'show' : ''}`} id={id} tabIndex="-1" role="dialog" aria-labelledby={`${id}Label`} aria-hidden="true" style={{ display: show ? 'block' : 'none' }}>
-            <div className="modal-dialog modal-dialog-centered" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id={`${id}Label`}>{title}</h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleClose}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    {children}
-                </div>
-            </div>
-        </StyledModal>
-    );
+  return (
+    <StyledModal className={`modal fade ${show ? 'show' : ''}`} id={id} tabIndex="-1" role="dialog" aria-labelledby={`${id}Label`} aria-hidden="true" style={{ display: show ? 'block' : 'none' }}>
+      <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id={`${id}Label`}>{title}</h5>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={handleClose}>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {children}
+        </div>
+      </div>
+    </StyledModal>
+  );
 }
