@@ -104,7 +104,7 @@ export default function JobDetailBody({ job, relatedJobs }) {
                 <h2 className="widget-title">
                   <span>Description</span>
                 </h2>
-                <div className="jd-content">{job.description}</div>
+                <div className="jd-content" dangerouslySetInnerHTML={{ __html: job.description }}></div>
               </div>
             </div>
             {/* Sidebar */}

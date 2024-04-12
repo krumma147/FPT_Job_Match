@@ -40,9 +40,13 @@ const LoginBody = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const confirmEmail = params.get('confirmEmail');
+    const checkConfirm = params.get('checkConfirm');
 
-    if (confirmEmail === 'true') {
+    if(confirmEmail === 'true') {
       Swal.fire('Successful', 'Email confirmed. You can now log in.', 'success');
+    }
+    if (checkConfirm === 'true') {
+      Swal.fire('Successful', 'Please click on the link in the email to confirm your account.', 'success');
     }
   }, [location]);
 

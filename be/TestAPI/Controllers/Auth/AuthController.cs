@@ -74,7 +74,7 @@ namespace TestAPI.Controllers.Auth
                             return BadRequest(new { status = false, message = "Error adding user to selected role" });
                         }
                     }
-                    return Ok("Create user successful!");
+                    return Ok("Create user successful! Please click on the link in the email to confirm your account.");
                 }
                 catch (Exception ex)
                 {
@@ -324,7 +324,8 @@ namespace TestAPI.Controllers.Auth
                         }
                     }
 
-                    return Ok("A confirmation email has been sent. Please check your email.");
+                    //return Ok("A confirmation email has been sent. Please check your email.");
+                    return Redirect("http://localhost:3000/signin?checkConfirm=true");
                 }
                 else
                 {
@@ -337,7 +338,8 @@ namespace TestAPI.Controllers.Auth
             {
                 var loginUser = new LoginUser { UserName = user.UserName };
                 await SendConfirmationEmail(loginUser.UserName, user);
-                return BadRequest("Email not confirmed. A confirmation email has been sent.");
+                return Redirect("http://localhost:3000/signin?checkConfirm=true");
+                //return BadRequest("Email not confirmed. A confirmation email has been sent.");
             }
 
             // Generate OTP
