@@ -1,5 +1,5 @@
 import axios from "axios";
-const apiURL = "http://localhost:5253/api";
+const apiURL = "https://localhost:7282/api";
 
 const JobHooks = {
   GetAllJob: async () => {

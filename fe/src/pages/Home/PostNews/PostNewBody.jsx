@@ -1,363 +1,351 @@
-import React from 'react'
-
+import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default function PostNewBody() {
-    return (
-        <div>
-            <div>
-                {/* recuiter Nav */}
-                <nav className="navbar navbar-expand-lg navbar-light nav-recuitment">
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNava" aria-controls="navbarNava" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon" />
-                    </button>
-                    <div className="collapse navbar-collapse container" id="navbarNava">
-                        <ul className="navbar-nav nav-recuitment-li">
-                            <li className="nav-item active">
-                                <a className="nav-link" href="#">Quản lý đăng tuyển</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Quản lý ứng viên</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Quản lý đăng tin</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Quản lý hồ sơ</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Tài khoản</a>
-                            </li>
-                        </ul>
-                        <ul className="rec-nav-right">
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Tìm hồ sơ</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Đăng tuyển</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-                {/*  recuiter Nav */}
-                {/* widget recuitment  */}
-                <div className="container-fluid">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="home-ads">
-                                    <a href="#">
-                                        <img src="assets/home/img/hna2.jpg" />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  const [categories, setCategories] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [salaryRange, setSalaryRange] = useState("");
+  const [experience, setExperience] = useState(0);
+  const [education, setEducation] = useState("");
+  const [skill, setSkill] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [category, setCategory] = useState("");
+  const [isRangeEnabled, setIsRangeEnabled] = useState(false);
+  const [isYearEnabled, setIsYearEnabled] = useState(false);
+
+  const GetAllCategories = () => {
+    const categoriesJSON = localStorage.getItem("JobCategories");
+    const categoriesdata = JSON.parse(categoriesJSON);
+    if (categoriesdata !== null && categoriesdata.length > 0)
+      setCategories(categoriesdata);
+  };
+
+  const GetCategoryById = (id) => {};
+
+  useEffect(() => {
+    GetAllCategories();
+  }, []);
+
+  return (
+    <div>
+      <div>
+        {/* recuiter Nav */}
+        <nav className="navbar navbar-expand-lg navbar-light nav-recuitment">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNava"
+            aria-controls="navbarNava"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
+          <div className="collapse navbar-collapse container" id="navbarNava">
+            <ul className="navbar-nav nav-recuitment-li">
+              <li className="nav-item active">
+                <a className="nav-link" href="#">
+                  Quản lý đăng tuyển
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Quản lý ứng viên
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Quản lý đăng tin
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Quản lý hồ sơ
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Tài khoản
+                </a>
+              </li>
+            </ul>
+            <ul className="rec-nav-right">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Tìm hồ sơ
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Đăng tuyển
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        {/*  recuiter Nav */}
+        {/* widget recuitment  */}
+        <div className="container-fluid">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="home-ads">
+                  <a href="#">
+                    <img src="assets/home/img/hna2.jpg" />
+                  </a>
                 </div>
-                {/* (end) widget recuitment  */}
-                {/* published recuitment */}
-                <div className="container-fluid published-recuitment-wrapper">
-                    <div className="container published-recuitment-content">
-                        <div className="row">
-                            <div className="col-md-8 col-sm-12 col-12 recuitment-inner">
-                                <form className="recuitment-form">
-                                    <div className="accordion" id="accordionExample">
-                                        <div className="card recuitment-card">
-                                            <div className="card-header recuitment-card-header" id="headingOne">
-                                                <h2 className="mb-0">
-                                                    <a className="btn btn-link btn-block text-left recuitment-header" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                        Đăng tin tuyển dụng
-                                                        <span id="clickc1_advance2" className="clicksd">
-                                                            <i className="fa fa fa-angle-up" />
-                                                        </span>
-                                                    </a>
-                                                </h2>
-                                            </div>
-                                            <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                                                <div className="card-body recuitment-body">
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Tiêu đề<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <input type="text" className="form-control" placeholder="Nhập tiêu đề" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Số lượng cần tuyển</label>
-                                                        <div className="col-sm-9">
-                                                            <input type="number" className="form-control" placeholder={1} />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Giới tính<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="jobGender">
-                                                                <option value>Chọn giới tính</option>
-                                                                <option value>Không yêu cầu</option>
-                                                                <option value>Nam</option>
-                                                                <option value>Nữ</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Mô tả công việc<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <textarea type="text" className="form-control" placeholder="Nhập mô tả công việc" rows={5} defaultValue={""} />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Yêu cầu công việc<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <textarea type="text" className="form-control" placeholder="Nhập yêu cầu công việc" rows={5} defaultValue={""} />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Tính chất công việc<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="natureWork">
-                                                                <option selected="selected" value>Chọn tính chất công việc</option>
-                                                                <option value={18}>Giờ hành chính</option>
-                                                                <option value={10}>Việc làm thu nhập cao</option>
-                                                                <option value={11}>Việc làm thêm/Làm việc ngoài giờ</option>
-                                                                <option value={12}>Thầu dự án/Freelance/Việc làm tự do</option>
-                                                                <option value={13}>Việc làm online</option>
-                                                                <option value={14}>Kinh doanh mạng lưới</option>
-                                                                <option value={15}>Giúp việc gia đình</option>
-                                                                <option value={16}>Hợp tác lao động/Nước ngoài</option>
-                                                                <option value={17}>Việc làm người khuyết tật</option>
-                                                                <option value={19}>Việc làm theo ca/Đổi ca</option>
-                                                                <option value={20}>Việc làm cho trí thức lớn tuổi (trên 50 tuổi)</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Trình độ<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="jobLevel">
-                                                                <option selected="selected" value>Chọn trình độ</option>
-                                                                <option value={6}>Đại học</option>
-                                                                <option value={5}>Cao đẳng</option>
-                                                                <option value={4}>Trung cấp</option>
-                                                                <option value={7}>Cao học</option>
-                                                                <option value={3}>Trung học</option>
-                                                                <option value={2}>Chứng chỉ</option>
-                                                                <option value={1}>Lao động phổ thông</option>
-                                                                <option value={8}>Không yêu cầu</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Kinh nghiệm<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="jobExperience">
-                                                                <option selected="selected" value>Chọn kinh nghiệm</option>
-                                                                <option value={0}>Chưa có kinh nghiệm</option>
-                                                                <option value={7}>Dưới 1 năm</option>
-                                                                <option value={1}>1 năm</option>
-                                                                <option value={2}>2 năm</option>
-                                                                <option value={3}>3 năm</option>
-                                                                <option value={4}>4 năm</option>
-                                                                <option value={5}>5 năm</option>
-                                                                <option value={6}>Trên 5 năm</option>
-                                                                <option value={8}>Không yêu cầu kinh nghiệm</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Mức lương<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="jobSalary">
-                                                                <option selected="selected" value>Chọn mức lương</option>
-                                                                <option value={2}>Dưới 3 triệu</option>
-                                                                <option value={4}>3-5 triệu</option>
-                                                                <option value={5}>5-7 triệu</option>
-                                                                <option value={7}>7-10 triệu</option>
-                                                                <option value={6}>10-12 triệu</option>
-                                                                <option value={10}>12-15 triệu</option>
-                                                                <option value={8}>15-20 triệu</option>
-                                                                <option value={11}>20-25 triệu</option>
-                                                                <option value={12}>25-30 triệu</option>
-                                                                <option value={13}>30-40 triệu</option>
-                                                                <option value={14}>40-50 triệu</option>
-                                                                <option value={15}>Trên 50 triệu</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Hình thức làm việc<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="jobWorkTime">
-                                                                <option selected="selected" value>Chọn hình thức làm việc</option>
-                                                                <option value={1}>Nhân viên chính thức</option>
-                                                                <option value={2}>Nhân viên thời vụ</option>
-                                                                <option value={3}>Bán thời gian</option>
-                                                                <option value={4}>Làm thêm ngoài giờ</option>
-                                                                <option value={5}>Thực tập và dự án</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Thời gian thử việc<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="jobProbation">
-                                                                <option selected="selected" value>Chọn thời gian thử việc</option>
-                                                                <option value={0}>Nhận việc ngay</option>
-                                                                <option value={1}>1 tháng</option>
-                                                                <option value={2}>2 tháng</option>
-                                                                <option value={3}>3 tháng</option>
-                                                                <option value={4}>Trao đổi trực tiếp khi phỏng vấn</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Quyền lợi<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <textarea type="text" className="form-control" placeholder="Quyền lợi công việc" rows={5} defaultValue={""} />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Ngành nghề</label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="jobType">
-                                                                <option selected="selected" value>Chọn ngành nghề</option>
-                                                                <option value={32}>Kinh doanh</option>
-                                                                <option value={10}>Bán hàng</option>
-                                                                <option value={21}>Chăm sóc khách hàng</option>
-                                                                <option value={47}>Tài chính/Kế toán/Kiểm toán</option>
-                                                                <option value={29}>Hành chính/Thư ký/Trợ lý</option>
-                                                                <option value={33}>Lao động phổ thông</option>
-                                                                <option value={16}>Cơ khí/Kĩ thuật ứng dụng</option>
-                                                                <option value={35}>Sinh viên/Mới tốt nghiệp/Thực tập</option>
-                                                                <option value={22}>Điện/Điện tử/Điện lạnh</option>
-                                                                <option value={12}>Báo chí/Biên tập viên</option>
-                                                                <option value={20}>Bảo vệ/Vệ sĩ/An ninh</option>
-                                                                <option value={13}>Bất động sản</option>
-                                                                <option value={14}>Biên dịch/Phiên dịch</option>
-                                                                <option value={15}>Bưu chính viễn thông</option>
-                                                                <option value={17}>Công nghệ thông tin</option>
-                                                                <option value={18}>Dầu khí/Địa chất</option>
-                                                                <option value={19}>Dệt may</option>
-                                                                <option value={23}>Du lịch/Nhà hàng/Khách sạn</option>
-                                                                <option value={24}>Dược/Hóa chất/Sinh hóa</option>
-                                                                <option value={25}>Giải trí/Vui chơi</option>
-                                                                <option value={26}>Giáo dục/Đào tạo/Thư viện</option>
-                                                                <option value={27}>Giao thông/Vận tải/Thủy lợi/Cầu đường</option>
-                                                                <option value={28}>Giày da/Thuộc da</option>
-                                                                <option value={55}>Khác</option>
-                                                                <option value={30}>Kho vận/Vật tư/Thu mua</option>
-                                                                <option value={58}>Khu chế xuất/Khu công nghiệp</option>
-                                                                <option value={31}>Kiến trúc/Nội thất</option>
-                                                                <option value={59}>Làm đẹp/Thể lực/Spa</option>
-                                                                <option value={34}>Luật/Pháp lý</option>
-                                                                <option value={36}>Môi trường/Xử lý chất thải</option>
-                                                                <option value={37}>Mỹ phẩm/Thời trang/Trang sức</option>
-                                                                <option value={38}>Ngân hàng/Chứng khoán/Đầu tư</option>
-                                                                <option value={39}>Nghệ thuật/Điện ảnh</option>
-                                                                <option value={56}>Ngoại ngữ</option>
-                                                                <option value={40}>Nhân sự</option>
-                                                                <option value={41}>Nông/Lâm/Ngư nghiệp</option>
-                                                                <option value={64}>PG/PB/Lễ tân</option>
-                                                                <option value={65}>Phát triển thị trường</option>
-                                                                <option value={66}>Phục vụ/Tạp vụ/Giúp việc</option>
-                                                                <option value={42}>Quan hệ đối ngoại</option>
-                                                                <option value={44}>Quản lý điều hành</option>
-                                                                <option value={45}>Quảng cáo/Marketing/PR</option>
-                                                                <option value={46}>Sản xuất/Vận hành sản xuất</option>
-                                                                <option value={60}>Tài xế/Lái xe/Giao nhận</option>
-                                                                <option value={43}>Thẩm định/Giám định/Quản lý chất lượng</option>
-                                                                <option value={48}>Thể dục/Thể thao</option>
-                                                                <option value={49}>Thiết kế/Mỹ thuật</option>
-                                                                <option value={50}>Thời vụ/Bán thời gian</option>
-                                                                <option value={51}>Thực phẩm/DV ăn uống</option>
-                                                                <option value={61}>Trang thiết bị công nghiệp</option>
-                                                                <option value={62}>Trang thiết bị gia dụng</option>
-                                                                <option value={63}>Trang thiết bị văn phòng</option>
-                                                                <option value={11}>Tư vấn bảo hiểm</option>
-                                                                <option value={52}>Xây dựng</option>
-                                                                <option value={53}>Xuất-Nhập khẩu/Ngoại thương</option>
-                                                                <option value={54}>Y tế</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Nơi làm việc</label>
-                                                        <div className="col-sm-9">
-                                                            <select type="text" className="form-control" id="jobProvince">
-                                                                <option value={1}>Hồ Chí Minh</option>
-                                                                <option value={2}>Hà Nội</option>
-                                                                <option value={3}>An Giang</option>
-                                                                <option value={4}>Bạc Liêu</option>
-                                                                <option value={5}>Bà Rịa-Vũng Tàu</option>
-                                                                <option value={6}>Bắc Cạn</option>
-                                                                <option value={7}>Bắc Giang</option>
-                                                                <option value={8}>Bắc Ninh</option>
-                                                                <option value={9}>Bến Tre</option>
-                                                                <option value={10}>Bình Dương</option>
-                                                                <option value={11}>Bình Định</option>
-                                                                <option value={12}>Bình Phước</option>
-                                                                <option value={13}>Bình Thuận</option>
-                                                                <option value={14}>Cao Bằng</option>
-                                                                <option value={15}>Cà Mau</option>
-                                                                <option value={16}>Cần Thơ</option>
-                                                                <option value={17}>Đà Nẵng</option>
-                                                                <option value={18}>Đắk Lắk</option>
-                                                                <option value={19}>Đắk Nông</option>
-                                                                <option value={20}>Điện Biên</option>
-                                                                <option value={21}>Đồng Nai</option>
-                                                                <option value={22}>Đồng Tháp</option>
-                                                                <option value={23}>Gia Lai</option>
-                                                                <option value={24}>Hà Giang</option>
-                                                                <option value={25}>Hà Nam</option>
-                                                                <option value={27}>Hà Tĩnh</option>
-                                                                <option value={28}>Hải Dương</option>
-                                                                <option value={29}>Hải Phòng</option>
-                                                                <option value={30}>Hậu Giang</option>
-                                                                <option value={31}>Hòa Bình</option>
-                                                                <option value={32}>Hưng Yên</option>
-                                                                <option value={33}>Khánh Hòa</option>
-                                                                <option value={34}>Kiên Giang</option>
-                                                                <option value={35}>Kon Tum</option>
-                                                                <option value={36}>Lai Châu</option>
-                                                                <option value={37}>Lạng Sơn</option>
-                                                                <option value={38}>Lào Cai</option>
-                                                                <option value={39}>Lâm Đồng</option>
-                                                                <option value={40}>Long An</option>
-                                                                <option value={41}>Nam Định</option>
-                                                                <option value={42}>Nghệ An</option>
-                                                                <option value={43}>Ninh Bình</option>
-                                                                <option value={44}>Ninh Thuận</option>
-                                                                <option value={45}>Phú Thọ</option>
-                                                                <option value={46}>Phú Yên</option>
-                                                                <option value={47}>Quảng Bình</option>
-                                                                <option value={48}>Quảng Nam</option>
-                                                                <option value={49}>Quảng Ngãi</option>
-                                                                <option value={50}>Quảng Ninh</option>
-                                                                <option value={51}>Quảng Trị</option>
-                                                                <option value={52}>Sóc Trăng</option>
-                                                                <option value={53}>Sơn La</option>
-                                                                <option value={54}>Tây Ninh</option>
-                                                                <option value={55}>Thái Bình</option>
-                                                                <option value={56}>Thái Nguyên</option>
-                                                                <option value={57}>Thanh Hóa</option>
-                                                                <option value={58}>Thừa Thiên-Huế</option>
-                                                                <option value={59}>Tiền Giang</option>
-                                                                <option value={60}>Trà Vinh</option>
-                                                                <option value={61}>Tuyên Quang</option>
-                                                                <option value={62}>Vĩnh Long</option>
-                                                                <option value={63}>Vĩnh Phúc</option>
-                                                                <option value={64}>Yên Bái</option>
-                                                                <option value={65}>Toàn quốc</option>
-                                                                <option value={66}>Nước ngoài</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group row">
-                                                        <label className="col-sm-3 col-form-label text-right label">Hạn nộp hồ sơ<span style={{ color: 'red' }} className="pl-2">*</span></label>
-                                                        <div className="col-sm-9">
-                                                            <input type="date" className="form-control" placeholder="Nhập nơi làm việc" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="card recuitment-card">
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* (end) widget recuitment  */}
+        {/* published recuitment */}
+        <div className="container-fluid published-recuitment-wrapper">
+          <div className="container published-recuitment-content">
+            <div className="row">
+              <div className="col-md-8 col-sm-12 col-12 recuitment-inner">
+                <form className="recuitment-form">
+                  <div className="accordion" id="accordionExample">
+                    <div className="card recuitment-card">
+                      <div
+                        className="card-header recuitment-card-header"
+                        id="headingOne"
+                      >
+                        <h2 className="mb-0">
+                          <a
+                            className="btn btn-link btn-block text-left recuitment-header"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#collapseOne"
+                            aria-expanded="true"
+                            aria-controls="collapseOne"
+                          >
+                            Post new job
+                            <span id="clickc1_advance2" className="clicksd">
+                              <i className="fa fa fa-angle-up" />
+                            </span>
+                          </a>
+                        </h2>
+                      </div>
+                      <div
+                        id="collapseOne"
+                        className="collapse show"
+                        aria-labelledby="headingOne"
+                        data-parent="#accordionExample"
+                      >
+                        <div className="card-body recuitment-body">
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label text-right label">
+                              Job Title
+                              <span style={{ color: "red" }} className="pl-2">
+                                *
+                              </span>
+                            </label>
+                            <div className="col-sm-9">
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Add job title"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label text-right label">
+                              Field
+                              <span style={{ color: "red" }} className="pl-2">
+                                *
+                              </span>
+                            </label>
+                            <div className="col-sm-9">
+                              <select
+                                className="form-control"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                              >
+                                <option value>Please choose job field</option>
+                                {categories.map((cat) => (
+                                  <option value={cat.id}>{cat.name}</option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label text-right label">
+                              Job Descriptions
+                              <span style={{ color: "red" }} className="pl-2">
+                                *
+                              </span>
+                            </label>
+                            <div className="col-sm-9">
+                              <CKEditor
+                                editor={ClassicEditor}
+                                data={description}
+                                onChange={(event, editor) => {
+                                  const data = editor.getData();
+                                  setDescription(data);
+                                }}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="form-group row">
+                            <div
+                              className="col-sm-3 col-form-label"
+                              for="checkSalary"
+                            >
+                              <div className="row text-right">
+                                <input
+                                  className="form-group col-md-2"
+                                  type="checkbox"
+                                  id="checkSalary"
+                                  checked={!isRangeEnabled} // Trạng thái của checkbox
+                                  onChange={() =>
+                                    setIsRangeEnabled(!isRangeEnabled)
+                                  } // Sự kiện khi checkbox thay đổi
+                                />
+                                <lavel className="label p-2">
+                                  Salary
+                                  <span
+                                    style={{ color: "red" }}
+                                    className="pl-2"
+                                  >
+                                    *
+                                  </span>
+                                </lavel>
+                              </div>
+                            </div>
+                            <div className="col-sm-9">
+                              <input
+                                type="range"
+                                className="form-range col"
+                                id="customRange1"
+                                value={salaryRange}
+                                min={0}
+                                max={100000}
+                                disabled={isRangeEnabled}
+                                onChange={(e) => setSalaryRange(e.target.value)}
+                              />
+                              <p>Salary: ${salaryRange}</p>
+                            </div>
+                          </div>
+
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label text-right label">
+                              Education
+                              <span style={{ color: "red" }} className="pl-2">
+                                *
+                              </span>
+                            </label>
+                            <div className="col-sm-9">
+                              <select
+                                name="selectEducation"
+                                class="custom-select custom-select-sm"
+                                value={education}
+                                onChange={(e) => setEducation(e.target.value)}
+                              >
+                                <option selected>Open this select menu</option>
+                                <option value="None">None</option>
+                                <option value="High school">
+                                  High school degree
+                                </option>
+                                <option value="Associate">
+                                  Associate degree
+                                </option>
+                                <option value="Bachelor">
+                                  Bachelor's degree
+                                </option>
+                                <option value="Master">Master's degree</option>
+                                <option value="Professional">
+                                  Professional degree
+                                </option>
+                                <option value="Doctoral">
+                                  Doctoral degree
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="form-group row">
+                            <div className="col-sm-3 col-form-label">
+                              <div className="row  text-right">
+                                <input
+                                  style={{ marginBottom: "10px" }}
+                                  className="form-group col-md-2"
+                                  type="checkbox"
+                                  id="enableRangeCheckbox"
+                                  checked={!isYearEnabled}
+                                  onChange={() =>
+                                    setIsYearEnabled(!isYearEnabled)
+                                  }
+                                />
+                                <lavel className="label p-2">
+                                  Experience
+                                  <span
+                                    style={{ color: "red" }}
+                                    className="pl-2"
+                                  >
+                                    *
+                                  </span>
+                                </lavel>
+                              </div>
+                            </div>
+                            <div className="col-sm-9">
+                              <input
+                                type="number"
+                                class="form-control rounded"
+                                aria-describedby="emailHelp"
+                                disabled={isYearEnabled}
+                                value={experience}
+                                onChange={(e) => setExperience(e.target.value)}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label text-right label">
+                              Skills Require
+                              <span style={{ color: "red" }} className="pl-2">
+                                *
+                              </span>
+                            </label>
+                            <div className="col-sm-9">
+                              <textarea
+                                type="text"
+                                className="form-control"
+                                placeholder="Skill requirements"
+                                rows={2}
+                                value={skill}
+                                onChange={(e) => setSkill(e.target.value)}
+                                defaultValue={"None"}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label text-right label">
+                              DeadLine
+                              <span style={{ color: "red" }} className="pl-2">
+                                *
+                              </span>
+                            </label>
+                            <div className="col-sm-9">
+                              <DatePicker
+                                selected={deadline}
+                                onChange={(date) => setDeadline(date)}
+                                className="form-control rounded"
+                                aria-describedby="emailHelp"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* <div className="card recuitment-card">
                                             <div className="card-header recuitment-card-header" id="headingTwo">
                                                 <h2 className="mb-0">
                                                     <a className="btn btn-link btn-block text-left collapsed recuitment-header" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -878,156 +866,142 @@ export default function PostNewBody() {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="rec-submit">
-                                        <button type="submit" className="btn-submit-recuitment" name>
-                                            <i className="fa fa-floppy-o pr-2" />Lưu Tin
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                            {/* Side bar */}
-                            <div className="col-md-4 col-sm-12 col-12">
-                                <div className="recuiter-info">
-                                    <div className="recuiter-info-avt">
-                                        <img src="assets/home/img/icon_avatar.jpg" />
-                                    </div>
-                                    <div className="clearfix list-rec">
-                                        <h4>NESTLE Inc.</h4>
-                                        <ul>
-                                            <li><a href="#">Việc làm đang đăng <strong>(0)</strong></a></li>
-                                            <li><a href="#">Follower <strong>(450)</strong></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="block-sidebar" style={{ marginBottom: 20 }}>
-                                    <header>
-                                        <h3 className="title-sidebar font-roboto bg-primary">
-                                            Trung tâm quản lý
-                                        </h3>
-                                    </header>
-                                    <div className="content-sidebar menu-trung-tam-ql menu-ql-employer">
-                                        <h3 className="menu-ql-ntv">
-                                            Quản lý tài khoản
-                                        </h3>
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    Tài khoản
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Giấy phép kinh doanh
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <h3 className="menu-ql-ntv">
-                                            Quản lý dịch vụ
-                                        </h3>
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    Lịch sử dịch vụ
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" target="_blank">
-                                                    Báo giá
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <h3 className="menu-ql-ntv">
-                                            Quản lý tin tuyển dụng
-                                        </h3>
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    Đăng tin tuyển dụng
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Danh sách tin tuyển dụng
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <h3 className="menu-ql-ntv">
-                                            Quản lý ứng viên
-                                        </h3>
-                                        <ul>
-                                            <li>
-                                                <a href="#">
-                                                    Tìm kiếm hồ sơ
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Hồ sơ đã lưu
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Hồ sơ đã ứng tuyển
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" title="Thông báo hồ sơ phù hợp">
-                                                    Thông báo hồ sơ phù hợp
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <h3 className="menu-ql-ntv">
-                                            Hỗ trợ và thông báo
-                                        </h3>
-                                        <ul>
-                                            <li>
-                                                <a href="#" title="Gửi yêu cầu đến ban quản trị">
-                                                    Gửi yêu cầu đến ban quản trị
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" title="Ban quản trị thông báo">
-                                                    Ban quản trị thông báo
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" title="Hướng dẫn thao tác">
-                                                    Hướng dẫn thao tác
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" target="_blank">
-                                                    <span>Thông tin thanh toán</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a target="_blank" href="#">
-                                                    <span>Cổng tra cứu lương</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a target="_blank" href="#">
-                                                    <span> Cẩm nang tuyển dụng</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <ul>
-                                            <li className="logout">
-                                                <a href="#" title="Đăng xuất">
-                                                    Đăng xuất
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                        </div> */}
+                  </div>
+                  <div className="rec-submit">
+                    <button
+                      type="submit"
+                      className="btn-submit-recuitment"
+                      name
+                    >
+                      <i className="fa fa-floppy-o pr-2" />
+                      Post
+                    </button>
+                  </div>
+                </form>
+              </div>
+              {/* Side bar */}
+              <div className="col-md-4 col-sm-12 col-12">
+                <div className="recuiter-info">
+                  <div className="recuiter-info-avt">
+                    <img src="assets/home/img/icon_avatar.jpg" />
+                  </div>
+                  <div className="clearfix list-rec">
+                    <h4>NESTLE Inc.</h4>
+                    <ul>
+                      <li>
+                        <a href="#">
+                          Việc làm đang đăng <strong>(0)</strong>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          Follower <strong>(450)</strong>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
+                <div className="block-sidebar" style={{ marginBottom: 20 }}>
+                  <header>
+                    <h3 className="title-sidebar font-roboto bg-primary">
+                      Trung tâm quản lý
+                    </h3>
+                  </header>
+                  <div className="content-sidebar menu-trung-tam-ql menu-ql-employer">
+                    <h3 className="menu-ql-ntv">Quản lý tài khoản</h3>
+                    <ul>
+                      <li>
+                        <a href="#">Tài khoản</a>
+                      </li>
+                      <li>
+                        <a href="#">Giấy phép kinh doanh</a>
+                      </li>
+                    </ul>
+                    <h3 className="menu-ql-ntv">Quản lý dịch vụ</h3>
+                    <ul>
+                      <li>
+                        <a href="#">Lịch sử dịch vụ</a>
+                      </li>
+                      <li>
+                        <a href="#" target="_blank">
+                          Báo giá
+                        </a>
+                      </li>
+                    </ul>
+                    <h3 className="menu-ql-ntv">Quản lý tin tuyển dụng</h3>
+                    <ul>
+                      <li>
+                        <a href="#">Đăng tin tuyển dụng</a>
+                      </li>
+                      <li>
+                        <a href="#">Danh sách tin tuyển dụng</a>
+                      </li>
+                    </ul>
+                    <h3 className="menu-ql-ntv">Quản lý ứng viên</h3>
+                    <ul>
+                      <li>
+                        <a href="#">Tìm kiếm hồ sơ</a>
+                      </li>
+                      <li>
+                        <a href="#">Hồ sơ đã lưu</a>
+                      </li>
+                      <li>
+                        <a href="#">Hồ sơ đã ứng tuyển</a>
+                      </li>
+                      <li>
+                        <a href="#" title="Thông báo hồ sơ phù hợp">
+                          Thông báo hồ sơ phù hợp
+                        </a>
+                      </li>
+                    </ul>
+                    <h3 className="menu-ql-ntv">Hỗ trợ và thông báo</h3>
+                    <ul>
+                      <li>
+                        <a href="#" title="Gửi yêu cầu đến ban quản trị">
+                          Gửi yêu cầu đến ban quản trị
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" title="Ban quản trị thông báo">
+                          Ban quản trị thông báo
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" title="Hướng dẫn thao tác">
+                          Hướng dẫn thao tác
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" target="_blank">
+                          <span>Thông tin thanh toán</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a target="_blank" href="#">
+                          <span>Cổng tra cứu lương</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a target="_blank" href="#">
+                          <span> Cẩm nang tuyển dụng</span>
+                        </a>
+                      </li>
+                    </ul>
+                    <ul>
+                      <li className="logout">
+                        <a href="#" title="Đăng xuất">
+                          Đăng xuất
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  );
 }

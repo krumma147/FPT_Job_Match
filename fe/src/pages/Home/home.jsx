@@ -12,16 +12,23 @@ import JobSupport from "../../components/home/JobSupport";
 import Footer from "../../components/home/Footer";
 // Hooks
 import JobHooks from "../../hooks/JobHook";
+import CategoryHook from "../../hooks/CategoryHook";
 
 const Home = () => {
   const [jobs, setJobs] = useState([]);
 
   const fetchData = async () => {
     const jobdata = await JobHooks.GetAllJob();
-    //console.log(jobdata);
+    const categorydata = await CategoryHook.GetAllCategory();
+    //console.log(categorydata.jobCategories);
     setJobs(jobdata.jobs);
     //console.log(jobdata.jobs);
     const jobsJSON = JSON.stringify(jobs);
+    const categoriesJSON = JSON.stringify(categorydata.jobCategories);
+
+    if (!localStorage.getItem("JobCategories"))
+      localStorage.setItem("JobCategories", categoriesJSON);
+
     if (!localStorage.getItem("JobsData"))
       localStorage.setItem("JobsData", jobsJSON);
   };
