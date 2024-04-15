@@ -45,10 +45,12 @@ const Home = () => {
   useEffect(() => {
     if (searchKey === "") {
       setFilterJob(jobs);
-    } else {
-      const newJobList = jobs.filter((j) => j.title.includes(searchKey));
-      setFilterJob(newJobList);
     }
+    const searchValue = searchKey.toLowerCase();
+    const newJobList = jobs.filter((j) =>
+      j.title.toLowerCase().includes(searchValue)
+    );
+    setFilterJob(newJobList);
     //console.log(filterCategory);
   }, [searchKey, filterCategory]);
 
@@ -65,7 +67,10 @@ const Home = () => {
         categories={categories}
         filterCategory={filterCategory}
       />
-      <SideBar jobs={filterJob} categories={categories} />
+      <SideBar
+        jobs={searchKey === "" ? jobs : filterJob}
+        categories={categories}
+      />
       <div class="clearfix"></div>
       <JobBoard />
       <div class="clearfix"></div>

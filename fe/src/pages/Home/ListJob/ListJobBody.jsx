@@ -1,20 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
-const ListJobBody = () => {
-  const [jobs, setJobs] = useState([]);
-
-  useEffect(() => {
-    const jobsJSON = localStorage.getItem("JobsData");
-    if (jobsJSON) {
-      const parsedJobs = JSON.parse(jobsJSON);
-      setJobs(parsedJobs);
-      //console.log(parsedJobs);
-    } else {
-      //console.log("Không có danh sách công việc trong cookie");
-    }
-  }, []);
-
+const ListJobBody = ({ jobs, searchKey }) => {
   return (
     <div className="container-fluid mb-5">
       <div className="container search-wrapper">
@@ -476,7 +462,9 @@ const ListJobBody = () => {
                     </div>
                   ))
                 ) : (
-                  <p>List is empty</p>
+                  <p>
+                    {searchKey === "" ? "List is empty" : "No job were found!"}
+                  </p>
                 )}
                 <div className="job pagi">
                   <div className="job-content">
