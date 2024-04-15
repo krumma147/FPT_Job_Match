@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Contextes;
 using TestAPI.Models;
+using TestAPI.Services.HubService;
 
 namespace TestAPI.Controllers.Admin.Applications
 {
@@ -11,9 +13,11 @@ namespace TestAPI.Controllers.Admin.Applications
     public class ApplicationController : ControllerBase
     {
         private readonly AuthDemoDbContext _context;
-        public ApplicationController(AuthDemoDbContext context)
+        private readonly IHubContext<ServiceHub> _hubContext;
+        public ApplicationController(AuthDemoDbContext context, IHubContext<ServiceHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -65,6 +69,8 @@ namespace TestAPI.Controllers.Admin.Applications
                 };
                 await _context.Applications.AddAsync(newApplication);
                 await _context.SaveChangesAsync();
+
+                await _hubContext.Clients.All.SendAsync("createdApplication", newApplication);
                 return Ok(new { message = "Application created successfully" });
             }
             catch (Exception ex)
@@ -90,6 +96,8 @@ namespace TestAPI.Controllers.Admin.Applications
                 applicationToUpdate.Updated_At = DateTime.Now;
 
                 await _context.SaveChangesAsync();
+
+                await _hubContext.Clients.All.SendAsync("updatedApplication", applicationToUpdate);
                 return Ok(new { message = "Application updated successfully" });
             }
             catch (Exception ex)
@@ -108,6 +116,8 @@ namespace TestAPI.Controllers.Admin.Applications
 
                 _context.Applications.Remove(applicationToDelete);
                 await _context.SaveChangesAsync();
+
+                await _hubContext.Clients.All.SendAsync("deletedApplication", applicationToDelete);
                 return Ok(new { message = "Application deleted successfully" });
             }
             catch (Exception ex)

@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Contextes;
 using TestAPI.Models;
 using TestAPI.Models.Auth;
+using TestAPI.Services.HubService;
 
 namespace TestAPI.Controllers.Admin.Users
 {
@@ -15,11 +17,13 @@ namespace TestAPI.Controllers.Admin.Users
         private readonly AuthDemoDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        public UserController(AuthDemoDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly IHubContext<ServiceHub> _hubContext;
+        public UserController(AuthDemoDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IHubContext<ServiceHub> hubContext)
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -83,6 +87,8 @@ namespace TestAPI.Controllers.Admin.Users
                 };
                 _context.UserInfos.Add(userInfo);
                 await _context.SaveChangesAsync();
+                // notification clients
+                await _hubContext.Clients.All.SendAsync("createdUser", user);
 
                 return Ok("Create user Successfully");
             }
@@ -172,6 +178,8 @@ namespace TestAPI.Controllers.Admin.Users
 
                 userInfo.FullName = model.FullName;
                 await _context.SaveChangesAsync();
+                // notification clients
+                await _hubContext.Clients.All.SendAsync("updatedUser", user);
 
                 return Ok("Update user Successfully");
             }
@@ -203,6 +211,8 @@ namespace TestAPI.Controllers.Admin.Users
                 {
                     return BadRequest(result.Errors);
                 }
+                // notification clients
+                await _hubContext.Clients.All.SendAsync("deletedUser", user);
 
                 return Ok("Delete user Successfully");
             }

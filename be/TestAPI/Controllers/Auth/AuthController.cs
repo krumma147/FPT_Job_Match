@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Data;
 using System.Net;
@@ -12,6 +13,7 @@ using System.Text;
 using TestAPI.Models.Auth;
 using TestAPI.Services;
 using TestAPI.Services.Email;
+using TestAPI.Services.HubService;
 using TestAPI.Services.Token;
 
 namespace TestAPI.Controllers.Auth
@@ -27,9 +29,9 @@ namespace TestAPI.Controllers.Auth
         private readonly IOTPService _otpService;
         private readonly ITokenService _tokenService;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IHubContext<ServiceHub> _hubContext;
 
-
-        public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager, IOTPService otpService, ITokenService tokenService, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AuthController(IAuthService authService, IEmailService emailService, UserManager<IdentityUser> userManager, IOTPService otpService, ITokenService tokenService, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, IHubContext<ServiceHub> hubContext)
         {
             _authService = authService;
             _emailService = emailService;
@@ -38,6 +40,7 @@ namespace TestAPI.Controllers.Auth
             _tokenService = tokenService;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _hubContext = hubContext;
         }
 
         [HttpPost("Register")]
@@ -74,6 +77,8 @@ namespace TestAPI.Controllers.Auth
                             return BadRequest(new { status = false, message = "Error adding user to selected role" });
                         }
                     }
+                    // After the user has been successfully registered, send a notification to all connected clients
+                    await _hubContext.Clients.All.SendAsync("createdUser", user);
                     return Ok("Create user successful! Please click on the link in the email to confirm your account.");
                 }
                 catch (Exception ex)

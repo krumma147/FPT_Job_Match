@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using TestAPI.Contextes;
 using TestAPI.Models;
+using TestAPI.Services.HubService;
 
 namespace TestAPI.Controllers.Admin.Jobs
 {
@@ -14,9 +16,11 @@ namespace TestAPI.Controllers.Admin.Jobs
     public class JobController : ControllerBase
     {
         private readonly AuthDemoDbContext _context;
-        public JobController(AuthDemoDbContext context)
+        private readonly IHubContext<ServiceHub> _hubContext;
+        public JobController(AuthDemoDbContext context, IHubContext<ServiceHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -74,6 +78,8 @@ namespace TestAPI.Controllers.Admin.Jobs
                 };
                 _context.Jobs.Add(newJob);
                 await _context.SaveChangesAsync();
+
+                await _hubContext.Clients.All.SendAsync("createdJob", newJob);
                 return Ok(new { job = newJob, message = "Create job successfully" });
             }
             catch (Exception ex)
@@ -102,6 +108,7 @@ namespace TestAPI.Controllers.Admin.Jobs
                 jobUpdate.Updated_At = DateTime.Now;
                 await _context.SaveChangesAsync();
 
+                await _hubContext.Clients.All.SendAsync("updatedJob", jobUpdate);
                 return Ok(new { message = "Update category successfully" });
             }
             catch (Exception ex)
@@ -129,6 +136,7 @@ namespace TestAPI.Controllers.Admin.Jobs
                 jobUpdate.Deleted = 1;
                 _context.SaveChanges();
 
+                await _hubContext.Clients.All.SendAsync("deletedJob", jobUpdate);
                 return Ok(new { message = "Delete category successfully" });
             }
             catch (Exception ex)

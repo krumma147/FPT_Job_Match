@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using TestAPI.Contextes;
 using TestAPI.Models;
+using TestAPI.Services.HubService;
 
 namespace TestAPI.Controllers.Admin.Categories
 {
@@ -12,9 +14,11 @@ namespace TestAPI.Controllers.Admin.Categories
     {
         private readonly AuthDemoDbContext _context;
 
-        public CategoriesController(AuthDemoDbContext context) 
+        private readonly IHubContext<ServiceHub> _hubContext;
+        public CategoriesController(AuthDemoDbContext context, IHubContext<ServiceHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -45,6 +49,8 @@ namespace TestAPI.Controllers.Admin.Categories
                 if (newCategory is null) return BadRequest(new { employee = newCategory, message = "Retrieve successfully" });
                 _context.JobCategories.Add(newCategory);
                 await _context.SaveChangesAsync();
+
+                await _hubContext.Clients.All.SendAsync("createdCategory", newCategory);
                 return Ok(new { category = newCategory, message = "Create category successfully" });
             }
             catch (Exception ex)
@@ -66,6 +72,7 @@ namespace TestAPI.Controllers.Admin.Categories
                 categoryUpdate.Name = category.Name;
                 await _context.SaveChangesAsync();
 
+                await _hubContext.Clients.All.SendAsync("updatedCategory", categoryUpdate);
                 return Ok(new { message = "Update category successfully" });
             }
             catch (Exception ex)
@@ -96,6 +103,7 @@ namespace TestAPI.Controllers.Admin.Categories
                 _context.JobCategories.Remove(category);
                 _context.SaveChanges();
 
+                await _hubContext.Clients.All.SendAsync("deletedCategory", category);
                 return Ok(new { message = "Delete category successfully" });
             }
             catch (Exception ex)

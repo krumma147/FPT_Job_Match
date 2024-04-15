@@ -6,6 +6,7 @@ using System.Text;
 using TestAPI.Contextes;
 using TestAPI.Services;
 using TestAPI.Services.Email;
+using TestAPI.Services.HubService;
 using TestAPI.Services.Token;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,7 +73,8 @@ builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IOTPService, OTPService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 
-
+// Add SignalR services.
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -88,5 +90,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+// Map your SignalR Hub.
+app.MapHub<ServiceHub>("/serviceHub");
 
 app.Run();

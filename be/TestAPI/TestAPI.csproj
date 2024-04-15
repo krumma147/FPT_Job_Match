@@ -12,6 +12,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -28,6 +30,7 @@
 
   <ItemGroup>
     <Folder Include="Services\Login\" />
+    <Folder Include="Services\HubService\" />
   </ItemGroup>
 
 </Project>

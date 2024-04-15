@@ -1,14 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CategoryModal from "../Button/CategoryModal";
 import EditCategoryModal from "../Button/EditCategoryModal";
 import Icon from "@mdi/react";
 import { mdiTrashCan } from "@mdi/js";
+import connection from '../../../Service/signalRConfig';
+import { toast } from 'react-toastify';
+import CustomToastContainer from "../Notification/CustomToastContainer";
 const CategoryPanel = ({
   categories,
   AddCategory,
   ModifyCategory,
   RemoveCategory,
 }) => {
+  //notifications
+  // useEffect(() => {
+  //   connection.on('createdCategory', (newCategory) => {
+  //   console.log('createdCategory event received'); // Thêm log ở đây
+  //   AddCategory(newCategory);
+  //   toast.success(`New Category registered: ${newCategory.name}`);
+  // });
+
+  //   connection.on('updatedCategory', (updatedCategoryId) => {
+  //     ModifyCategory(updatedCategoryId);
+  //     toast.info(`category updated: ${updatedCategoryId.name}`);
+  //   });
+
+  //   connection.on('deletedCategory', (deletedCategoryId) => {
+  //     RemoveCategory(deletedCategoryId);
+  //     toast.info(`Category deleted: ${deletedCategoryId.name}`);
+  //   });
+
+  //   return () => {
+  //     connection.off('createdCategory');
+  //     connection.off('updatedCategory')
+  //     connection.off('deletedCategory');
+  //   };
+  // }, []);
+
   const HandleDelete = (e, id) => {
     e.preventDefault();
     const cf = window.confirm("Are you sure you want to delete");
@@ -19,6 +47,7 @@ const CategoryPanel = ({
 
   return (
     <>
+      <CustomToastContainer />
       <div className="bg-grayE8 rounded h-100 p-4 m-4">
         <div className="row mb-4">
           <h4 className="col">Category Manager</h4>

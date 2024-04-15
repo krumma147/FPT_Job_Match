@@ -1,7 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import JobModal from "../Button/JobModal";
+import connection from '../../../Service/signalRConfig';
+import { toast } from 'react-toastify';
+import CustomToastContainer from "../Notification/CustomToastContainer";
 
 const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
+  //notifications
+  // useEffect(() => {
+  //   connection.on('createdJob', (newJob) => {
+  //     AddJob(newJob);
+  //     toast.success(`New Job registered: ${newJob.title}`);
+  //   });
+
+  //   connection.on('updatedJob', (updatedJobId) => {
+  //     ModifyJob(updatedJobId);
+  //     toast.info(`Job updated: ${updatedJobId.title}`);
+  //   });
+
+  //   connection.on('deletedJob', (deletedJobId) => {
+  //     RemoveJob(deletedJobId);
+  //     toast.info(`Job deleted: ${deletedJobId.title}`);
+  //   });
+  //   return () => {
+  //     connection.off('createdJob');
+  //     connection.off('updatedJob')
+  //     connection.off('deletedJob');
+  //   };
+  // }, []);
+
   const HandleDelete = (e, id) => {
     e.preventDefault();
     const cf = window.confirm("Are you sure you want to delete this job?");
@@ -17,6 +43,7 @@ const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
 
   return (
     <>
+      <CustomToastContainer />
       <div className="bg-grayE8 rounded h-100 p-4 m-4">
         <div className="row mb-4">
           <h4 className="col">Jobs Manager</h4>
