@@ -37,8 +37,8 @@ const CategoryPanel = ({
             </thead>
             <tbody>
               {categories?.length > 0 ? null : "There are no category!"}
-              {categories?.map((cat) => (
-                <tr>
+              {categories?.map((cat, index) => (
+                <tr key={index}>
                   <td className="col-md-1">
                     <span>{cat.id}</span>
                   </td>

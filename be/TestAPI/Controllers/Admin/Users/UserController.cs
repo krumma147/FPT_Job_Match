@@ -31,10 +31,12 @@ namespace TestAPI.Controllers.Admin.Users
             foreach (var user in users)
             {
                 var roles = await _userManager.GetRolesAsync(user);
+                var userInfo = await _context.UserInfos.FirstOrDefaultAsync(u => u.UserId == user.Id);
                 userRoles.Add(new
                 {
                     user = user,
-                    roles = roles
+                    roles = roles,
+                    fullName = userInfo?.FullName,
                 });
             }
 
@@ -99,11 +101,14 @@ namespace TestAPI.Controllers.Admin.Users
 
                 if (user == null) return NotFound(new { message = "Id not found!" });
 
+                var userInfo = await _context.UserInfos.FirstOrDefaultAsync(u => u.UserId == user.Id);
+
                 var roles = await _userManager.GetRolesAsync(user);
                 return new
                 {
                     user = user,
-                    roles = roles
+                    roles = roles,
+                    fullName = userInfo?.FullName,
                 };
             }
             catch (Exception ex)
@@ -129,6 +134,11 @@ namespace TestAPI.Controllers.Admin.Users
                 user.UserName = model.UserName;
                 user.Email = model.Email;
                 user.PhoneNumber = model.PhoneNumber;
+                if (model.Password != null)
+                {
+                    var passwordHasher = new PasswordHasher<IdentityUser>();
+                    user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
+                }
 
                 var result = await _userManager.UpdateAsync(user);
                 if (!result.Succeeded)

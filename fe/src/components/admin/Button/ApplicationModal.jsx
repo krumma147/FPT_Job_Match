@@ -70,8 +70,8 @@ const ApplicationModal = ({
             {users.length > 0 ? (
               users
                 ?.filter((u) => u.roles[0].toLowerCase() === "jobseeker")
-                .map((u) => (
-                  <option key={u.user.id} value={u.user.id}>
+                .map((u, index) => (
+                  <option key={index} value={u.user.id}>
                     {u.user.userName}
                   </option>
                 ))
@@ -126,8 +126,10 @@ const ApplicationModal = ({
             onChange={(e) => setJob(e.target.value)}
           >
             <option selected>Select job here</option>
-            {jobs?.map((j) => (
-              <option value={j.id}>{j.title}</option>
+            {jobs?.map((j, index) => (
+              <option key={index} value={j.id}>
+                {j.title}
+              </option>
             ))}
           </select>
         </div>

@@ -7,8 +7,7 @@ const ApplicationHook = {
       const response = await axios.get(`${apiURL}/Application`);
       return response.data;
     } catch (error) {
-      //console.error(`Can't create account! ${error}`);
-      return error;
+      alert(`Can't create account! ${error}`);
     }
   },
 
@@ -17,8 +16,7 @@ const ApplicationHook = {
       const response = await axios.post(`${apiURL}/Application`, application);
       return response.data;
     } catch (error) {
-      //console.error(`Can't create account! ${error}`);
-      return error;
+      alert(`Can't create application! ${error}`);
     }
   },
 
@@ -30,8 +28,7 @@ const ApplicationHook = {
       );
       return response.data;
     } catch (error) {
-      //console.error(`Can't create account! ${error}`);
-      return error;
+      alert(`Can't edit application! ${error}`);
     }
   },
 
@@ -40,8 +37,7 @@ const ApplicationHook = {
       const response = await axios.delete(`${apiURL}/Application/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
-      return error;
+      alert(`Can't delete application! ${error}`);
     }
   },
 
@@ -50,8 +46,7 @@ const ApplicationHook = {
       const response = await axios.get(`${apiURL}/Application/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
-      return error;
+      alert(`Can't get application detail! ${error}`);
     }
   },
 };

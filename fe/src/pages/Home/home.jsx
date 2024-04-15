@@ -49,6 +49,7 @@ const Home = () => {
       const newJobList = jobs.filter((j) => j.title.includes(searchKey));
       setFilterJob(newJobList);
     }
+    //console.log(filterCategory);
   }, [searchKey, filterCategory]);
 
   return (

@@ -11,7 +11,7 @@ const UserDetailsModal = ({ user, id }) => {
   return (
     <>
       <button type="button" className="btn btn-link" onClick={toggleModal}>
-        {user.user.userName}
+        {user.fullName}
       </button>
 
       {showModal && (
@@ -25,7 +25,7 @@ const UserDetailsModal = ({ user, id }) => {
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">{user.user.userName} Details</h5>
+                <h5 className="modal-title">{user.fullName} Details</h5>
                 <button
                   type="button"
                   className="btn-close"

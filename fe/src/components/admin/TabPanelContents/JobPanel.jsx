@@ -41,8 +41,8 @@ const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
               {jobs?.length > 0
                 ? null
                 : "There are no job! Remember to add 'Job Category' first!"}
-              {jobs?.map((job) => (
-                <tr>
+              {jobs?.map((job, index) => (
+                <tr key={index}>
                   <td scope="row">
                     <span>{job.title}</span>
                   </td>

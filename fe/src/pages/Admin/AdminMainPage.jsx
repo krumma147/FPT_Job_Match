@@ -30,7 +30,7 @@ export default function AdminMainPage() {
     setCategories(categorydata.jobCategories);
     const jobdata = await JobHooks.GetAllJob();
     setJobs(jobdata.jobs);
-    console.log(jobdata);
+    //console.log(jobdata);
     const usersData = await UserHook.GetAllUsers();
     setUsers(usersData);
     //console.log(usersData);

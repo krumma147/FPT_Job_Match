@@ -40,33 +40,39 @@ const UserModal = ({ AddUser, data, ModifyUser, id }) => {
   const ModalBody = (
     <div className="bg-light rounded h-100 p-3">
       <div className="form-floating mb-3">
-        <label htmlFor="floatingInput">Full Name</label>
+        <label htmlFor={data ? `floatingInput${id}` : `#floatingInput`}>
+          Full Name
+        </label>
         <input
           type="text"
           className="form-control"
-          id="floatingInput"
+          id={data ? `floatingInput${id}` : `#floatingInput`}
           placeholder="Full Name"
           value={fullname}
           onChange={(e) => setFullname(e.target.value)}
         />
       </div>
       <div className="form-floating mb-3">
-        <label htmlFor="floatingInput">UserName</label>
+        <label htmlFor={data ? `floatingInput${id}` : `#floatingInput`}>
+          UserName
+        </label>
         <input
           type="text"
           className="form-control"
-          id="floatingInput"
+          id={data ? `floatingInput${id}` : `#floatingInput`}
           placeholder="UserName"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
       <div className="form-floating mb-3">
-        <label htmlFor="floatingInput">Email address</label>
+        <label htmlFor={data ? `floatingInput${id}` : `#floatingInput`}>
+          Email address
+        </label>
         <input
           type="email"
           className="form-control"
-          id="floatingInput"
+          id={data ? `floatingInput${id}` : `#floatingInput`}
           placeholder="name@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -99,11 +105,13 @@ const UserModal = ({ AddUser, data, ModifyUser, id }) => {
         </select>
       </div>
       <div className="form-floating mb-3">
-        <label htmlFor="floatingInput">Phone Number</label>
+        <label htmlFor={data ? `floatingInput${id}` : `#floatingInput`}>
+          Phone Number
+        </label>
         <input
           type="text"
           className="form-control"
-          id="floatingInput"
+          id={data ? `floatingInput${id}` : `#floatingInput`}
           placeholder="Phone Number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -114,7 +122,7 @@ const UserModal = ({ AddUser, data, ModifyUser, id }) => {
 
   const ActiveModal = () => {
     if (data) {
-      setFullname(data.user.userName);
+      setFullname(data.fullName);
       setUsername(data.user.userName);
       setEmail(data.user.email);
       setPassword(data.user.password);

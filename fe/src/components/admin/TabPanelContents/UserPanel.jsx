@@ -26,7 +26,7 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
             <thead>
               <tr>
                 <th scope="col">No</th>
-                <th scope="col">UserName</th>
+                <th scope="col">Full Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Role</th>
@@ -37,7 +37,7 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
               {users?.length > 0 ? null : "There are no application yet!"}
               {users.length > 0 ? (
                 users?.map((user, index) => (
-                  <tr>
+                  <tr key={index}>
                     <td className="col-md-1">
                       <span>{index + 1}</span>
                     </td>

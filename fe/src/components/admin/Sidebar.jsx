@@ -14,7 +14,6 @@ const Sidebar = () => {
           <img
             className="rounded-circle"
             src="./assets/admin/img/user.jpg"
-            alt
             style={{ width: 40, height: 40 }}
           />
           <div className="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1" />

@@ -77,7 +77,7 @@ export default function Search(props) {
                           </option>
                           {props.categories?.length > 0
                             ? props.categories?.map((cat) => (
-                                <option key={cat.id} value={cat.id}>
+                                <option key={cat.id} value={cat.id.toString()}>
                                   {cat.name}
                                 </option>
                               ))
