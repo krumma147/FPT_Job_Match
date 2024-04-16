@@ -1,10 +1,15 @@
 import React from "react";
 import SubmitApplicationModal from "../../../components/admin/Button/SubmitApplicationModal";
 import ApplicationHook from "../../../hooks/ApplicationHook";
+import Swal from "sweetalert2";
 export default function JobDetailBody({ job, relatedJobs }) {
   const handleSubmit = async (application) => {
-    const res = await ApplicationHook.CreateApplication(application);
-    console.log(res);
+    try{
+      const res = await ApplicationHook.CreateApplication(application);
+      Swal.fire("Successful", res.data, "success");
+    }catch(e){
+      Swal.fire("Error", e.res.data, "error");
+    }
   };
 
   return (

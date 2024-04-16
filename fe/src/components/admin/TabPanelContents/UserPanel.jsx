@@ -3,32 +3,7 @@ import UserModal from "../Button/UserModal";
 import UserDetailsModal from "../Button/UserDetailModal";
 import Icon from "@mdi/react";
 import { mdiTrashCan } from "@mdi/js";
-import connection from "../../../Service/signalRConfig";
-import CustomToastContainer from "../Notification/CustomToastContainer";
 const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
-  //notifications
-  // useEffect(() => {
-  //   connection.on("createdUser", (newUser) => {
-  //     AddUser(newUser);
-  //     toast.success(`New user registered: ${newUser.userName}`);
-  //   });
-
-  //   connection.on("updatedUser", (updatedUserId) => {
-  //     ModifyUser(updatedUserId);
-  //     toast.info(`User updated: ${updatedUserId.userName}`);
-  //   });
-
-  //   connection.on("deletedUser", (deletedUserId) => {
-  //     RemoveUser(deletedUserId);
-  //     toast.info(`User deleted: ${deletedUserId.userName}`);
-  //   });
-
-  //   return () => {
-  //     connection.off("createdUser");
-  //     connection.off("updatedUser");
-  //     connection.off("deletedUser");
-  //   };
-  // }, []);
 
   const HandleDelete = (e, id) => {
     e.preventDefault();

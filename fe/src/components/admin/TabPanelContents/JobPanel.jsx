@@ -1,32 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobModal from "../Button/JobModal";
-import connection from '../../../Service/signalRConfig';
-import { toast } from 'react-toastify';
-import CustomToastContainer from "../Notification/CustomToastContainer";
 
 const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
-  //notifications
-  // useEffect(() => {
-  //   connection.on('createdJob', (newJob) => {
-  //     AddJob(newJob);
-  //     toast.success(`New Job registered: ${newJob.title}`);
-  //   });
-
-  //   connection.on('updatedJob', (updatedJobId) => {
-  //     ModifyJob(updatedJobId);
-  //     toast.info(`Job updated: ${updatedJobId.title}`);
-  //   });
-
-  //   connection.on('deletedJob', (deletedJobId) => {
-  //     RemoveJob(deletedJobId);
-  //     toast.info(`Job deleted: ${deletedJobId.title}`);
-  //   });
-  //   return () => {
-  //     connection.off('createdJob');
-  //     connection.off('updatedJob')
-  //     connection.off('deletedJob');
-  //   };
-  // }, []);
 
   const HandleDelete = (e, id) => {
     e.preventDefault();

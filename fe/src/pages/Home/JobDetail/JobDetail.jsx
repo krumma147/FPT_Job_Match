@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../../components/home/Navbar";
 import Search from "../../../components/home/Search";
 import JobSupport from "../../../components/home/JobSupport";
@@ -20,7 +20,6 @@ const JobDetail = () => {
   const relatedJobs = jobData.filter(
     (j) => j.jobCategoryId === job.jobCategoryId
   );
-  //console.log(job);
   return (
     <div>
       <Navbar page={"another-page"} />

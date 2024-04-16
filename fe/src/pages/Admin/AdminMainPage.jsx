@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import "../../styles/admin/css/style.css";
 import Sidebar from "../../components/admin/Sidebar";
@@ -24,6 +25,7 @@ import CategoryPanel from "../../components/admin/TabPanelContents/CategoryPanel
 import JobPanel from "../../components/admin/TabPanelContents/JobPanel";
 // Socket
 import connection from "../../Service/signalRConfig";
+import Swal from "sweetalert2";
 export default function AdminMainPage() {
   const [categories, setCategories] = useState([]);
   const [jobs, setJobs] = useState([]);
@@ -45,125 +47,210 @@ export default function AdminMainPage() {
   };
 
   const AddCategory = async (cat) => {
-    const res = await CategoryHook.CreateCategory(cat);
-    console.log(res);
-    alert("Create success!");
-    await fetchData();
+    try {
+      const res = await CategoryHook.CreateCategory(cat);
+      // if (res !== null) alert("Create success!");
+      await fetchData();
+    } catch (err) {
+      Swal.fire("Error", err.res.data, "error");
+    }
   };
 
   const ModifyCategory = async (id, cat) => {
-    const res = await CategoryHook.EditCategory(id, cat);
-    console.log(res);
-    alert("Edit success!");
-    fetchData();
+    try{
+      const res = await CategoryHook.EditCategory(id, cat);
+      // console.log(res);
+      // alert("Edit success!");
+      fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
   };
 
   const RemoveCategory = async (id) => {
-    const res = await CategoryHook.DeleteCategory(id);
-    console.log(res);
-    alert("Delete successful!");
-    await fetchData();
+    try{
+      const res = await CategoryHook.DeleteCategory(id);
+      // console.log(res);
+      // alert("Delete successful!");
+      fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
   };
 
   const AddJob = async (job) => {
-    const res = await JobHooks.CreateJob(job);
-    //console.log(res);
-    if (res.job !== null) alert("Create Job success!");
-    await fetchData();
+    try{
+      const res = await JobHooks.CreateJob(job);
+      // console.log(res);
+      // alert("Create Job success!");
+      fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
   };
 
   const ModifyJob = async (id, job) => {
-    const res = await JobHooks.EditJob(id, job);
-    console.log(res);
-    if (res !== null) alert("Edit Job success!");
-    await fetchData();
+    try{
+      const res = await JobHooks.EditJob(id, job);
+      // console.log(res);
+      // if (res !== null) alert("Edit Job success!");
+      fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
   };
 
   const RemoveJob = async (id) => {
-    const res = await JobHooks.DeleteJob(id);
-    console.log(res);
-    alert("Delete Job successful!");
-    await fetchData();
+    try{
+      const res = await JobHooks.DeleteJob(id);
+      // console.log(res);
+      // alert("Delete Job successful!");
+      fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
   };
 
   const AddApplication = async (application) => {
     try {
       const res = await ApplicationHook.CreateApplication(application);
-      if (res.message !== null) alert("Create Application success!");
-    } catch (err) {
-      alert(err);
+      // if (res.message !== null) alert("Create Application success!");
+      await fetchData();
+    } catch (error) {
+      Swal.fire("Error", error.res.data, "error");
     }
-    //alert(res);
-    //console.log(res);
-    await fetchData();
   };
 
   const ModifyApplication = async (id, application) => {
-    const res = await ApplicationHook.EditApplication(id, application);
-    console.log(res);
-    if (res !== null) alert("Edit User success!");
-    await fetchData();
+    try{
+      const res = await ApplicationHook.EditApplication(id, application);
+      console.log(res);
+      if (res !== null) alert("Edit User success!");
+      await fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
   };
 
   const RemoveApplication = async (id) => {
-    const res = await ApplicationHook.DeleteApplication(id);
-    console.log(res);
-    alert("Delete User successful!");
-    await fetchData();
+    try{
+      const res = await ApplicationHook.DeleteApplication(id);
+      // console.log(res);
+      // alert("Delete User successful!");
+      await fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
   };
-  const AddUser = useCallback(async (user) => {
+  const AddUser = async (user) => {
     try {
       const res = await UserHook.CreateUser(user);
-      if (res !== null) alert("Create User success!");
+      // if (res !== null) alert("Create User success!");
+      await fetchData();
     } catch (err) {
-      alert(err);
+      Swal.fire("Error", err.res.data, "error");
     }
-    await fetchData();
-  }, []);
+  };
 
-  const ModifyUser = useCallback(async (id, user) => {
-    const res = await UserHook.EditUser(id, user);
-    console.log(res);
-    await fetchData();
-  }, []);
+  const ModifyUser = async (id, user) => {
+    try{
+      const res = await UserHook.EditUser(id, user);
+      // console.log(res);
+      await fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
+  };
 
-  const RemoveUser = useCallback(async (id) => {
-    const res = await UserHook.DeleteUser(id);
-    console.log(res);
-    alert("Delete User successful!");
-    await fetchData();
-  }, []);
+  const RemoveUser = async (id) => {
+    try{
+      const res = await UserHook.DeleteUser(id);
+      // console.log(res);
+      // alert("Delete User successful!");
+      await fetchData();
+    } catch(error){
+      Swal.fire("Error", error.res.data, "error");
+    }
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  //notification
   useEffect(() => {
+    //user
     connection.on("createdUser", (newUser) => {
-      //AddUser(newUser);
       toast.success(`New user registered: ${newUser.userName}`);
     });
 
     connection.on("updatedUser", (updatedUserId) => {
-      //ModifyUser(updatedUserId, user);
       toast.info(`User updated: ${updatedUserId.userName}`);
-      // <CustomToastBS
-      //   message={`User updated: ${updatedUserId.userName}`}
-      //   timestamp={Date.now()}
-      // />;
     });
 
     connection.on("deletedUser", (deletedUserId) => {
-      //RemoveUser(deletedUserId);
       toast.info(`User deleted: ${deletedUserId.userName}`);
     });
+    //user
+    connection.on('createdCategory', (newCategory) => {
+      toast.success(`New Category registered: ${newCategory.name}`);
+    });
+
+    connection.on('updatedCategory', (updatedCategoryId) => {
+      toast.info(`category updated: ${updatedCategoryId.name}`);
+    });
+
+    connection.on('deletedCategory', (deletedCategoryId) => {
+      toast.info(`Category deleted: ${deletedCategoryId.name}`);
+    });
+    //job
+    connection.on('createdJob', (newJob) => {
+      toast.success(`New Job registered: ${newJob.title}`);
+    });
+
+    connection.on('updatedJob', (updatedJobId) => {
+      toast.info(`Job updated: ${updatedJobId.title}`);
+    });
+
+    connection.on('deletedJob', (deletedJobId) => {
+      toast.info(`Job deleted: ${deletedJobId.title}`);
+    });
+
+    //application
+    connection.on('createdApplication', (newApplication) => {
+      toast.success(`New Application registered: ${newApplication.id}`);
+    });
+
+    connection.on('updatedApplication', (updatedApplicationId) => {
+      toast.info(`Application updated: ${updatedApplicationId.id}`);
+    });
+
+    connection.on('deletedApplication', (deletedApplicationId) => {
+      toast.info(`Application deleted: ${deletedApplicationId.id}`);
+    });
+
+
 
     return () => {
+      //user
       connection.off("createdUser");
       connection.off("updatedUser");
       connection.off("deletedUser");
+      //category
+      connection.off('createdCategory');
+      connection.off('updatedCategory')
+      connection.off('deletedCategory');
+      //job
+      connection.off('createdJob');
+      connection.off('updatedJob')
+      connection.off('deletedJob');
+      //application
+      connection.off('createdApplication');
+      connection.off('updatedApplication')
+      connection.off('deletedApplication');
+
     };
-  }, [AddUser, ModifyUser, RemoveUser]);
+  }, [AddUser, ModifyUser, RemoveUser, AddCategory, ModifyCategory, RemoveCategory, AddJob, ModifyJob, RemoveJob, AddApplication, ModifyApplication, RemoveApplication]);
 
   return (
     <div className="container-xxl position-relative bg-white d-flex p-0">
