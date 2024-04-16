@@ -5,6 +5,8 @@ import Swal from 'sweetalert2'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import ModalOTP from '../ModalOTP';
 import useAuth from '../../../hooks/authHook';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 const LoginBody = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -41,12 +43,19 @@ const LoginBody = () => {
     const params = new URLSearchParams(location.search);
     const confirmEmail = params.get('confirmEmail');
     const checkConfirm = params.get('checkConfirm');
-
+    const checkOTP = params.get('checkOTP');
     if(confirmEmail === 'true') {
       Swal.fire('Successful', 'Email confirmed. You can now log in.', 'success');
     }
     if (checkConfirm === 'true') {
       Swal.fire('Successful', 'Please click on the link in the email to confirm your account.', 'success');
+    }
+    if (checkOTP) {
+      // Decode the token
+      const decodedToken = jwtDecode(checkOTP);
+      // console.log(decodedToken);
+      setUsername(decodedToken.UserName);
+      setIsModalOpen(true);
     }
   }, [location]);
 

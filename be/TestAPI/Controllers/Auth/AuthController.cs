@@ -347,6 +347,12 @@ namespace TestAPI.Controllers.Auth
                 //return BadRequest("Email not confirmed. A confirmation email has been sent.");
             }
 
+            // Get user roles
+            var roles = await _userManager.GetRolesAsync(user);
+
+            // Generate a JWT for the user
+            var tokenString = _authService.GenerateTokenString(user.UserName, roles, user.Id);
+
             // Generate OTP
             if (user.TwoFactorEnabled)
             {
@@ -354,15 +360,10 @@ namespace TestAPI.Controllers.Auth
                 await _userManager.SetAuthenticationTokenAsync(user, "2FA", "OTP", otp);
                 await _emailService.SendEmailAsync(user.UserName, "Your OTP", $"Your OTP is {otp}");
 
-                return Ok(new { Message = "OTP has been sent to your email. Please verify it." });
+                //return Ok(new { Message = "OTP has been sent to your email. Please verify it." });
+                return Redirect($"http://localhost:3000/signin?checkOTP={tokenString}");
             }
-
-            // Get user roles
-            var roles = await _userManager.GetRolesAsync(user);
-
-            // Generate a JWT for the user
-            var tokenString = _authService.GenerateTokenString(user.UserName, roles, user.Id);
-
+            
             // Return the token to the client
             //return Ok(new { Message = "Login Success!", Token = tokenString });
             return Redirect($"http://localhost:3000/callback?token={tokenString}");

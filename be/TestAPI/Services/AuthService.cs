@@ -60,7 +60,7 @@ namespace TestAPI.Services
         public string GenerateTokenString(string userName, IList<string> roles, string userId)
         {
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.Email, userName),
+                new Claim("UserName", userName),
                 new Claim("Role", string.Join(",", roles)),
                 new Claim("UserId", userId)
             };

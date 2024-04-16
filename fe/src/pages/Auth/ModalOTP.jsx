@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CustomModal from './CustomModal';
 import useAuth from '../../hooks/authHook';
+import { event } from 'jquery';
 
 const ModalOTP = ({ isOpen, onClose, username }) => {
     const [otp, setOtp] = useState('');
@@ -10,7 +11,8 @@ const ModalOTP = ({ isOpen, onClose, username }) => {
     };
     const { confirmOTP } = useAuth();
 
-    const handleConfirm = async () => {
+    const handleConfirm = async (event) => {
+        event.preventDefault();
         await confirmOTP(username, otp);
     };
 
@@ -24,7 +26,7 @@ const ModalOTP = ({ isOpen, onClose, username }) => {
                 <input type="text" value={otp} onChange={handleOtpChange} className="form-control" placeholder='Enter OTP' />
             </div>
             <div className="modal-footer">
-                <button onClick={handleConfirm} className="btn btn-primary">Confirm</button>
+                <button onClick={(event) => handleConfirm(event)} className="btn btn-primary">Confirm</button>
             </div>
         </CustomModal>
     );

@@ -103,12 +103,12 @@ const useAuth = () => {
           window.location.href = "/";
         }
         Cookies.set("token", response.data.token, { expires: 7 });
-        return true;
+        // return true;
       }
-      return false;
+      // return false;
     } catch (error) {
       Swal.fire("Error", error.response.data, "error");
-      return false;
+      // return false;
     }
   };
 
