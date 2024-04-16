@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const CategoryModal = ({ AddCategory }) => {
   const [name, setName] = useState("");
 
-  const ToggleModal = async () => {
+  const ToggleCategoryModal = async () => {
     const category = {
       name,
     };
@@ -75,7 +75,7 @@ const CategoryModal = ({ AddCategory }) => {
                 type="button"
                 className="btn btn-primary"
                 data-dismiss="modal"
-                onClick={ToggleModal}
+                onClick={ToggleCategoryModal}
               >
                 Save changes
               </button>

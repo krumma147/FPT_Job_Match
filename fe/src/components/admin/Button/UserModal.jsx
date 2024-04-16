@@ -10,7 +10,7 @@ const UserModal = ({ AddUser, data, ModifyUser, id }) => {
   const [role, setRole] = useState("");
   const [phone, setPhone] = useState("");
 
-  const ToggleModal = async () => {
+  const ToggleUserModal = async () => {
     const user = {
       fullName: fullname,
       userName: username,
@@ -181,7 +181,7 @@ const UserModal = ({ AddUser, data, ModifyUser, id }) => {
                 type="button"
                 class="btn btn-primary"
                 data-dismiss="modal"
-                onClick={ToggleModal}
+                onClick={ToggleUserModal}
               >
                 Save changes
               </button>

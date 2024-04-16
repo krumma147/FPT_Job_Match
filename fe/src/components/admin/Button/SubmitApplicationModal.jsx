@@ -25,7 +25,7 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
     }
   };
 
-  const toggleModal = async () => {
+  const toggleSubmitModal = async () => {
     const application = {
       userId: userId,
       resume,
@@ -132,7 +132,7 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
                 type="button"
                 className="btn btn-primary"
                 data-dismiss="modal"
-                onClick={toggleModal}
+                onClick={toggleSubmitModal}
               >
                 Save changes
               </button>

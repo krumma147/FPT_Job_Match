@@ -43,7 +43,7 @@ const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
 
   return (
     <>
-      <CustomToastContainer />
+      {/* <CustomToastContainer /> */}
       <div className="bg-grayE8 rounded h-100 p-4 m-4">
         <div className="row mb-4">
           <h4 className="col">Jobs Manager</h4>

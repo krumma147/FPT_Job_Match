@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../../styles/admin/css/style.css";
 import Sidebar from "../../components/admin/Sidebar";
 import Navbar from "../../components/admin/NavBar";
@@ -8,6 +8,10 @@ import RecentSales from "../../components/admin/RecentSales";
 import Widget from "../../components/admin/Widget";
 import Spinner from "../../components/admin/Spinner";
 import Footer from "../../components/admin/Footer";
+// Notification
+import { toast } from "react-toastify";
+import CustomToastBS from "../../components/admin/Notification/CustomToastBS";
+import CustomToastContainer from "../../components/admin/Notification/CustomToastContainer";
 // Hooks
 import CategoryHook from "../../hooks/CategoryHook";
 import JobHooks from "../../hooks/JobHook";
@@ -18,12 +22,13 @@ import ApplicationPanel from "../../components/admin/TabPanelContents/Applicatio
 import UserPanel from "../../components/admin/TabPanelContents/UserPanel";
 import CategoryPanel from "../../components/admin/TabPanelContents/CategoryPanel";
 import JobPanel from "../../components/admin/TabPanelContents/JobPanel";
+// Socket
+import connection from "../../Service/signalRConfig";
 export default function AdminMainPage() {
   const [categories, setCategories] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [users, setUsers] = useState([]);
   const [applications, setApplications] = useState([]);
-
   const fetchData = async () => {
     const categorydata = await CategoryHook.GetAllCategory();
     // console.log(categorydata.jobCategories);
@@ -38,10 +43,6 @@ export default function AdminMainPage() {
     //console.log(applicationsData);
     setApplications(applicationsData.applications);
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const AddCategory = async (cat) => {
     const res = await CategoryHook.CreateCategory(cat);
@@ -110,34 +111,63 @@ export default function AdminMainPage() {
     alert("Delete User successful!");
     await fetchData();
   };
-  const AddUser = async (user) => {
+  const AddUser = useCallback(async (user) => {
     try {
       const res = await UserHook.CreateUser(user);
       if (res !== null) alert("Create User success!");
     } catch (err) {
       alert(err);
     }
-    //alert(res);
-    //console.log(res);
     await fetchData();
-  };
+  }, []);
 
-  const ModifyUser = async (id, user) => {
+  const ModifyUser = useCallback(async (id, user) => {
     const res = await UserHook.EditUser(id, user);
     console.log(res);
-    if (res !== null) alert("Edit User success!");
     await fetchData();
-  };
+  }, []);
 
-  const RemoveUser = async (id) => {
+  const RemoveUser = useCallback(async (id) => {
     const res = await UserHook.DeleteUser(id);
     console.log(res);
     alert("Delete User successful!");
     await fetchData();
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    connection.on("createdUser", (newUser) => {
+      //AddUser(newUser);
+      toast.success(`New user registered: ${newUser.userName}`);
+    });
+
+    connection.on("updatedUser", (updatedUserId) => {
+      //ModifyUser(updatedUserId, user);
+      toast.info(`User updated: ${updatedUserId.userName}`);
+      // <CustomToastBS
+      //   message={`User updated: ${updatedUserId.userName}`}
+      //   timestamp={Date.now()}
+      // />;
+    });
+
+    connection.on("deletedUser", (deletedUserId) => {
+      //RemoveUser(deletedUserId);
+      toast.info(`User deleted: ${deletedUserId.userName}`);
+    });
+
+    return () => {
+      connection.off("createdUser");
+      connection.off("updatedUser");
+      connection.off("deletedUser");
+    };
+  }, [AddUser, ModifyUser, RemoveUser]);
 
   return (
     <div className="container-xxl position-relative bg-white d-flex p-0">
+      <CustomToastContainer />
       {/* <Spinner /> */}
       <div className="sidebar pe-4 pb-3 bg-grayE8">
         <Sidebar />

@@ -18,7 +18,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
   const [status, setStatus] = useState(false);
   let jobStatus = status ? "open" : "closed";
 
-  const ToggleModal = async () => {
+  const ToggleJobModal = async () => {
     const salary = "$ " + salaryRange.toString();
     const jobDate = new Date(selectedDate).toISOString();
     if (isRangeEnabled) {
@@ -304,7 +304,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
                 type="button"
                 class="btn btn-primary"
                 data-dismiss="modal"
-                onClick={ToggleModal}
+                onClick={ToggleJobModal}
               >
                 Save changes
               </button>

@@ -4,13 +4,17 @@ const UserDetailsModal = ({ user, id }) => {
   const [showModal, setShowModal] = useState(false);
   //console.log(user);
 
-  const toggleModal = () => {
+  const toggleUserDetailModal = () => {
     setShowModal(!showModal);
   };
 
   return (
     <>
-      <button type="button" className="btn btn-link" onClick={toggleModal}>
+      <button
+        type="button"
+        className="btn btn-link"
+        onClick={toggleUserDetailModal}
+      >
         {user.fullName}
       </button>
 
@@ -20,7 +24,7 @@ const UserDetailsModal = ({ user, id }) => {
           tabIndex="-1"
           role="dialog"
           style={{ display: "block" }}
-          onClick={toggleModal}
+          onClick={toggleUserDetailModal}
         >
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
@@ -29,7 +33,7 @@ const UserDetailsModal = ({ user, id }) => {
                 <button
                   type="button"
                   className="btn-close"
-                  onClick={toggleModal}
+                  onClick={toggleUserDetailModal}
                 />
               </div>
               <div className="modal-body">

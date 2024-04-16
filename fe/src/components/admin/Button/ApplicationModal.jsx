@@ -16,7 +16,7 @@ const ApplicationModal = ({
   const [job, setJob] = useState("");
   const [user, setUser] = useState("");
 
-  const ToggleModal = async () => {
+  const ToggleApplicationModal = async () => {
     const application = {
       userId: user,
       resume,
@@ -208,7 +208,7 @@ const ApplicationModal = ({
                 type="button"
                 class="btn btn-primary"
                 data-dismiss="modal"
-                onClick={ToggleModal}
+                onClick={ToggleApplicationModal}
               >
                 Save changes
               </button>

@@ -7,8 +7,8 @@ const UserHook = {
       const response = await axios.get(`${apiURL}/User`);
       return response.data;
     } catch (error) {
-      //console.error(`Can't create account! ${error}`);
-      return error;
+      console.error(`Can't get all account! ${error}`);
+      //return error;
     }
   },
 
@@ -19,7 +19,7 @@ const UserHook = {
       return response.data;
     } catch (error) {
       console.error(`Can't create account! ${error}`);
-      return error;
+      //return error;
     }
   },
 
@@ -29,8 +29,8 @@ const UserHook = {
       const response = await axios.put(`${apiURL}/User/${id}`, user);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
-      return error;
+      console.error(`Can't edit account! ${error}`);
+      //return error;
     }
   },
 
@@ -40,8 +40,8 @@ const UserHook = {
       const response = await axios.delete(`${apiURL}/User/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
-      return error;
+      console.error(`Can't delete user! ${error}`);
+      //return error;
     }
   },
   GetUserById: async (id) => {
@@ -50,8 +50,8 @@ const UserHook = {
       const response = await axios.get(`${apiURL}/User/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
-      return error;
+      console.error(`Can't get user! ${error}`);
+      //return error;
     }
   },
 };

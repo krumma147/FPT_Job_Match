@@ -5,7 +5,7 @@ import { mdiFileEdit } from "@mdi/js";
 const EditCategoryModal = ({ EditCategory, Data }) => {
   const [name, setName] = useState(Data?.name);
 
-  const ToggleModal = async () => {
+  const ToggleEditCatModal = async () => {
     const category = {
       name,
     };
@@ -78,7 +78,7 @@ const EditCategoryModal = ({ EditCategory, Data }) => {
                 type="button"
                 class="btn btn-primary"
                 data-dismiss="modal"
-                onClick={ToggleModal}
+                onClick={ToggleEditCatModal}
               >
                 Save changes
               </button>

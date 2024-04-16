@@ -47,7 +47,7 @@ const CategoryPanel = ({
 
   return (
     <>
-      <CustomToastContainer />
+      {/* <CustomToastContainer /> */}
       <div className="bg-grayE8 rounded h-100 p-4 m-4">
         <div className="row mb-4">
           <h4 className="col">Category Manager</h4>
