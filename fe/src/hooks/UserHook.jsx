@@ -54,6 +54,25 @@ const UserHook = {
       //return error;
     }
   },
+  GetUser2FAStatus: async (id) => {
+    try {
+      const response = await axios.get(`https://localhost:7282/api/Home/${id}`);
+      return response.data;
+    } catch (e) {
+      console.error(`Cant get user two factor status! ${e}`);
+    }
+  },
+  SetUser2FAStatus: async (id, status) => {
+    try {
+      const response = await axios.put(
+        `https://localhost:7282/api/Home/Check2FA/${id}`,
+        status
+      );
+      return response.data;
+    } catch (e) {
+      console.error(`Cant set user two factor status! ${e}`);
+    }
+  },
 };
 
 export default UserHook;

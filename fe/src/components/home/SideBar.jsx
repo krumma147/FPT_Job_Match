@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 export default function SideBar({ jobs, categories }) {
-  const [visibleJobs, setVisibleJobs] = useState(7);
+  const [visibleJobs, setVisibleJobs] = useState(5);
   const [showAll, setShowAll] = useState(false);
 
   const toggleShowAll = () => {
@@ -41,7 +41,7 @@ export default function SideBar({ jobs, categories }) {
                           </div>
                           <div className="job-desc">
                             <div className="job-title">
-                              <a href={`/jobs/detail/${j.id}`}>{j.title}</a>
+                              <a href={`/jobdetail/${j.id}`}>{j.title}</a>
                             </div>
                             <div className="job-company">
                               <a href="#">Fpt Software</a>
@@ -87,7 +87,10 @@ export default function SideBar({ jobs, categories }) {
                             </div>
                           </div>
                           <div className="wrap-btn-appl">
-                            <a href="#" className="btn btn-appl">
+                            <a
+                              href={`/jobdetail/${j.id}`}
+                              className="btn btn-appl"
+                            >
                               Apply Now
                             </a>
                           </div>

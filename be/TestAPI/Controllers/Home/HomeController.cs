@@ -36,5 +36,16 @@ namespace TestAPI.Controllers.Home
 
             return Ok("Two-factor authentication has been enabled for your account.");
         }
+
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserTwoFactorStatus(string userId, bool status)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{userId}'.");
+            }
+            return Ok(new {message="Success", status=user.TwoFactorEnabled});
+        }
     }
 }

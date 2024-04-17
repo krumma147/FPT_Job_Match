@@ -12,16 +12,25 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
   const [coverLetter, setCoverLetter] = useState("");
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const [userId, setUserId] = useState({});
-  const activeModal = (e) => {
-    e.preventDefault();
-    if (!token && checkAccess("JobSeeker")) {
-      alert("You must sign in to apply for this job!");
+  //console.log(token, checkAccess("JobSeeker"));
+  if (token && checkAccess("JobSeeker")) {
+    console.log("Have token");
+  } else {
+    console.log("Doesn't have token");
+  }
+  const activeModal = () => {
+    if (!getUserId()) {
+      //console.log("Doesn't Have token");
+      alert("You must sign in first!");
       history.push("/signin");
       window.location.reload();
-    } else {
-      console.log(getUserId());
+    } else if(checkAccess() !== "jobseeker"){
+      alert("Only job seeker could apply!");
+        history.push("/");
+        window.location.reload();
+    }else{
       const id = getUserId();
-      setUserId(id);
+        setUserId(id);
     }
   };
 
@@ -94,7 +103,7 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
         className="btn btn-primary btn-apply"
         data-toggle="modal"
         data-target={`#EditApplicationModal${id}`}
-        onClick={(e) => activeModal(e)}
+        onClick={activeModal}
       >
         <Icon path={mdiArrowUpBox} size={1} />
         Submit
