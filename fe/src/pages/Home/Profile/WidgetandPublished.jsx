@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { getUserId, getUserName } from "../../Auth/Auth";
 import UserHook from "../../../hooks/UserHook";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 // import Swal from "sweetalert2";
 const toggle2FA = async (userId, enable) => {
   try {
@@ -34,7 +34,7 @@ const toggle2FA = async (userId, enable) => {
 };
 
 export default function WidgetandPublished() {
-  const [is2FAEnabled, setIs2FAEnabled] = useState(false); // Assume 2FA is disabled initially
+  const [FAStatus, setFAStatus] = useState(false); //
   const [userId, setUserId] = useState(null);
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -44,29 +44,47 @@ export default function WidgetandPublished() {
   const [userName, setUserName] = useState("");
 
   const fetchUserData = async () => {
-    const id = await getUserId();
-    const userData = await UserHook.GetUserById(id);
-    const Fa2Status = await UserHook.GetUser2FAStatus(id);
-    console.log(Fa2Status);
-    //console.log("userId:", id);
-    //console.log("user:", userData);
-    setUserId(id);
-    setData(userData);
-    setFullName(userData.fullName);
-    setPhoneNumber(userData.user.phoneNumber);
-    setEmail(userData.user.email);
-    setUserName(userData.user.userName);
-    setIs2FAEnabled(Fa2Status.data);
-  };
-
-  const handleToggle2FA = () => {
-    // Cập nhật trạng thái is2FAEnabled
-    setIs2FAEnabled(!is2FAEnabled);
+    try {
+      const id = await getUserId();
+      const userData = await UserHook.GetUserById(id);
+      const Fa2Status = await UserHook.GetUser2FAStatus(id);
+      console.log(Fa2Status);
+      if (userData && userData.fullName) {
+        setUserId(id);
+        setData(userData);
+        setFullName(userData.fullName);
+        setPhoneNumber(userData.user.phoneNumber);
+        setEmail(userData.user.email);
+        setUserName(userData.user.userName);
+        setFAStatus(Fa2Status.status);
+      } else {
+        console.error("User data or full name is undefined");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   };
 
   useEffect(() => {
     fetchUserData();
   }, []);
+
+  const handleChange2FA = async () => {
+    if (
+      window.confirm(
+        `Are you sure you want to turn 2 factor authentication ${
+          FAStatus ? "on" : "off"
+        }?`
+      )
+    ) {
+      const faStatus = {
+        enable: !FAStatus,
+      };
+      const res2 = await UserHook.SetUser2FAStatus(userId, faStatus);
+      alert(res2);
+      fetchUserData();
+    }
+  };
 
   const handleSubmitEdit = async () => {
     try {
@@ -78,14 +96,10 @@ export default function WidgetandPublished() {
         UserName: userName,
         role: data.roles[0],
       };
-      const faStatus = {
-        enable: is2FAEnabled,
-      };
       const res = await UserHook.EditUser(userId, editUser);
-      const res2 = await UserHook.SetUser2FAStatus(userId, faStatus);
       //   Swal.fire("Successful", res.data, "success");
       fetchUserData();
-      alert(res + " " + res2);
+      alert(res);
     } catch (error) {
       console.error(error.message);
     }
@@ -142,96 +156,110 @@ export default function WidgetandPublished() {
                       aria-labelledby="headingOne"
                       data-parent="#accordionExample"
                     >
-                      <div className="card-body recuitment-body row">
-                        <div className="col-md-3">
-                          <div className="avatar-upload">
-                            <div className="avatar-edit">
-                              <input
-                                type="file"
-                                id="imageUpload"
-                                accept=".png, .jpg, .jpeg"
-                              />
-                              <label htmlFor="imageUpload" />
+                      <div className="card-body recuitment-body">
+                        <div className="row">
+                          <div className="col-md-3">
+                            <div className="avatar-upload">
+                              <div className="avatar-edit">
+                                <input
+                                  type="file"
+                                  id="imageUpload"
+                                  accept=".png, .jpg, .jpeg"
+                                />
+                                <label htmlFor="imageUpload" />
+                              </div>
+                              <div className="avatar-preview">
+                                <div
+                                  id="imagePreview"
+                                  style={{
+                                    backgroundImage:
+                                      "url(https://i.pravatar.cc/500?img=7)",
+                                  }}
+                                ></div>
+                              </div>
                             </div>
-                            <div className="avatar-preview">
-                              <div
-                                id="imagePreview"
-                                style={{
-                                  backgroundImage:
-                                    "url(https://i.pravatar.cc/500?img=7)",
-                                }}
-                              ></div>
+                          </div>
+                          <div className="col-md-9">
+                            <div className="form-group row">
+                              <label className="col-sm-3 col-form-label text-right label">
+                                Họ tên
+                                <span style={{ color: "red" }} className="pl-2">
+                                  *
+                                </span>
+                              </label>
+                              <div className="col-sm-9">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Nhập họ và tên"
+                                  value={fullName}
+                                  onChange={(e) => setFullName(e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            <div className="form-group row">
+                              <label className="col-sm-3 col-form-label text-right label">
+                                Số điện thoại
+                              </label>
+                              <div className="col-sm-9">
+                                <input
+                                  type="number"
+                                  className="form-control"
+                                  value={phoneNumber}
+                                  onChange={(e) =>
+                                    setPhoneNumber(e.target.value)
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div className="form-group row">
+                              <label className="col-sm-3 col-form-label text-right label">
+                                Email
+                              </label>
+                              <div className="col-sm-9">
+                                <input
+                                  type="email"
+                                  className="form-control"
+                                  value={email}
+                                  onChange={(e) => setEmail(e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            <div className="form-group row">
+                              <label className="col-sm-3 col-form-label text-right label">
+                                Password
+                              </label>
+                              <div className="col-sm-9">
+                                <input
+                                  type="password"
+                                  className="form-control"
+                                  value={password}
+                                  onChange={(e) => setPassword(e.target.value)}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
-                        <div className="col-md-9">
-                          <div className="form-group row">
-                            <label className="col-sm-3 col-form-label text-right label">
-                              Họ tên
-                              <span style={{ color: "red" }} className="pl-2">
-                                *
-                              </span>
-                            </label>
-                            <div className="col-sm-9">
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Nhập họ và tên"
-                                value={fullName}
-                                onChange={(e) => setFullName(e.target.value)}
-                              />
-                            </div>
+                        {/* Other Setting ( 2 Factor Authentication ) */}
+                        <div className="row">
+                          <div className="col-md-8">
+                            <h4>
+                              Two Factor Authentication status:{" "}
+                              {FAStatus ? "Enable" : "Disable"}
+                            </h4>
                           </div>
-                          <div className="form-group row">
-                            <label className="col-sm-3 col-form-label text-right label">
-                              Số điện thoại
-                            </label>
-                            <div className="col-sm-9">
-                              <input
-                                type="number"
-                                className="form-control"
-                                value={phoneNumber}
-                                onChange={(e) => setPhoneNumber(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="form-group row">
-                            <label className="col-sm-3 col-form-label text-right label">
-                              Email
-                            </label>
-                            <div className="col-sm-9">
-                              <input
-                                type="email"
-                                className="form-control"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="form-group row">
-                            <label className="col-sm-3 col-form-label text-right label">
-                              Password
-                            </label>
-                            <div className="col-sm-9">
-                              <input
-                                type="password"
-                                className="form-control"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-group row">
-                            <Form>
-                            <Form.Check
-                              type="switch"
-                              id="custom-switch"
-                              label={`Two Factor Authentication status: ${is2FAEnabled ? "Active" : "Inactive"}`}
-                              value={is2FAEnabled}
-                              onChange={handleToggle2FA}
-                            />
-                          </Form>
+                          <div className="col">
+                            <button
+                              type="button"
+                              class={
+                                FAStatus
+                                  ? "btn btn-success"
+                                  : "btn btn-secondary"
+                              }
+                              onClick={handleChange2FA}
+                            >
+                              {FAStatus ? "Turn On" : "Turn Off"}
+                            </button>
                           </div>
                         </div>
                       </div>
