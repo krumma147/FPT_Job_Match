@@ -13,24 +13,20 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const [userId, setUserId] = useState({});
   //console.log(token, checkAccess("JobSeeker"));
-  if (token && checkAccess("JobSeeker")) {
-    console.log("Have token");
-  } else {
-    console.log("Doesn't have token");
-  }
+  //console.log(checkAccess("jobseeker") === "jobseeker");
   const activeModal = () => {
     if (!getUserId()) {
       //console.log("Doesn't Have token");
       alert("You must sign in first!");
       history.push("/signin");
       window.location.reload();
-    } else if(checkAccess() !== "jobseeker"){
+    } else if (!checkAccess("jobseeker")) {
       alert("Only job seeker could apply!");
-        history.push("/");
-        window.location.reload();
-    }else{
+      history.push("/");
+      window.location.reload();
+    } else {
       const id = getUserId();
-        setUserId(id);
+      setUserId(id);
     }
   };
 

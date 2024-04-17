@@ -1,44 +1,44 @@
-import React from 'react'
-import { jwtDecode } from 'jwt-decode';
-import Cookies from 'js-cookie';
+import React from "react";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 export const checkAccess = (allowedRoles) => {
-    const token = Cookies.get('token');
+  const token = Cookies.get("token");
 
-    if (!token) {
-        return false;
-    }
+  if (!token) {
+    return false;
+  }
 
-    const decodedToken = jwtDecode(token);
-
-    return allowedRoles.includes(decodedToken.Role);
+  const decodedToken = jwtDecode(token);
+  console.log(decodedToken.Role);
+  return allowedRoles.includes(decodedToken.Role);
 };
 
 export function checkAuth() {
-    const token = Cookies.get('token');
-    return token != null;
+  const token = Cookies.get("token");
+  return token != null;
 }
 
 export const getUserId = () => {
-    const token = Cookies.get('token');
+  const token = Cookies.get("token");
 
-    if (!token) {
-        return null;
-    }
+  if (!token) {
+    return null;
+  }
 
-    const decodedToken = jwtDecode(token);
+  const decodedToken = jwtDecode(token);
 
-    return decodedToken.UserId;
+  return decodedToken.UserId;
 };
 
 export const getUserName = () => {
-    const token = Cookies.get('token');
+  const token = Cookies.get("token");
 
-    if (!token) {
-        return null;
-    }
+  if (!token) {
+    return null;
+  }
 
-    const decodedToken = jwtDecode(token);
+  const decodedToken = jwtDecode(token);
 
-    return decodedToken.UserName;
+  return decodedToken.UserName;
 };
