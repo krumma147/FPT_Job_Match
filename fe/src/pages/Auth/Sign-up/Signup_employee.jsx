@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useAuth from "../../../hooks/authHook";
+import Swal from "sweetalert2";
 
 const SignupEmployee = () => {
   const [name, setName] = useState("");
@@ -20,7 +21,8 @@ const SignupEmployee = () => {
 
   const handleFacebookLogin = (event) => {
     event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=JobSeeker');
+    // window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=JobSeeker');
+    Swal.fire('Info', 'This function is currently under maintenance!', 'info');
   }
 
   return (

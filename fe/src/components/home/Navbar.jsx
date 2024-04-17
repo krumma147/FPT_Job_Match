@@ -1,6 +1,7 @@
 import React from "react";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
+import { checkAccess } from "../../pages/Auth/Auth";
 
 export default function Navbar(props) {
   const isLoggedIn = !!Cookies.get("token");
@@ -35,42 +36,6 @@ export default function Navbar(props) {
                 <a className="nav-link" href="/jobs">
                   Việc Làm IT
                 </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Tin Tức
-                </a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  Page
-                </a>
-                <div
-                  className="dropdown-menu tdropdown"
-                  aria-labelledby="navbarDropdown"
-                >
-                  <a className="dropdown-item" href="/jobDetail">
-                    Job detail
-                  </a>
-                  <a className="dropdown-item" href="/profile">
-                    Profile
-                  </a>
-                  <a className="dropdown-item" href="/postnews">
-                    Post news
-                  </a>
-                  <div className="dropdown-divider" />
-                  <a className="dropdown-item" href="/jobseeker">
-                    Job Seeker
-                  </a>
-                </div>
               </li>
             </ul>
             <ul className="navbar-nav mr-auto my-2 my-lg-0 tnav-right tn-nav">
@@ -109,12 +74,12 @@ export default function Navbar(props) {
                 <>
                   <li className="nav-item">
                     <a className="nav-link" href="/signup">
-                      Đăng Ký
+                      Sign Up
                     </a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="/signin">
-                      Đăng Nhập
+                      Sign In
                     </a>
                   </li>
                 </>
@@ -140,16 +105,19 @@ export default function Navbar(props) {
                   </a>
                 </div>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link btn-employers"
-                  href="#"
-                  tabIndex={-1}
-                  aria-disabled="true"
-                >
-                  Nhà Tuyển Dụng
-                </a>
-              </li>
+              
+              {checkAccess(['Employer']) && (
+                <li className="nav-item">
+                  <a
+                    className="nav-link btn-employers"
+                    href="/postnews"
+                    tabIndex={-1}
+                    aria-disabled="true"
+                  >
+                    Post Job
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </nav>

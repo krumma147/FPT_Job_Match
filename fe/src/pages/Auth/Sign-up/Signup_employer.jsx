@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 // import Loading from "../../Share/Loading";
 
 const SignupEmployeer = ({ registerHandler }) => {
@@ -55,7 +56,8 @@ const SignupEmployeer = ({ registerHandler }) => {
   };
   const handleFacebookLogin = (event) => {
     event.preventDefault();
-    window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=Employer');
+    // window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=Employer');
+    Swal.fire('Info', 'This function is currently under maintenance!', 'info');
   }
 
   return (
