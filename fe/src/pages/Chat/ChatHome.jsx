@@ -28,7 +28,7 @@ const ChatHome = ({ username }) => {
         position: fixed;
         right: 0;
         bottom: 0;
-        margin-bottom: 15rem;
+        margin-bottom: 10rem;
         `;
     return (
         <div>
@@ -36,7 +36,7 @@ const ChatHome = ({ username }) => {
                 Chat
             </StyledButton>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Chat with Admin</Modal.Title>
                 </Modal.Header>
@@ -56,9 +56,6 @@ const ChatHome = ({ username }) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
                     <Button variant="primary" onClick={handleSend}>
                         Send
                     </Button>

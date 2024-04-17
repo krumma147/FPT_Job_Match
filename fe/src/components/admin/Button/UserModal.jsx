@@ -145,7 +145,7 @@ const UserModal = ({ AddUser, data, ModifyUser, id }) => {
         ) : (
           <Icon path={mdiPlusCircle} size={1} />
         )}
-        {data ? `Edit` : `User`}
+        {data ? `` : `User`}
       </button>
 
       <div

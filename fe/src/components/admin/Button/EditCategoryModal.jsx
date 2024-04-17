@@ -42,7 +42,7 @@ const EditCategoryModal = ({ EditCategory, Data }) => {
         data-target={`#EditCategoryModal${Data.id}`}
         onClick={OpenModal}
       >
-        <Icon path={mdiFileEdit} size={1} /> Edit
+        <Icon path={mdiFileEdit} size={1} />
       </button>
 
       <div

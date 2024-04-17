@@ -58,13 +58,15 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
 
   const ActiveModal = (e) => {
     e.preventDefault();
-    setTitle(data.title);
+    if(data !== undefined){
+      setTitle(data.title);
     setDescription(data.description);
     setCategory(data.jobCategoryId);
     setSkill(data.skill_required);
     setEducation(data.education_required);
     setSelectedDate(data.application_deadline);
     data.status === "open" ? setStatus(true) : setStatus(false);
+    }
   };
 
   const CloseModal = () => {

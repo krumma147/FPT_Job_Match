@@ -56,7 +56,7 @@ const CategoryPanel = ({
                         className="btn btn-danger"
                         onClick={(e) => HandleDelete(e, cat.id)}
                       >
-                        <Icon path={mdiTrashCan} size={1} /> Delete
+                        <Icon path={mdiTrashCan} size={1} />
                       </button>
                     </div>
                   </td>

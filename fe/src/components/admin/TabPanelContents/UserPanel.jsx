@@ -83,7 +83,7 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
                           className="btn btn-danger"
                           onClick={(e) => HandleDelete(e, user.user.id)}
                         >
-                          <Icon path={mdiTrashCan} size={1} /> Delete
+                          <Icon path={mdiTrashCan} size={1} />
                         </button>
                       </div>
                     </td>

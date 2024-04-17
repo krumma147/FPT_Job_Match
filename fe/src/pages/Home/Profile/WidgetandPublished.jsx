@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { getUserId } from "../../Auth/Auth";
+import { getUserId, getUserName } from "../../Auth/Auth";
 import UserHook from "../../../hooks/UserHook";
 import { Form } from "react-bootstrap";
 // import Swal from "sweetalert2";
@@ -163,15 +163,6 @@ export default function WidgetandPublished() {
                               ></div>
                             </div>
                           </div>
-                          <Form>
-                            <Form.Check
-                              type="switch"
-                              id="custom-switch"
-                              label="Check this switch"
-                              value={is2FAEnabled}
-                              onChange={handleToggle2FA}
-                            />
-                          </Form>
                         </div>
                         <div className="col-md-9">
                           <div className="form-group row">
@@ -230,6 +221,18 @@ export default function WidgetandPublished() {
                               />
                             </div>
                           </div>
+
+                          <div className="form-group row">
+                            <Form>
+                            <Form.Check
+                              type="switch"
+                              id="custom-switch"
+                              label={`Two Factor Authentication status: ${is2FAEnabled ? "Active" : "Inactive"}`}
+                              value={is2FAEnabled}
+                              onChange={handleToggle2FA}
+                            />
+                          </Form>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -255,7 +258,7 @@ export default function WidgetandPublished() {
                   <img src="assets/home/img/icon_avatar.jpg" />
                 </div>
                 <div className="clearfix list-rec">
-                  <h4>Hồ Quốc Hiếu</h4>
+                  <h4>{fullName}</h4>
                   <ul>
                     <li>
                       <a href="#">

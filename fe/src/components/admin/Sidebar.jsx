@@ -1,4 +1,5 @@
 import React from "react";
+import { getUserName } from "../../pages/Auth/Auth";
 
 const Sidebar = () => {
   return (
@@ -13,13 +14,13 @@ const Sidebar = () => {
         <div className="position-relative">
           <img
             className="rounded-circle"
-            src="./assets/admin/img/user.jpg"
+            src="./assets/home/img/jobseeker.jpg"
             style={{ width: 40, height: 40 }}
           />
           <div className="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1" />
         </div>
         <div className="ms-3">
-          <h6 className="mb-0">Jhon Doe</h6>
+          <h6 className="mb-0">{getUserName()}</h6>
           <span>Admin</span>
         </div>
       </div>

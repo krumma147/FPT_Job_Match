@@ -21,7 +21,7 @@ const ChatAdmin = ({ user, messages: initialMessages, onClose }) => {
     }
     // console.log(messages);
     return (
-        <Modal show={true} onHide={onClose}>
+        <Modal show={true} onHide={onClose} centered>
             <Modal.Header closeButton>
                 <Modal.Title>Chat with {user.user.email}</Modal.Title>
             </Modal.Header>

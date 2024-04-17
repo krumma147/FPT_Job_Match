@@ -1,5 +1,9 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from "react";
-// import { useAuth } from "../middleware/AuthContext";
+import { getUserName } from "../../pages/Auth/Auth";
+import 'bootstrap/dist/js/bootstrap.bundle';
+import Cookies from "js-cookie";
+import { useHistory } from "react-router-dom";
 const Navbar = () => {
   //   const { user } = useAuth();
   const toggleSidebar = () => {
@@ -7,6 +11,14 @@ const Navbar = () => {
     sidebar.classList.toggle("open");
     const content = document.querySelector(".content");
     content.classList.toggle("open");
+  };
+  const isLoggedIn = !!Cookies.get("token");
+  const history = useHistory();
+
+  const HandleLogout = () => {
+    Cookies.remove("token");
+    history.push("/signin");
+    window.location.reload();
   };
 
   return (
@@ -124,27 +136,19 @@ const Navbar = () => {
         <div className="nav-item dropdown">
           <a
             href="#"
-            className="nav-link dropdown-toggle"
+            className="nav-link dropdown-toggle d-flex align-items-center"
             data-bs-toggle="dropdown"
           >
             <img
               className="rounded-circle me-lg-2"
-              src="img/user.jpg"
+              src="assets/home/img/jobseeker.jpg"
               alt
               style={{ width: 40, height: 40 }}
             />
-            <span className="d-none d-lg-inline-flex">John Doe</span>
+            <span className="d-none d-lg-inline-flex">{getUserName()}</span>
           </a>
-          <div className="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-            <a href="#" className="dropdown-item">
-              My Profile
-            </a>
-            <a href="#" className="dropdown-item">
-              Settings
-            </a>
-            <a href="#" className="dropdown-item">
-              Log Out
-            </a>
+          <div className="dropdown-menu">
+            <a className="dropdown-item" onClick={HandleLogout}>Logout</a>
           </div>
         </div>
       </div>

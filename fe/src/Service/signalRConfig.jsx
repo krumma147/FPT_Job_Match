@@ -1,7 +1,7 @@
 import * as signalR from "@microsoft/signalr";
 
 let connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:7282/serviceHub") // Đường dẫn tới hub của bạn trên server
+    .withUrl("https://localhost:7282/serviceHub")
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
@@ -17,7 +17,6 @@ async function start() {
 
 connection.onclose(start);
 
-// Bắt đầu kết nối
 start();
 
 export default connection;

@@ -11,7 +11,6 @@ import Spinner from "../../components/admin/Spinner";
 import Footer from "../../components/admin/Footer";
 // Notification
 import { toast } from "react-toastify";
-import CustomToastBS from "../../components/admin/Notification/CustomToastBS";
 import CustomToastContainer from "../../components/admin/Notification/CustomToastContainer";
 // Hooks
 import CategoryHook from "../../hooks/CategoryHook";

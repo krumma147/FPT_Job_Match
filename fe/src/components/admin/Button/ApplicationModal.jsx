@@ -172,7 +172,7 @@ const ApplicationModal = ({
         ) : (
           <Icon path={mdiPlusCircle} size={1} />
         )}
-        {data ? `Edit` : `Application`}
+        {data ? `` : `Application`}
       </button>
 
       <div
