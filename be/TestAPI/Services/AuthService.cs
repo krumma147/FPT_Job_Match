@@ -39,6 +39,7 @@ namespace TestAPI.Services
                 Skill = "",
                 Expericene = "",
                 UserId = newUser.Id,
+                Company = user.Company,
                 //User = newUser
             };
             await _db.AddAsync(newUserInfo);

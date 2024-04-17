@@ -9,6 +9,7 @@ namespace TestAPI.Models
         public string FullName { get; set; }
         public string? Skill {  get; set; }
         public string? Expericene { get; set; }
+        public string? Company { get; set; }
         public string UserId { get; set; }
         public virtual IdentityUser? User { get; set; }
 

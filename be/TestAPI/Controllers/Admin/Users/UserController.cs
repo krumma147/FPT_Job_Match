@@ -205,8 +205,20 @@ namespace TestAPI.Controllers.Admin.Users
                     _context.Applications.RemoveRange(applications);
                     await _context.SaveChangesAsync();
                 }
+                // Find and delete related Jobs
+                var jobs = _context.Jobs.Where(a => a.EmployerId == id);
+                if (jobs != null)
+                {
+                    _context.Jobs.RemoveRange(jobs);
+                    await _context.SaveChangesAsync();
+                }
 
                 var result = await _userManager.DeleteAsync(user);
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+                }
+            
                 if (!result.Succeeded)
                 {
                     return BadRequest(result.Errors);

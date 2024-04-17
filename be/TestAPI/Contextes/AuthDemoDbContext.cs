@@ -17,8 +17,6 @@ namespace TestAPI.Contextes
         {
         }
 
-        public DbSet<Employee> Employees { get; set; }
-
         public DbSet<JobCategories> JobCategories { get; set; }
         public DbSet<UserInfo> UserInfos { get; set; }
         public DbSet<Job> Jobs { get; set; }
@@ -35,9 +33,20 @@ namespace TestAPI.Contextes
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "JS", Name = "JobSeeker", NormalizedName = "JOBSEEKER" });
 
             builder.Entity<UserInfo>()
-            .HasOne(m => m.User)
+           .HasOne(m => m.User)
+           .WithOne()
+           .HasForeignKey<UserInfo>(m => m.UserId);
+
+            builder.Entity<Job>()
+            .HasOne(j => j.Employer)
             .WithMany()
-            .HasForeignKey(m => m.UserId);
+            .HasForeignKey(j => j.EmployerId);
+
+            builder.Entity<Application>()
+            .HasOne(a => a.Job)
+            .WithMany(j => j.Applications)
+            .HasForeignKey(a => a.JobId)
+            .OnDelete(DeleteBehavior.Restrict);
         }
 
     }

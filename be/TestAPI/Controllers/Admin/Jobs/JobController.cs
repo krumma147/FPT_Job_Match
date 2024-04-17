@@ -71,6 +71,7 @@ namespace TestAPI.Controllers.Admin.Jobs
                     Skill_required = job.Skill_required,
                     Application_deadline = job.Application_deadline,
                     status = "open",
+                    EmployerId = job.EmployerId,
                     JobCategoryId = job.JobCategoryId,
                     Created_At = DateTime.Now,
                     Updated_At = DateTime.Now,
@@ -104,6 +105,7 @@ namespace TestAPI.Controllers.Admin.Jobs
                 jobUpdate.Skill_required = job.Skill_required;
                 jobUpdate.Application_deadline = job.Application_deadline;
                 jobUpdate.status = job.status;
+                jobUpdate.EmployerId = job.EmployerId;
                 jobUpdate.JobCategoryId = job.JobCategoryId;
                 jobUpdate.Updated_At = DateTime.Now;
                 await _context.SaveChangesAsync();

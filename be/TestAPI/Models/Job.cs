@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using NuGet.Packaging.Signing;
+using Microsoft.AspNetCore.Identity;
 
 namespace TestAPI.Models
 {
@@ -30,6 +31,15 @@ namespace TestAPI.Models
 
         [DefaultValue("open")]
         public string? status { get; set; }
+
+        // 1 Job has many Applications
+        public virtual ICollection<Application>? Applications { get; set; }
+
+        [Required]
+        public string EmployerId { get; set; }
+
+        public virtual IdentityUser? Employer { get; set; }
+
         // Foreign Key
         [Required]
         public int JobCategoryId { get; set; }

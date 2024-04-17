@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TestAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,19 +50,6 @@ namespace TestAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,8 +178,9 @@ namespace TestAPI.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Skill = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Expericene = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Skill = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Expericene = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -216,10 +204,11 @@ namespace TestAPI.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SalaryRange = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Experience_required = table.Column<double>(type: "float", nullable: false),
-                    Education_required = table.Column<double>(type: "float", nullable: false),
+                    Education_required = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Skill_required = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Application_deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
                     status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmployerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     JobCategoryId = table.Column<int>(type: "int", nullable: false),
                     Created_At = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Updated_At = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -229,11 +218,50 @@ namespace TestAPI.Migrations
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Jobs_AspNetUsers_EmployerId",
+                        column: x => x.EmployerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Jobs_JobCategories_JobCategoryId",
                         column: x => x.JobCategoryId,
                         principalTable: "JobCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Applications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    resume = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    coverLetter = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    selfIntroduction = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JobId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Created_At = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Updated_At = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Deleted = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Applications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Applications_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Applications_Jobs_JobId",
+                        column: x => x.JobId,
+                        principalTable: "Jobs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -245,6 +273,16 @@ namespace TestAPI.Migrations
                     { "EMP", null, "Employer", "EMPLOYER" },
                     { "JS", null, "JobSeeker", "JOBSEEKER" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applications_JobId",
+                table: "Applications",
+                column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applications_UserId",
+                table: "Applications",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -286,6 +324,11 @@ namespace TestAPI.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Jobs_EmployerId",
+                table: "Jobs",
+                column: "EmployerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Jobs_JobCategoryId",
                 table: "Jobs",
                 column: "JobCategoryId");
@@ -293,12 +336,16 @@ namespace TestAPI.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UserInfos_UserId",
                 table: "UserInfos",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Applications");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -315,22 +362,19 @@ namespace TestAPI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "UserInfos");
 
             migrationBuilder.DropTable(
                 name: "Jobs");
 
             migrationBuilder.DropTable(
-                name: "UserInfos");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "JobCategories");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "JobCategories");
         }
     }
 }

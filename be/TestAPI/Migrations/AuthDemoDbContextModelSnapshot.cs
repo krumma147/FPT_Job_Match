@@ -290,23 +290,6 @@ namespace TestAPI.Migrations
                     b.ToTable("Applications");
                 });
 
-            modelBuilder.Entity("TestAPI.Models.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees");
-                });
-
             modelBuilder.Entity("TestAPI.Models.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -332,6 +315,10 @@ namespace TestAPI.Migrations
                     b.Property<string>("Education_required")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmployerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Experience_required")
                         .HasColumnType("float");
@@ -359,6 +346,8 @@ namespace TestAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployerId");
 
                     b.HasIndex("JobCategoryId");
 
@@ -390,6 +379,9 @@ namespace TestAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Company")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Expericene")
                         .HasColumnType("nvarchar(max)");
 
@@ -406,7 +398,8 @@ namespace TestAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserInfos");
                 });
@@ -465,9 +458,9 @@ namespace TestAPI.Migrations
             modelBuilder.Entity("TestAPI.Models.Application", b =>
                 {
                     b.HasOne("TestAPI.Models.Job", "Job")
-                        .WithMany()
+                        .WithMany("Applications")
                         .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
@@ -483,11 +476,19 @@ namespace TestAPI.Migrations
 
             modelBuilder.Entity("TestAPI.Models.Job", b =>
                 {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Employer")
+                        .WithMany()
+                        .HasForeignKey("EmployerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TestAPI.Models.JobCategories", "JobCategory")
                         .WithMany("Jobs")
                         .HasForeignKey("JobCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Employer");
 
                     b.Navigation("JobCategory");
                 });
@@ -495,12 +496,17 @@ namespace TestAPI.Migrations
             modelBuilder.Entity("TestAPI.Models.UserInfo", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("TestAPI.Models.UserInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TestAPI.Models.Job", b =>
+                {
+                    b.Navigation("Applications");
                 });
 
             modelBuilder.Entity("TestAPI.Models.JobCategories", b =>
