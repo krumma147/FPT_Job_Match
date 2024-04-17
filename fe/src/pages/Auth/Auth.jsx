@@ -25,3 +25,15 @@ export const getUserId = () => {
 
     return decodedToken.UserId;
 };
+
+export const getUserName = () => {
+    const token = Cookies.get('token');
+
+    if (!token) {
+        return null;
+    }
+
+    const decodedToken = jwtDecode(token);
+
+    return decodedToken.UserName;
+};

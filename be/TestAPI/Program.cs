@@ -92,5 +92,6 @@ app.UseAuthorization();
 app.MapControllers();
 // Map your SignalR Hub.
 app.MapHub<ServiceHub>("/serviceHub");
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

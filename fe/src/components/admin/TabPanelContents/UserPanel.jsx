@@ -3,8 +3,25 @@ import UserModal from "../Button/UserModal";
 import UserDetailsModal from "../Button/UserDetailModal";
 import Icon from "@mdi/react";
 import { mdiTrashCan } from "@mdi/js";
+import { createConnection, registerMessageReceivedHandler } from "../../../Service/signalRChat";
+import ChatAdmin from "../../../pages/Chat/ChatAdmin";
 const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
+  const [messages, setMessages] = useState({});
+  const [selectedUser, setSelectedUser] = useState(null); 
 
+  useEffect(() => {
+    createConnection('Admin');
+    registerMessageReceivedHandler((sender, message) => {
+      // console.log(sender, message);
+      setMessages(messages => {
+        const updatedMessages = {
+          ...messages,
+          [sender]: [...(messages[sender] || []), { sender, message }]
+        };
+        return updatedMessages;
+      });
+    });
+  }, []);
   const HandleDelete = (e, id) => {
     e.preventDefault();
     const cf = window.confirm("Are you sure you want to delete");
@@ -31,6 +48,7 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
                 <th scope="col">Email</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Role</th>
+                <th scope="col">Messages</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -48,6 +66,11 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
                     <td className="col-md-2">{user.user.email}</td>
                     <td className="col-md-2">{user.user.phoneNumber}</td>
                     <td className="col-md-2">{user.roles[0]}</td>
+                    <td>
+                      <span style={{ background: "blue", padding: '0 7px', color: '#fff' }} onClick={() => setSelectedUser(user)}>
+                        {messages[user.user.email]?.length || 0}
+                      </span>
+                    </td>
                     <td>
                       <div className="d-flex">
                         <UserModal
@@ -73,6 +96,13 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
           </table>
         </div>
       </div>
+      {selectedUser && (
+        <ChatAdmin
+          user={selectedUser}
+          messages={messages[selectedUser.user.email] || []}
+          onClose={() => setSelectedUser(null)}
+        />
+      )}
     </>
   );
 };

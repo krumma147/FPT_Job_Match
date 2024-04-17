@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import Navbar from "../../components/home/Navbar";
 import Search from "../../components/home/Search";
 import Banner from "../../components/home/Banner";
@@ -13,6 +12,8 @@ import Footer from "../../components/home/Footer";
 // Hooks
 import JobHooks from "../../hooks/JobHook";
 import CategoryHook from "../../hooks/CategoryHook";
+import ChatHome from "../Chat/ChatHome";
+import { getUserName } from "../Auth/Auth";
 
 const Home = () => {
   const [jobs, setJobs] = useState([]);
@@ -92,6 +93,7 @@ const Home = () => {
       </div>
       <div class="clearfix"></div>
       <News />
+      {getUserName() && <ChatHome username={getUserName()} />}
       <JobSupport />
       <Footer />
     </div>
