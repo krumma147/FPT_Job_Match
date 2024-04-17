@@ -26,8 +26,8 @@ export default function JobSeeker() {
     }
     if (appData) {
       const parsedApps = JSON.parse(appData);
+      console.log(parsedApps);
       setApplication(parsedApps);
-      //console.log(parsedJobs);
     }
     if (userData) {
       const parsedUs = JSON.parse(userData);
@@ -43,6 +43,7 @@ export default function JobSeeker() {
 
   const GetApplication = (id) => {
     const appData = application.filter((a) => a.jobId === id);
+    console.log(appData);
     return appData;
   };
 
