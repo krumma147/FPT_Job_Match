@@ -14,6 +14,11 @@ export const checkAccess = (allowedRoles) => {
     return allowedRoles.includes(decodedToken.Role);
 };
 
+export function checkAuth() {
+    const token = Cookies.get('token');
+    return token != null;
+}
+
 export const getUserId = () => {
     const token = Cookies.get('token');
 

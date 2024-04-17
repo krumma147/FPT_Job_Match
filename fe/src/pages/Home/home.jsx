@@ -14,8 +14,12 @@ import JobHooks from "../../hooks/JobHook";
 import CategoryHook from "../../hooks/CategoryHook";
 import ChatHome from "../Chat/ChatHome";
 import { getUserName } from "../Auth/Auth";
+import Swal from 'sweetalert2';
+import { useLocation } from 'react-router-dom';
 
 const Home = () => {
+
+
   const [jobs, setJobs] = useState([]);
   const [categories, setCategories] = useState([]);
   const [filterJob, setFilterJob] = useState([]);
@@ -54,6 +58,18 @@ const Home = () => {
     setFilterJob(newJobList);
     //console.log(filterCategory);
   }, [searchKey, filterCategory]);
+  const location = useLocation();
+  
+  //show message check role
+  useEffect(() => {
+    if (location.state?.redirected && location.state?.noAccess) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Your account does not have permission to access this page!',
+      });
+    }
+  }, [location]);
 
   return (
     <div>
