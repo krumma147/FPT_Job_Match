@@ -214,52 +214,90 @@ export default function AdminMainPage() {
   useEffect(() => {
     //user
     connection.on("createdUser", (newUser) => {
-      toast.success(`New user registered: ${newUser.userName}`);
+      if (newUser && newUser.userName) {
+        toast.success(`New user registered: ${newUser.userName}`);
+        // setUsers((prevUsers) => [...prevUsers, newUser]);
+      }
     });
 
-    connection.on("updatedUser", (updatedUserId) => {
-      toast.info(`User updated: ${updatedUserId.userName}`);
+    connection.on("updatedUser", (updatedUser) => {
+      toast.info(`User updated: ${updatedUser.userName}`);
+      // setUsers((prevUsers) =>
+      //   prevUsers.map((user) =>
+      //     user.id === updatedUser.id ? updatedUser : user
+      //   )
+      // );
     });
 
     connection.on("deletedUser", (deletedUserId) => {
-      toast.info(`User deleted: ${deletedUserId.userName}`);
+      toast.info(`User deleted: ${deletedUserId}`);
+      // setUsers((prevUsers) =>
+      //   prevUsers.filter((user) => user.id !== deletedUserId)
+      // );
     });
-    //user
+    //category
     connection.on("createdCategory", (newCategory) => {
       toast.success(`New Category registered: ${newCategory.name}`);
+      setCategories((prevCategories) => [...prevCategories, newCategory]);
     });
 
-    connection.on("updatedCategory", (updatedCategoryId) => {
-      toast.info(`category updated: ${updatedCategoryId.name}`);
+    connection.on("updatedCategory", (updatedCategory) => {
+      toast.info(`category updated: ${updatedCategory.name}`);
+      setCategories((prevCategories) =>
+        prevCategories.map((category) =>
+          category.id === updatedCategory.id ? updatedCategory : category
+        )
+      );
     });
 
     connection.on("deletedCategory", (deletedCategoryId) => {
       toast.info(`Category deleted: ${deletedCategoryId.name}`);
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category.id !== deletedCategoryId.id)
+      );
     });
     //job
     connection.on("createdJob", (newJob) => {
       toast.success(`New Job registered: ${newJob.title}`);
+      setJobs((prevJobs) => [...prevJobs, newJob]);
     });
 
-    connection.on("updatedJob", (updatedJobId) => {
-      toast.info(`Job updated: ${updatedJobId.title}`);
+    connection.on("updatedJob", (updatedJob) => {
+      toast.info(`Job updated: ${updatedJob.title}`);
+      setJobs((prevJobs) =>
+        prevJobs.map((job) =>
+          job.id === updatedJob.id ? updatedJob : job
+        )
+      );
     });
 
     connection.on("deletedJob", (deletedJobId) => {
       toast.info(`Job deleted: ${deletedJobId.title}`);
+      setJobs((prevJobs) =>
+        prevJobs.filter((job) => job.id !== deletedJobId.id)
+      );
     });
 
     //application
     connection.on("createdApplication", (newApplication) => {
       toast.success(`New Application registered: ${newApplication.id}`);
+      setApplications((prevApplications) => [...prevApplications, newApplication]);
     });
 
-    connection.on("updatedApplication", (updatedApplicationId) => {
-      toast.info(`Application updated: ${updatedApplicationId.id}`);
+    connection.on("updatedApplication", (updatedApplication) => {
+      toast.info(`Application updated: ${updatedApplication.id}`);
+      setApplications((prevApplications) =>
+        prevApplications.map((app) =>
+          app.id === updatedApplication.id ? updatedApplication : app
+        )
+      );
     });
 
     connection.on("deletedApplication", (deletedApplicationId) => {
       toast.info(`Application deleted: ${deletedApplicationId.id}`);
+      setApplications((prevApplications) =>
+        prevApplications.filter((app) => app.id !== deletedApplicationId.id)
+      );
     });
 
     return () => {

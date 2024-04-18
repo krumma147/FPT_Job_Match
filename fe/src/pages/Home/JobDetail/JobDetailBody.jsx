@@ -2,6 +2,7 @@ import React from "react";
 import SubmitApplicationModal from "../../../components/admin/Button/SubmitApplicationModal";
 import ApplicationHook from "../../../hooks/ApplicationHook";
 import Swal from "sweetalert2";
+import { checkAccess, getUserId } from "../../Auth/Auth";
 export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
   const handleSubmit = async (application) => {
     try {
@@ -11,6 +12,33 @@ export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
       Swal.fire("Error", e.res.data, "error");
     }
   };
+
+  const renderSubmitButtonOrModal = () => {
+    if (checkAccess("Employer") || checkAccess("Admin")) {
+      return renderAlertButton("Your account is not a JobSeeker");
+    } else if (getUserId() === null) {
+      return renderAlertButton("Please login to apply for this job");
+    } else if (checkAccess("JobSeeker")) {
+      return (
+        <SubmitApplicationModal
+          id={job.id}
+          handleSubmit={handleSubmit}
+        />
+      );
+    }
+  }
+
+  const renderAlertButton = (message) => {
+    return (
+      <button
+        href="#"
+        className="btn btn-primary btn-apply"
+        onClick={() => { Swal.fire('Alert', message, 'warning') }}
+      >
+        Submit
+      </button>
+    );
+  }
 
   return (
     <div>
@@ -77,17 +105,7 @@ export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
               <div className="col-md-3 col-sm-12 col-12">
                 <div className="jd-header-wrap-right">
                   <div className="jd-center">
-                    {/* <button
-                      href="#"
-                      className="btn btn-primary btn-apply"
-                      onClick={(e) => handleSubmit(e)}
-                    >
-                      Submit
-                    </button> */}
-                    <SubmitApplicationModal
-                      id={job.id}
-                      handleSubmit={handleSubmit}
-                    />
+                    {renderSubmitButtonOrModal()}
                     <p className="jd-view">
                       Lượt xem: <span>1.520</span>
                     </p>
@@ -239,25 +257,25 @@ export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
                 <div className="job-tt-contain">
                   {relatedJobs.length > 0
                     ? relatedJobs.map((j) => (
-                        <div className="job-tt-item">
-                          <a href="#" className="thumb">
-                            <div
-                              style={{
-                                backgroundImage:
-                                  "url(assets/home/img/alipay-logo.png)",
-                              }}
-                            />
+                      <div className="job-tt-item">
+                        <a href="#" className="thumb">
+                          <div
+                            style={{
+                              backgroundImage:
+                                "url(assets/home/img/alipay-logo.png)",
+                            }}
+                          />
+                        </a>
+                        <div className="info">
+                          <a href="#" className="jobname">
+                            {j.title}
                           </a>
-                          <div className="info">
-                            <a href="#" className="jobname">
-                              {j.title}
-                            </a>
-                            <a href="#" className="company">
-                              {j.application_deadline.split("T")[0]}
-                            </a>
-                          </div>
+                          <a href="#" className="company">
+                            {j.application_deadline.split("T")[0]}
+                          </a>
                         </div>
-                      ))
+                      </div>
+                    ))
                     : "No Related Jobs Available!"}
                 </div>
               </div>
