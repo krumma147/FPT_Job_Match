@@ -323,6 +323,9 @@ namespace TestAPI.Migrations
                     b.Property<double>("Experience_required")
                         .HasColumnType("float");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("JobCategoryId")
                         .HasColumnType("int");
 
@@ -387,6 +390,9 @@ namespace TestAPI.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Skill")

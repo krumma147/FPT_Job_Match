@@ -117,6 +117,7 @@ const useAuth = () => {
     name,
     email,
     phone,
+    company,
     password,
     confirmPassword,
     role
@@ -138,6 +139,7 @@ const useAuth = () => {
     const user = {
       fullName: name,
       userName: email,
+      company: company,
       password,
       phoneNumber: phone,
       email,

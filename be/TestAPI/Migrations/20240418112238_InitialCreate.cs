@@ -181,6 +181,7 @@ namespace TestAPI.Migrations
                     Skill = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Expericene = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -201,6 +202,7 @@ namespace TestAPI.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SalaryRange = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Experience_required = table.Column<double>(type: "float", nullable: false),

@@ -78,6 +78,7 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
                           ModifyUser={ModifyUser}
                           id={index + 1}
                         />
+                        {user.roles[0] === "Admin" ? null : (
                         <button
                           type="button"
                           className="btn btn-danger"
@@ -85,6 +86,7 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
                         >
                           <Icon path={mdiTrashCan} size={1} />
                         </button>
+                        )}
                       </div>
                     </td>
                   </tr>

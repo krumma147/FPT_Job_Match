@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { getUserId, getUserName } from "../../Auth/Auth";
+import { checkAccess, getUserId, getUserName } from "../../Auth/Auth";
 import UserHook from "../../../hooks/UserHook";
 import { Form, Button } from "react-bootstrap";
 // import Swal from "sweetalert2";
@@ -143,7 +143,7 @@ export default function WidgetandPublished() {
                           aria-expanded="true"
                           aria-controls="collapseOne"
                         >
-                          Thông tin tài khoản
+                          Account information
                           <span id="clickc1_advance2" className="clicksd">
                             <i className="fa fa fa-angle-up" />
                           </span>
@@ -182,7 +182,7 @@ export default function WidgetandPublished() {
                           <div className="col-md-9">
                             <div className="form-group row">
                               <label className="col-sm-3 col-form-label text-right label">
-                                Họ tên
+                                Full Name
                                 <span style={{ color: "red" }} className="pl-2">
                                   *
                                 </span>
@@ -199,7 +199,7 @@ export default function WidgetandPublished() {
                             </div>
                             <div className="form-group row">
                               <label className="col-sm-3 col-form-label text-right label">
-                                Số điện thoại
+                                Phone Number
                               </label>
                               <div className="col-sm-9">
                                 <input
@@ -290,91 +290,130 @@ export default function WidgetandPublished() {
                   <ul>
                     <li>
                       <a href="#">
-                        Nhà tuyển dụng của tôi <strong>(0)</strong>
+                        Email  <strong>{email}</strong>
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        Việc làm đã lưu <strong>(450)</strong>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        Việc làm đã nộp <strong>(1150)</strong>
+                        Phone  <strong>{phoneNumber}</strong>
                       </a>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div className="block-sidebar" style={{ marginBottom: 20 }}>
+              {checkAccess(["Admin"]) && (<div className="block-sidebar" style={{ marginBottom: 20 }}>
                 <header>
                   <h3 className="title-sidebar font-roboto bg-primary">
-                    Trung tâm quản lý
+                    Admin
                   </h3>
                 </header>
                 <div className="content-sidebar menu-trung-tam-ql menu-ql-employer">
-                  <h3 className="menu-ql-ntv">Hồ sơ của bạn</h3>
+                  <h3 className="menu-ql-ntv">User Management</h3>
                   <ul>
                     <li>
-                      <a href="#">Quản lý Tài khoản</a>
+                      <a href="/admin">Add and Edit accounts</a>
                     </li>
                     <li>
-                      <a href="#">Quản lý hồ sơ</a>
+                      <a href="/admin">Delete Accounts</a>
                     </li>
                   </ul>
-                  <h3 className="menu-ql-ntv">Việc làm của bạn</h3>
+                  <h3 className="menu-ql-ntv">Categories Management</h3>
                   <ul>
                     <li>
-                      <a href="#">Việc làm đã lưu</a>
+                      <a href="/admin">Add and Edit Categories</a>
                     </li>
                     <li>
-                      <a href="#" target="_blank">
-                        Việc làm dã ứng tuyển
-                      </a>
+                      <a href="/admin">Delete Categories</a>
                     </li>
                   </ul>
-                  <h3 className="menu-ql-ntv">Hỗ trợ và thông báo</h3>
+                  <h3 className="menu-ql-ntv">Jobs Management</h3>
                   <ul>
                     <li>
-                      <a href="#" title="Gửi yêu cầu đến ban quản trị">
-                        Gửi yêu cầu đến ban quản trị
-                      </a>
+                      <a href="/admin">Add and Edit Jobs</a>
                     </li>
                     <li>
-                      <a href="#" title="Ban quản trị thông báo">
-                        Ban quản trị thông báo
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" title="Hướng dẫn thao tác">
-                        Hướng dẫn thao tác
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" target="_blank">
-                        <span>Thông tin thanh toán</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href="#">
-                        <span>Cổng tra cứu lương</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href="#">
-                        <span> Cẩm nang tuyển dụng</span>
-                      </a>
+                      <a href="/admin">Delete Jobs</a>
                     </li>
                   </ul>
+                  <h3 className="menu-ql-ntv">Application Management</h3>
                   <ul>
-                    <li className="logout">
-                      <a href="#" title="Đăng xuất">
-                        Đăng xuất
-                      </a>
+                    <li>
+                      <a href="/admin">Add and Edit Application</a>
+                    </li>
+                    <li>
+                      <a href="/admin">Delete Application</a>
                     </li>
                   </ul>
                 </div>
-              </div>
+              </div>)}
+              {checkAccess(["Employer"]) && (<div className="block-sidebar" style={{ marginBottom: 20 }}>
+                <header>
+                  <h3 className="title-sidebar font-roboto bg-primary">
+                    Employer
+                  </h3>
+                </header>
+                <div className="content-sidebar menu-trung-tam-ql menu-ql-employer">
+                  <h3 className="menu-ql-ntv">Jobs</h3>
+                  <ul>
+                    <li>
+                      <a href="/postnews">Post Jobs</a>
+                    </li>
+                    <li>
+                      <a href="/">Edit and Delete Jobs</a>
+                    </li>
+                  </ul>
+                  <h3 className="menu-ql-ntv">JobSeeker Management</h3>
+                  <ul>
+                    <li>
+                      <a href="/jobseeker">Watch Infomation</a>
+                    </li>
+                  </ul>
+                  <ul>
+                    <li>
+                      <a href="/profile">Edit Profile</a>
+                    </li>
+                  </ul>
+                  <h3 className="menu-ql-ntv">Contact Admin</h3>
+                  <ul>
+                    <li>
+                      <a href="/">Chat with Admin</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>)}
+              {checkAccess(["JobSeeker"]) && (<div className="block-sidebar" style={{ marginBottom: 20 }}>
+                <header>
+                  <h3 className="title-sidebar font-roboto bg-primary">
+                    JobSeeker
+                  </h3>
+                </header>
+                <div className="content-sidebar menu-trung-tam-ql menu-ql-employer">
+                  <h3 className="menu-ql-ntv">Jobs</h3>
+                  <ul>
+                    <li>
+                      <a href="/">Search Jobs</a>
+                    </li>
+                    <li>
+                      <a href="/">Watch Detail Jobs</a>
+                    </li>
+                    <li>
+                      <a href="/jobs">Apply Jobs</a>
+                    </li>
+                  </ul>
+                  <h3 className="menu-ql-ntv">Profile</h3>
+                  <ul>
+                    <li>
+                      <a href="/profile">Edit Profile</a>
+                    </li>
+                  </ul>
+                  <h3 className="menu-ql-ntv">Contact Admin</h3>
+                  <ul>
+                    <li>
+                      <a href="/">Chat with Admin</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>)}
             </div>
           </div>
         </div>
