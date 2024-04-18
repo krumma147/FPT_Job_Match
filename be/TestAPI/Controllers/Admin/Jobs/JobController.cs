@@ -85,7 +85,7 @@ namespace TestAPI.Controllers.Admin.Jobs
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred while create the job" });
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 

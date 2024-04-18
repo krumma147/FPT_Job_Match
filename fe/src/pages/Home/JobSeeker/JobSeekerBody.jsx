@@ -6,33 +6,37 @@ export default function JobSeekerBody({
   jobs,
   FindJobCategory,
   GetApplication,
-  GetUserName
+  GetUserName,
 }) {
   return (
     <div className="featured_candidates_area candidate_page_padding">
       <div className="container">
         <div className="row">
-          {jobs?.length > 0
-            ? jobs.map((j, index) => (
-                <div key={index} className="col-md-6 col-lg-3">
-                  <div className="single_candidates text-center">
-                    <div className="thumb">
-                      <img src="assets/home/img/jobseeker.jpg" alt />
-                    </div>
-                    <a href="#">
-                      <h4>
-                        <JobDetailModal
-                          job={j}
-                          GetApplication={GetApplication}
-                          GetUserName={GetUserName}
-                        />
-                      </h4>
-                    </a>
-                    <p>{FindJobCategory(j.jobCategoryId).name}</p>
+          {jobs?.length > 0 ? (
+            jobs.map((j, index) => (
+              <div key={index} className="col-md-6 col-lg-3">
+                <div className="single_candidates text-center">
+                  <div className="thumb">
+                    <img src="assets/home/img/jobseeker.jpg" alt />
                   </div>
+                  <a href="#">
+                    <h4>
+                      <JobDetailModal
+                        job={j}
+                        GetApplication={GetApplication}
+                        GetUserName={GetUserName}
+                      />
+                    </h4>
+                  </a>
+                  <p>{FindJobCategory(j.jobCategoryId).name}</p>
                 </div>
-              ))
-            : null}
+              </div>
+            ))
+          ) : (
+            <div>
+              <h4>Post a job to see list of applications</h4>
+            </div>
+          )}
         </div>
         <div className="row">
           <div className="col-lg-12">

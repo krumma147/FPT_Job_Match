@@ -4,7 +4,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import JobHooks from "../../../hooks/JobHook";
 import { getUserName } from "../../Auth/Auth";
-export default function PostNewBody({ categories }) {
+export default function PostNewBody({ categories, employerId }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
@@ -33,12 +33,13 @@ export default function PostNewBody({ categories }) {
         title,
         description,
         salaryRange: isRangeEnabled ? "Discuss during interview" : salaryRange,
-        experience_required: isYearEnabled ? 0 : experience,
+        experience_required: isYearEnabled ? 0 : parseInt(experience),
         skill_required: skill,
-        jobCategoryId: category,
+        jobCategoryId: parseInt(category),
         education_required: education,
         application_deadline: deadline,
         status: "open",
+        employerId,
       };
       //    console.log(isRangeEnabled, job);
       try {
@@ -422,7 +423,9 @@ export default function PostNewBody({ categories }) {
                     </h3>
                   </header>
                   <div className="content-sidebar menu-trung-tam-ql menu-ql-employer">
-                    <a href="/jobseeker"><h3 className="menu-ql-ntv">JobSeeker Management</h3></a>
+                    <a href="/jobseeker">
+                      <h3 className="menu-ql-ntv">JobSeeker Management</h3>
+                    </a>
                   </div>
                 </div>
               </div>

@@ -10,7 +10,6 @@ export const checkAccess = (allowedRoles) => {
   }
 
   const decodedToken = jwtDecode(token);
-  console.log(decodedToken.Role);
   return allowedRoles.includes(decodedToken.Role);
 };
 

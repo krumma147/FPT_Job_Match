@@ -30,6 +30,7 @@ export default function AdminMainPage() {
   const [jobs, setJobs] = useState([]);
   const [users, setUsers] = useState([]);
   const [applications, setApplications] = useState([]);
+  const [employers, setEmployers] = useState([]);
   const fetchData = async () => {
     const categorydata = await CategoryHook.GetAllCategory();
     // console.log(categorydata.jobCategories);
@@ -39,6 +40,9 @@ export default function AdminMainPage() {
     //console.log(jobdata);
     const usersData = await UserHook.GetAllUsers();
     setUsers(usersData);
+    const employerData = usersData.filter((u) => u.roles[0] === "Employer");
+    setEmployers(employerData);
+    
     //console.log(usersData);
     const applicationsData = await ApplicationHook.GetAllApplications();
     //console.log(applicationsData);
@@ -56,56 +60,56 @@ export default function AdminMainPage() {
   };
 
   const ModifyCategory = async (id, cat) => {
-    try{
+    try {
       const res = await CategoryHook.EditCategory(id, cat);
       // console.log(res);
       // alert("Edit success!");
       fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
 
   const RemoveCategory = async (id) => {
-    try{
+    try {
       const res = await CategoryHook.DeleteCategory(id);
       // console.log(res);
       // alert("Delete successful!");
       fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
 
   const AddJob = async (job) => {
-    try{
+    try {
       const res = await JobHooks.CreateJob(job);
       // console.log(res);
       // alert("Create Job success!");
       fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
 
   const ModifyJob = async (id, job) => {
-    try{
+    try {
       const res = await JobHooks.EditJob(id, job);
       // console.log(res);
       // if (res !== null) alert("Edit Job success!");
       fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
 
   const RemoveJob = async (id) => {
-    try{
+    try {
       const res = await JobHooks.DeleteJob(id);
       // console.log(res);
       // alert("Delete Job successful!");
       fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
@@ -121,23 +125,23 @@ export default function AdminMainPage() {
   };
 
   const ModifyApplication = async (id, application) => {
-    try{
+    try {
       const res = await ApplicationHook.EditApplication(id, application);
       console.log(res);
       if (res !== null) alert("Edit User success!");
       await fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
 
   const RemoveApplication = async (id) => {
-    try{
+    try {
       const res = await ApplicationHook.DeleteApplication(id);
       // console.log(res);
       // alert("Delete User successful!");
       await fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
@@ -152,22 +156,22 @@ export default function AdminMainPage() {
   };
 
   const ModifyUser = async (id, user) => {
-    try{
+    try {
       const res = await UserHook.EditUser(id, user);
       // console.log(res);
       await fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
 
   const RemoveUser = async (id) => {
-    try{
+    try {
       const res = await UserHook.DeleteUser(id);
       // console.log(res);
       // alert("Delete User successful!");
       await fetchData();
-    } catch(error){
+    } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
@@ -191,44 +195,42 @@ export default function AdminMainPage() {
       toast.info(`User deleted: ${deletedUserId.userName}`);
     });
     //user
-    connection.on('createdCategory', (newCategory) => {
+    connection.on("createdCategory", (newCategory) => {
       toast.success(`New Category registered: ${newCategory.name}`);
     });
 
-    connection.on('updatedCategory', (updatedCategoryId) => {
+    connection.on("updatedCategory", (updatedCategoryId) => {
       toast.info(`category updated: ${updatedCategoryId.name}`);
     });
 
-    connection.on('deletedCategory', (deletedCategoryId) => {
+    connection.on("deletedCategory", (deletedCategoryId) => {
       toast.info(`Category deleted: ${deletedCategoryId.name}`);
     });
     //job
-    connection.on('createdJob', (newJob) => {
+    connection.on("createdJob", (newJob) => {
       toast.success(`New Job registered: ${newJob.title}`);
     });
 
-    connection.on('updatedJob', (updatedJobId) => {
+    connection.on("updatedJob", (updatedJobId) => {
       toast.info(`Job updated: ${updatedJobId.title}`);
     });
 
-    connection.on('deletedJob', (deletedJobId) => {
+    connection.on("deletedJob", (deletedJobId) => {
       toast.info(`Job deleted: ${deletedJobId.title}`);
     });
 
     //application
-    connection.on('createdApplication', (newApplication) => {
+    connection.on("createdApplication", (newApplication) => {
       toast.success(`New Application registered: ${newApplication.id}`);
     });
 
-    connection.on('updatedApplication', (updatedApplicationId) => {
+    connection.on("updatedApplication", (updatedApplicationId) => {
       toast.info(`Application updated: ${updatedApplicationId.id}`);
     });
 
-    connection.on('deletedApplication', (deletedApplicationId) => {
+    connection.on("deletedApplication", (deletedApplicationId) => {
       toast.info(`Application deleted: ${deletedApplicationId.id}`);
     });
-
-
 
     return () => {
       //user
@@ -236,20 +238,32 @@ export default function AdminMainPage() {
       connection.off("updatedUser");
       connection.off("deletedUser");
       //category
-      connection.off('createdCategory');
-      connection.off('updatedCategory')
-      connection.off('deletedCategory');
+      connection.off("createdCategory");
+      connection.off("updatedCategory");
+      connection.off("deletedCategory");
       //job
-      connection.off('createdJob');
-      connection.off('updatedJob')
-      connection.off('deletedJob');
+      connection.off("createdJob");
+      connection.off("updatedJob");
+      connection.off("deletedJob");
       //application
-      connection.off('createdApplication');
-      connection.off('updatedApplication')
-      connection.off('deletedApplication');
-
+      connection.off("createdApplication");
+      connection.off("updatedApplication");
+      connection.off("deletedApplication");
     };
-  }, [AddUser, ModifyUser, RemoveUser, AddCategory, ModifyCategory, RemoveCategory, AddJob, ModifyJob, RemoveJob, AddApplication, ModifyApplication, RemoveApplication]);
+  }, [
+    AddUser,
+    ModifyUser,
+    RemoveUser,
+    AddCategory,
+    ModifyCategory,
+    RemoveCategory,
+    AddJob,
+    ModifyJob,
+    RemoveJob,
+    AddApplication,
+    ModifyApplication,
+    RemoveApplication,
+  ]);
 
   return (
     <div className="container-xxl position-relative bg-white d-flex p-0">
@@ -285,6 +299,7 @@ export default function AdminMainPage() {
               ModifyJob={ModifyJob}
               RemoveJob={RemoveJob}
               categories={categories}
+              employers={employers}
             />
           </div>
           <div

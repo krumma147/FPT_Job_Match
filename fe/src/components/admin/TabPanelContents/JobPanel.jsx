@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import JobModal from "../Button/JobModal";
 
-const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
+const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob, employers }) => {
 
   const HandleDelete = (e, id) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
         <div className="row mb-4">
           <h4 className="col">Jobs Manager</h4>
           <div className="col-2">
-            <JobModal AddJob={AddJob} categories={categories} />
+            <JobModal AddJob={AddJob} categories={categories} employers={employers} />
           </div>
         </div>
         <div className="table-responsive">
@@ -64,6 +64,7 @@ const JobPanel = ({ categories, jobs, AddJob, ModifyJob, RemoveJob }) => {
                         categories={categories}
                         ModifyJob={ModifyJob}
                         data={job}
+                        employers={employers}
                       />
                       <button
                         type="button"

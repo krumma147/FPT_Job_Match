@@ -46,14 +46,14 @@ const Home = () => {
     const categoriesJSON = JSON.stringify(categorydata.jobCategories);
     const appDataJson = JSON.stringify(appData.applications);
     const userNameData = JSON.stringify(filteredData);
-    if (!localStorage.getItem("UserNameData"))
-      localStorage.setItem("UserNameData", userNameData);
-    if (!localStorage.getItem("JobCategories"))
-      localStorage.setItem("JobCategories", categoriesJSON);
-    if (!localStorage.getItem("JobsData"))
-      localStorage.setItem("JobsData", jobsJSON);
-    if (!localStorage.getItem("ApplicationData"))
-      localStorage.setItem("ApplicationData", appDataJson);
+    //if (!localStorage.getItem("UserNameData"))
+    localStorage.setItem("UserNameData", userNameData);
+    //if (!localStorage.getItem("JobCategories"))
+    localStorage.setItem("JobCategories", categoriesJSON);
+    //if (!localStorage.getItem("JobsData"))
+    localStorage.setItem("JobsData", jobsJSON);
+    //if (!localStorage.getItem("ApplicationData"))
+    localStorage.setItem("ApplicationData", appDataJson);
   };
 
   useEffect(() => {

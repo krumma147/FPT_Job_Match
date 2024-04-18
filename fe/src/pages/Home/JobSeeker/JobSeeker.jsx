@@ -4,20 +4,26 @@ import Search from "../../../components/home/Search";
 import JobSupport from "../../../components/home/JobSupport";
 import Footer from "../../../components/home/Footer";
 import JobSeekerBody from "./JobSeekerBody";
+import { getUserId } from "../../Auth/Auth";
 export default function JobSeeker() {
   const [jobs, setJobs] = useState([]);
   const [jobCategories, setJobCategories] = useState([]);
   const [application, setApplication] = useState([]);
   const [user, setUser] = useState([]);
+  const [authorID, setAuthorID] = useState("");
 
   useEffect(() => {
     const appData = localStorage.getItem("ApplicationData");
     const jobsData = localStorage.getItem("JobsData");
     const jobCategories = localStorage.getItem("JobCategories");
     const userData = localStorage.getItem("UserNameData");
+    const author = getUserId();
+    setAuthorID(author);
     if (jobsData) {
       const parsedJobs = JSON.parse(jobsData);
-      setJobs(parsedJobs);
+      const postedJobs = parsedJobs.filter((j) => j.employerId === authorID);
+      setJobs(postedJobs);
+      console.log(postedJobs);
       //console.log(parsedJobs);
     }
     if (jobCategories) {
@@ -26,7 +32,7 @@ export default function JobSeeker() {
     }
     if (appData) {
       const parsedApps = JSON.parse(appData);
-      console.log(parsedApps);
+      //console.log(parsedApps);
       setApplication(parsedApps);
     }
     if (userData) {
@@ -43,7 +49,7 @@ export default function JobSeeker() {
 
   const GetApplication = (id) => {
     const appData = application.filter((a) => a.jobId === id);
-    console.log(appData);
+    //console.log(appData);
     return appData;
   };
 

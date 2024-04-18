@@ -10,6 +10,8 @@ const JobDetail = () => {
   let { id } = useParams();
   const jobDataJSON = localStorage.getItem("JobsData");
   const jobData = JSON.parse(jobDataJSON);
+  const userDataJSON = localStorage.getItem("UserNameData");
+  const userData = JSON.parse(userDataJSON);
   //console.log(jobData);
   if (!jobData) {
     console.log("No data in local storage");
@@ -20,10 +22,14 @@ const JobDetail = () => {
   const relatedJobs = jobData.filter(
     (j) => j.jobCategoryId === job.jobCategoryId
   );
+const findAuthor = (id) => {
+  return userData.find((j) => j.id === id);
+};
+
   return (
     <div>
       <Navbar page={"another-page"} />
-      <JobDetailBody job={job} relatedJobs={relatedJobs} />
+      <JobDetailBody job={job} relatedJobs={relatedJobs} findAuthor={findAuthor} />
       <JobSupport />
       <Footer />
     </div>

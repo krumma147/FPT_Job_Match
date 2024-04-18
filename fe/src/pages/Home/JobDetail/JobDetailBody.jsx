@@ -2,12 +2,12 @@ import React from "react";
 import SubmitApplicationModal from "../../../components/admin/Button/SubmitApplicationModal";
 import ApplicationHook from "../../../hooks/ApplicationHook";
 import Swal from "sweetalert2";
-export default function JobDetailBody({ job, relatedJobs }) {
+export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
   const handleSubmit = async (application) => {
-    try{
+    try {
       const res = await ApplicationHook.CreateApplication(application);
       Swal.fire("Successful", res.data, "success");
-    }catch(e){
+    } catch (e) {
       Swal.fire("Error", e.res.data, "error");
     }
   };
@@ -109,7 +109,10 @@ export default function JobDetailBody({ job, relatedJobs }) {
                 <h2 className="widget-title">
                   <span>Description</span>
                 </h2>
-                <div className="jd-content" dangerouslySetInnerHTML={{ __html: job.description }}></div>
+                <div
+                  className="jd-content"
+                  dangerouslySetInnerHTML={{ __html: job.description }}
+                ></div>
               </div>
             </div>
             {/* Sidebar */}
@@ -206,7 +209,7 @@ export default function JobDetailBody({ job, relatedJobs }) {
                 </div>
                 <h2 className="company-intro-name">Fpt Software</h2>
                 <ul className="job-add">
-                  <li>
+                  {/* <li>
                     <i className="fa fa-map-marker ja-icn" />
                     <span>
                       Trụ sở: 212 Phan Đăng Lưu - Hòa Cường Bắc - Hải Châu - Đà
@@ -216,6 +219,10 @@ export default function JobDetailBody({ job, relatedJobs }) {
                   <li>
                     <i className="fa fa-bar-chart ja-icn" />
                     <span>Quy mô công ty: 50-100 người</span>
+                  </li> */}
+                  <li>
+                    <i className="fa fa-bar-chart ja-icn" />
+                    <span>Upload by: {findAuthor(job.employerId).name}</span>
                   </li>
                 </ul>
                 <div className="wrap-comp-info mb-2">

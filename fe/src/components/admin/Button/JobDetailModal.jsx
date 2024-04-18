@@ -60,10 +60,10 @@ const JobDetailModal = ({ job, id, GetApplication, GetUserName }) => {
                   onClick={toggleUserDetailModal}
                 />
               </div>
-              {application ? (
+              {application.length > 0 ? (
                 <DisplayApplication apps={application} />
               ) : (
-                <div>No Applications were found!</div>
+                <p>No Applications were apply for this job</p>
               )}
             </div>
           </div>

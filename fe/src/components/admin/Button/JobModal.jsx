@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
+const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
@@ -16,6 +16,8 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
   const [isRangeEnabled, setIsRangeEnabled] = useState(false);
   const [isYearEnabled, setIsYearEnabled] = useState(false);
   const [status, setStatus] = useState(false);
+  const [employer, setEmployer] = useState("");
+
   let jobStatus = status ? "open" : "closed";
 
   const ToggleJobModal = async () => {
@@ -34,6 +36,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
       education_required: education,
       application_deadline: jobDate,
       status: jobStatus,
+      employerId: employer,
     };
     if (
       title === "" &&
@@ -58,14 +61,14 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
 
   const ActiveModal = (e) => {
     e.preventDefault();
-    if(data !== undefined){
+    if (data !== undefined) {
       setTitle(data.title);
-    setDescription(data.description);
-    setCategory(data.jobCategoryId);
-    setSkill(data.skill_required);
-    setEducation(data.education_required);
-    setSelectedDate(data.application_deadline);
-    data.status === "open" ? setStatus(true) : setStatus(false);
+      setDescription(data.description);
+      setCategory(data.jobCategoryId);
+      setSkill(data.skill_required);
+      setEducation(data.education_required);
+      setSelectedDate(data.application_deadline);
+      data.status === "open" ? setStatus(true) : setStatus(false);
     }
   };
 
@@ -80,6 +83,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
     setSelectedDate(null);
     setIsRangeEnabled(false);
     setIsYearEnabled(false);
+    setEmployer("");
   };
 
   const ModalBody = (
@@ -99,21 +103,23 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
           </div>
         ) : null}
       </div>
+
+      <div className="form-floating mb-3">
+        <label for="exampleInputEmail1" class="form-label">
+          Job Title
+        </label>
+        <input
+          type="text"
+          class="form-control rounded"
+          aria-describedby="emailHelp"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+
       <div className="form-floating mb-3">
         <div className="row">
           <div class="col">
-            <label for="exampleInputEmail1" class="form-label">
-              Job Title
-            </label>
-            <input
-              type="text"
-              class="form-control rounded"
-              aria-describedby="emailHelp"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-          <div class="col p-1">
             <label for="exampleInputEmail1" class="form-label">
               Category
             </label>
@@ -127,6 +133,24 @@ const JobModal = ({ AddJob, categories, ModifyJob, data }) => {
               {categories?.map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div class="col">
+            <label for="exampleInputEmail1" class="form-label">
+              Employer
+            </label>
+            <br />
+            <select
+              class="custom-select custom-select-sm"
+              value={employer}
+              onChange={(e) => setEmployer(e.target.value)}
+            >
+              <option selected>Open this select menu</option>
+              {employers?.map((e, index) => (
+                <option key={index} value={e.user.id}>
+                  {e.fullName}
                 </option>
               ))}
             </select>
