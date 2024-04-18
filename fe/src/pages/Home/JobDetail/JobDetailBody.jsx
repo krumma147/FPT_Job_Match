@@ -22,7 +22,7 @@ export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
                 <div className="job-detail-header-logo">
                   <a href="#">
                     <img
-                      src="assets/home/img/fpt-logo.png"
+                      src={job.image}
                       className="job-logo-ima"
                       alt="job-logo"
                     />

@@ -31,31 +31,58 @@ export default function AdminMainPage() {
   const [users, setUsers] = useState([]);
   const [applications, setApplications] = useState([]);
   const [employers, setEmployers] = useState([]);
-  const fetchData = async () => {
-    const categorydata = await CategoryHook.GetAllCategory();
-    // console.log(categorydata.jobCategories);
-    setCategories(categorydata.jobCategories);
-    const jobdata = await JobHooks.GetAllJob();
-    setJobs(jobdata.jobs);
-    //console.log(jobdata);
-    const usersData = await UserHook.GetAllUsers();
-    setUsers(usersData);
-    const employerData = usersData.filter((u) => u.roles[0] === "Employer");
-    setEmployers(employerData);
 
-    //console.log(usersData);
-    const applicationsData = await ApplicationHook.GetAllApplications();
-    //console.log(applicationsData);
-    applicationsData
-      ? setApplications(applicationsData.applications)
-      : setApplications([]);
+  const fetchApplication = async () => {
+    const appData = await ApplicationHook.GetAllApplications();
+    if (appData) {
+      setApplications(appData.applications);
+    } else {
+      setApplications([]);
+    }
+  };
+
+  const fetchJobs = async () => {
+    const jobdata = await JobHooks.GetAllJob();
+    if (jobdata) {
+      setJobs(jobdata.jobs);
+    } else {
+      setJobs([]);
+    }
+  };
+
+  const fetchCategories = async () => {
+    const categorydata = await CategoryHook.GetAllCategory();
+    if (categorydata) {
+      setCategories(categorydata.jobCategories);
+    } else {
+      setCategories([]);
+    }
+  };
+
+  const fetchUserData = async () => {
+    const userData = await UserHook.GetAllUsers();
+    if (userData) {
+      setUsers(userData);
+      const employerData = userData.filter((u) => u.roles[0] === "Employer");
+      setEmployers(employerData);
+    } else {
+      setUsers([]);
+      setEmployers([]);
+    }
+  };
+
+  const fetchAllData = async () => {
+    await fetchApplication();
+    await fetchJobs();
+    await fetchCategories();
+    await fetchUserData();
   };
 
   const AddCategory = async (cat) => {
     try {
       const res = await CategoryHook.CreateCategory(cat);
       // if (res !== null) alert("Create success!");
-      await fetchData();
+      await fetchCategories();
     } catch (err) {
       Swal.fire("Error", err.res.data, "error");
     }
@@ -66,7 +93,7 @@ export default function AdminMainPage() {
       const res = await CategoryHook.EditCategory(id, cat);
       // console.log(res);
       // alert("Edit success!");
-      fetchData();
+      await fetchCategories();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
@@ -77,7 +104,7 @@ export default function AdminMainPage() {
       const res = await CategoryHook.DeleteCategory(id);
       // console.log(res);
       // alert("Delete successful!");
-      fetchData();
+      await fetchCategories();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
@@ -88,7 +115,7 @@ export default function AdminMainPage() {
       const res = await JobHooks.CreateJob(job);
       // console.log(res);
       // alert("Create Job success!");
-      fetchData();
+      await fetchJobs();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
@@ -99,7 +126,7 @@ export default function AdminMainPage() {
       const res = await JobHooks.EditJob(id, job);
       // console.log(res);
       // if (res !== null) alert("Edit Job success!");
-      fetchData();
+      await fetchJobs();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
@@ -110,7 +137,7 @@ export default function AdminMainPage() {
       const res = await JobHooks.DeleteJob(id);
       // console.log(res);
       // alert("Delete Job successful!");
-      fetchData();
+      await fetchJobs();
     } catch (error) {
       Swal.fire("Error", error.data, "error");
     }
@@ -120,7 +147,7 @@ export default function AdminMainPage() {
     try {
       const res = await ApplicationHook.CreateApplication(application);
       // if (res.message !== null) alert("Create Application success!");
-      await fetchData();
+      await fetchApplication();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
@@ -131,7 +158,7 @@ export default function AdminMainPage() {
       const res = await ApplicationHook.EditApplication(id, application);
       console.log(res);
       if (res !== null) alert("Edit User success!");
-      await fetchData();
+      await fetchApplication();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
@@ -142,16 +169,17 @@ export default function AdminMainPage() {
       const res = await ApplicationHook.DeleteApplication(id);
       // console.log(res);
       // alert("Delete User successful!");
-      await fetchData();
+      await fetchApplication();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
+
   const AddUser = async (user) => {
     try {
       const res = await UserHook.CreateUser(user);
       // if (res !== null) alert("Create User success!");
-      await fetchData();
+      await fetchUserData();
     } catch (err) {
       Swal.fire("Error", err.res.data, "error");
     }
@@ -161,7 +189,7 @@ export default function AdminMainPage() {
     try {
       const res = await UserHook.EditUser(id, user);
       // console.log(res);
-      await fetchData();
+      await fetchUserData();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
@@ -172,14 +200,14 @@ export default function AdminMainPage() {
       const res = await UserHook.DeleteUser(id);
       // console.log(res);
       // alert("Delete User successful!");
-      await fetchData();
+      await fetchUserData();
     } catch (error) {
       Swal.fire("Error", error.res.data, "error");
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchAllData();
   }, []);
 
   //notification

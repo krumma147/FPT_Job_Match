@@ -5,13 +5,14 @@ import JobSupport from "../../../components/home/JobSupport";
 import Footer from "../../../components/home/Footer";
 import JobSeekerBody from "./JobSeekerBody";
 import { getUserId } from "../../Auth/Auth";
+import { fetchApplication, fetchJobs } from "../home";
 export default function JobSeeker() {
   const [jobs, setJobs] = useState([]);
   const [jobCategories, setJobCategories] = useState([]);
   const [application, setApplication] = useState([]);
   const [user, setUser] = useState([]);
 
-  useEffect(() => {
+  const fetchData = () => {
     const appData = localStorage.getItem("ApplicationData");
     const jobCategories = localStorage.getItem("JobCategories");
     const userData = localStorage.getItem("UserNameData");
@@ -36,6 +37,15 @@ export default function JobSeeker() {
       setUser(parsedUs);
       //console.log(parsedJobs);
     }
+  }
+
+  const ReFetchingData = async () => {
+    await fetchApplication();
+    await fetchJobs();
+    fetchData();
+  }
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const FindJobCategory = (id) => {
@@ -64,6 +74,7 @@ export default function JobSeeker() {
         FindJobCategory={FindJobCategory}
         GetApplication={GetApplication}
         GetUserName={GetUserName}
+        ReFetchingData={ReFetchingData}
       />
       <JobSupport />
       <Footer />

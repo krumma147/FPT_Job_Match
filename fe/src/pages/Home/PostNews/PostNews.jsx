@@ -5,7 +5,7 @@ import Footer from "../../../components/home/Footer";
 import PostNewBody from "./PostNewBody";
 import { checkAccess, getUserId } from "../../Auth/Auth";
 import { useHistory } from "react-router-dom";
-
+import { fetchApplication, fetchJobs } from "../home";
 export default function PostNews() {
   const [categories, setCategories] = useState([]);
   const [employerId, setEmployerId] = useState("");
@@ -24,6 +24,12 @@ export default function PostNews() {
     setEmployerId(id);
   }, []);
 
+  const ReFetchingData = async() =>{
+    await fetchApplication();
+    await fetchJobs();
+
+  }
+
   //console.log(isEmployer);
 
   const GetAllCategories = () => {
@@ -37,7 +43,7 @@ export default function PostNews() {
     <div>
       <Navbar page={"another-page"} />
       <div class="clearfix"></div>
-      <PostNewBody categories={categories} employerId={employerId} />
+      <PostNewBody categories={categories} employerId={employerId} ReFetchingData={ReFetchingData} />
       <JobSupport />
       <Footer />
     </div>

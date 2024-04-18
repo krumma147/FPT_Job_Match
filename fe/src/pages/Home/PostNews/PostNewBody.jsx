@@ -4,7 +4,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import JobHooks from "../../../hooks/JobHook";
 import { getUserName } from "../../Auth/Auth";
-export default function PostNewBody({ categories, employerId }) {
+export default function PostNewBody({ categories, employerId, ReFetchingData }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
@@ -44,6 +44,7 @@ export default function PostNewBody({ categories, employerId }) {
       //    console.log(isRangeEnabled, job);
       try {
         const res = await JobHooks.CreateJob(job);
+        ReFetchingData();
         if (res.message.toLowerCase().includes("success"))
           alert("Job created successfully!");
       } catch (error) {

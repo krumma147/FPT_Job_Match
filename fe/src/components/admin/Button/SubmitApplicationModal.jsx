@@ -20,7 +20,7 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
       alert("You must sign in first!");
       history.push("/signin");
       window.location.reload();
-    } else if (!checkAccess("jobseeker")) {
+    } else if (checkAccess("jobseeker")) {
       alert("Only job seeker could apply!");
       history.push("/");
       window.location.reload();

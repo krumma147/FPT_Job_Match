@@ -38,7 +38,7 @@ const JobHooks = {
       const response = await axios.delete(`${apiURL}/Job/${id}`);
       return response.data;
     } catch (error) {
-      alert.error(`Can't delete job! ${error}`);
+      alert(`Can't delete job! ${error}`);
       return error;
     }
   },
@@ -48,7 +48,7 @@ const JobHooks = {
       const response = await axios.get(`${apiURL}/Job/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't get job by id! ${error}`);
+      alert(`Can't get job by id! ${error}`);
       return error;
     }
   },
