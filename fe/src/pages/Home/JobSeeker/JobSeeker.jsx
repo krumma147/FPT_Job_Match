@@ -10,22 +10,18 @@ export default function JobSeeker() {
   const [jobCategories, setJobCategories] = useState([]);
   const [application, setApplication] = useState([]);
   const [user, setUser] = useState([]);
-  const [authorID, setAuthorID] = useState("");
 
   useEffect(() => {
     const appData = localStorage.getItem("ApplicationData");
-    const jobsData = localStorage.getItem("JobsData");
     const jobCategories = localStorage.getItem("JobCategories");
     const userData = localStorage.getItem("UserNameData");
+    const jobsData = localStorage.getItem("JobsData");
     const author = getUserId();
-    setAuthorID(author);
-    if (jobsData) {
-      const parsedJobs = JSON.parse(jobsData);
-      const postedJobs = parsedJobs.filter((j) => j.employerId === authorID);
-      setJobs(postedJobs);
-      console.log(postedJobs);
-      //console.log(parsedJobs);
-    }
+    //console.log(author);
+    const parsedJobs = JSON.parse(jobsData);
+    const postedJobs = parsedJobs.filter((j) => j.employerId === author);
+    setJobs(postedJobs);
+    //console.log(postedJobs);
     if (jobCategories) {
       const parsedJobCategories = JSON.parse(jobCategories);
       setJobCategories(parsedJobCategories);

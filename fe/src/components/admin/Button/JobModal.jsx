@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
+// Build lại
+
+const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
@@ -17,6 +19,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
   const [isYearEnabled, setIsYearEnabled] = useState(false);
   const [status, setStatus] = useState(false);
   const [employer, setEmployer] = useState("");
+  const [jobData, setJobData] = useState(null);
 
   let jobStatus = status ? "open" : "closed";
 
@@ -26,6 +29,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
     if (isRangeEnabled) {
       setSalaryRange("Discuss during interview");
     }
+
     const job = {
       title,
       description,
@@ -49,9 +53,9 @@ const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
       alert("Please fill required data");
       return;
     }
-    if (data) {
-      alert(`Update data with id: ${data.id}`);
-      await ModifyJob(data.id, job);
+    if (job) {
+      alert(`Update data with id: ${job.id}`);
+      await ModifyJob(job.id, job);
     } else {
       await AddJob(job);
     }
@@ -59,16 +63,23 @@ const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
     CloseModal();
   };
 
-  const ActiveModal = (e) => {
-    e.preventDefault();
-    if (data !== undefined) {
-      setTitle(data.title);
-      setDescription(data.description);
-      setCategory(data.jobCategoryId);
-      setSkill(data.skill_required);
-      setEducation(data.education_required);
-      setSelectedDate(data.application_deadline);
-      data.status === "open" ? setStatus(true) : setStatus(false);
+  useEffect(() => {
+    if (job) {
+      setTitle(job.title);
+      setDescription(job.description);
+      setCategory(job.jobCategoryId);
+      setSkill(job.skill_required);
+      setEducation(job.education_required);
+      setSelectedDate(job.application_deadline);
+      job.status === "open" ? setStatus(true) : setStatus(false);
+    }
+  }, [job]);
+
+  const ActiveModal = () => {
+    if (job) {
+      console.log(job);
+      console.log("Data after setState", job);
+      console.log("Data Stored:", jobData);
     }
   };
 
@@ -84,12 +95,13 @@ const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
     setIsRangeEnabled(false);
     setIsYearEnabled(false);
     setEmployer("");
+    //setJobData(null);
   };
 
   const ModalBody = (
     <div className="bg-light rounded h-100 p-2">
       <div className="form-floating mb-2">
-        {data ? (
+        {job ? (
           <div class="form-check">
             <input
               class="form-check-input"
@@ -284,20 +296,20 @@ const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
         type="button"
         class="btn btn-primary"
         data-toggle="modal"
-        data-target={data ? "#JobModal" : `#EditJobModal${data?.id}`}
-        onClick={ActiveModal}
+        data-target={job ? "#JobModal" : `#EditJobModal${id}`}
+        onClick={job ? ActiveModal : null}
       >
-        {data ? (
+        {job ? (
           <span class="mdi mdi-file-edit"></span>
         ) : (
           <span class="mdi mdi-plus"></span>
         )}
-        {data ? "Edit" : "Add Job"}
+        {job ? "Edit" : "Add Job"}
       </button>
 
       <div
         class="modal fade"
-        id={data ? "JobModal" : `EditJobModal${data?.id}`}
+        id={job ? "JobModal" : `EditJobModal${id}`}
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
@@ -306,12 +318,13 @@ const JobModal = ({ AddJob, categories, ModifyJob, data, employers }) => {
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title " id="exampleModalLabel">
-                {data ? "Edit" : "Add"} Job
+                {job ? "Edit" : "Add"} Job
               </h5>
               <button
                 type="button"
                 class="btn-close"
                 data-dismiss="modal"
+                onClick={CloseModal}
               ></button>
             </div>
             <div class="modal-body">{ModalBody}</div>

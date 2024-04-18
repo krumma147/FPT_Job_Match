@@ -42,11 +42,13 @@ export default function AdminMainPage() {
     setUsers(usersData);
     const employerData = usersData.filter((u) => u.roles[0] === "Employer");
     setEmployers(employerData);
-    
+
     //console.log(usersData);
     const applicationsData = await ApplicationHook.GetAllApplications();
     //console.log(applicationsData);
-    setApplications(applicationsData.applications);
+    applicationsData
+      ? setApplications(applicationsData.applications)
+      : setApplications([]);
   };
 
   const AddCategory = async (cat) => {
@@ -110,7 +112,7 @@ export default function AdminMainPage() {
       // alert("Delete Job successful!");
       fetchData();
     } catch (error) {
-      Swal.fire("Error", error.res.data, "error");
+      Swal.fire("Error", error.data, "error");
     }
   };
 

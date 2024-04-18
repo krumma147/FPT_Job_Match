@@ -8,7 +8,7 @@ const JobHooks = {
       //console.log(response.data);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      alert(`Can't get all jobs! ${error}`);
       return error;
     }
   },
@@ -18,7 +18,7 @@ const JobHooks = {
       const response = await axios.post(`${apiURL}/Job`, job);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      alert(`Can't create job! ${error}`);
       return error;
     }
   },
@@ -28,7 +28,7 @@ const JobHooks = {
       const response = await axios.put(`${apiURL}/Job/${id}`, job);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      alert.error(`Can't set job! ${error}`);
       return error;
     }
   },
@@ -38,7 +38,7 @@ const JobHooks = {
       const response = await axios.delete(`${apiURL}/Job/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      alert.error(`Can't delete job! ${error}`);
       return error;
     }
   },
@@ -48,7 +48,7 @@ const JobHooks = {
       const response = await axios.get(`${apiURL}/Job/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      console.error(`Can't get job by id! ${error}`);
       return error;
     }
   },

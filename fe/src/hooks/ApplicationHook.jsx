@@ -7,7 +7,7 @@ const ApplicationHook = {
       const response = await axios.get(`${apiURL}/Application`);
       return response.data;
     } catch (error) {
-      alert(`Can't create account! ${error}`);
+      alert(`Can't get all application! ${error}`);
     }
   },
 
