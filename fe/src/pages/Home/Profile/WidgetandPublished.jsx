@@ -42,6 +42,7 @@ export default function WidgetandPublished() {
   const [password, setPassword] = useState("");
   const [data, setData] = useState(null);
   const [userName, setUserName] = useState("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState('https://i.pravatar.cc/500?img=7');
 
   const fetchUserData = async () => {
     try {
@@ -53,6 +54,7 @@ export default function WidgetandPublished() {
         setUserId(id);
         setData(userData);
         setFullName(userData.fullName);
+        setImagePreviewUrl(userData.image);
         setPhoneNumber(userData.user.phoneNumber);
         setEmail(userData.user.email);
         setUserName(userData.user.userName);
@@ -72,8 +74,7 @@ export default function WidgetandPublished() {
   const handleChange2FA = async () => {
     if (
       window.confirm(
-        `Are you sure you want to turn 2 factor authentication ${
-          FAStatus ? "on" : "off"
+        `Are you sure you want to turn 2 factor authentication ${FAStatus ? "on" : "off"
         }?`
       )
     ) {
@@ -95,6 +96,7 @@ export default function WidgetandPublished() {
         password,
         UserName: userName,
         role: data.roles[0],
+        image: imagePreviewUrl,
       };
       const res = await UserHook.EditUser(userId, editUser);
       //   Swal.fire("Successful", res.data, "success");
@@ -104,6 +106,17 @@ export default function WidgetandPublished() {
       console.error(error.message);
     }
   };
+  
+  const handleImageUpload = (e) => {
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      setImagePreviewUrl(reader.result);
+    }
+
+    reader.readAsDataURL(file);
+  }
 
   return (
     <div>
@@ -165,6 +178,7 @@ export default function WidgetandPublished() {
                                   type="file"
                                   id="imageUpload"
                                   accept=".png, .jpg, .jpeg"
+                                  onChange={handleImageUpload}
                                 />
                                 <label htmlFor="imageUpload" />
                               </div>
@@ -172,8 +186,7 @@ export default function WidgetandPublished() {
                                 <div
                                   id="imagePreview"
                                   style={{
-                                    backgroundImage:
-                                      "url(https://i.pravatar.cc/500?img=7)",
+                                    backgroundImage: `url(${imagePreviewUrl})`,
                                   }}
                                 ></div>
                               </div>
@@ -283,7 +296,7 @@ export default function WidgetandPublished() {
             <div className="col-md-4 col-sm-12 col-12">
               <div className="recuiter-info">
                 <div className="recuiter-info-avt">
-                  <img src="assets/home/img/icon_avatar.jpg" />
+                  <img src={imagePreviewUrl} />
                 </div>
                 <div className="clearfix list-rec">
                   <h4>{fullName}</h4>

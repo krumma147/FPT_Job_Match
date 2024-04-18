@@ -30,7 +30,6 @@ const UserHook = {
       return response.data;
     } catch (error) {
       console.error(`Can't edit account! ${error}`);
-      //return error;
     }
   },
 

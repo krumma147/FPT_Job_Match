@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 using TestAPI.Contextes;
 using TestAPI.Models;
 using TestAPI.Models.Auth;
@@ -41,6 +42,7 @@ namespace TestAPI.Controllers.Admin.Users
                     user = user,
                     roles = roles,
                     fullName = userInfo?.FullName,
+                    image = userInfo?.Image,
                 });
             }
 
@@ -115,6 +117,7 @@ namespace TestAPI.Controllers.Admin.Users
                     user = user,
                     roles = roles,
                     fullName = userInfo?.FullName,
+                    image = userInfo?.Image,
                 };
             }
             catch (Exception ex)
@@ -177,6 +180,7 @@ namespace TestAPI.Controllers.Admin.Users
                 }
 
                 userInfo.FullName = model.FullName;
+                userInfo.Image = model.Image;
                 await _context.SaveChangesAsync();
                 // notification clients
                 await _hubContext.Clients.All.SendAsync("updatedUser", user);

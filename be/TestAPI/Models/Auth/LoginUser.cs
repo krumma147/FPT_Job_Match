@@ -19,6 +19,7 @@ namespace TestAPI.Models.Auth
         public string Email { get; set; }
 
         public string? Company { get; set; }
+        public string? Image { get; set; }
 
         [Required]
         public string Role { get; set; }
