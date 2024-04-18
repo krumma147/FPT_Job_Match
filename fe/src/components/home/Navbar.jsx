@@ -34,7 +34,7 @@ export default function Navbar(props) {
             <ul className="navbar-nav mr-auto tnav-left tn-nav">
               <li className="nav-item">
                 <a className="nav-link" href="/jobs">
-                  Việc Làm IT
+                  ALL JOBS
                 </a>
               </li>
             </ul>
@@ -42,7 +42,7 @@ export default function Navbar(props) {
               <li className="nav-item active">
                 <a className="nav-link" href="#">
                   <i className="fa fa-search" aria-hidden="true" />{" "}
-                  <span className="hidden-text">Tìm kiếm</span>
+                  <span className="hidden-text">Search</span>
                 </a>
               </li>
               {isLoggedIn ? (
@@ -55,6 +55,7 @@ export default function Navbar(props) {
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
+                    
                   >
                     Account
                   </a>

@@ -12,7 +12,7 @@ using TestAPI.Contextes;
 namespace TestAPI.Migrations
 {
     [DbContext(typeof(AuthDemoDbContext))]
-    [Migration("20240417193027_InitialCreate")]
+    [Migration("20240418112238_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -326,6 +326,9 @@ namespace TestAPI.Migrations
                     b.Property<double>("Experience_required")
                         .HasColumnType("float");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("JobCategoryId")
                         .HasColumnType("int");
 
@@ -390,6 +393,9 @@ namespace TestAPI.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Skill")

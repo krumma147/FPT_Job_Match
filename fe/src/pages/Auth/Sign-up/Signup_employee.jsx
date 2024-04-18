@@ -11,7 +11,7 @@ const SignupEmployee = () => {
   const { signup } = useAuth();
   const signupBtn = async (e) => {
     e.preventDefault();
-    signup(name, email, phone, password, confirmPassword, "JobSeeker");
+    signup(name, email, phone, "",password, confirmPassword, "JobSeeker");
   };
 
   const handleGoogleLogin = (event) => {

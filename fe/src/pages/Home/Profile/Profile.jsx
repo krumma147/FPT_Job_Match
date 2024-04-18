@@ -10,7 +10,7 @@ export default function Profile() {
     <div>
           <Navbar page={'another-page'} />
           <div class="clearfix"></div>
-          <RecuiterNav />
+          {/* <RecuiterNav /> */}
           <WidgetandPublished />
           <JobSupport />
           <Footer />

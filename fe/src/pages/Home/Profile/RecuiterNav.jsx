@@ -9,24 +9,24 @@ export default function RecuiterNav() {
             <div className="collapse navbar-collapse container" id="navbarNava">
                 <ul className="navbar-nav nav-recuitment-li">
                     <li className="nav-item active">
-                        <a className="nav-link" href="#">Quản lý hồ sơ</a>
+                        <a className="nav-link" href="#">Records management</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Việc làm của tôi</a>
+                        <a className="nav-link" href="#">My job</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Việc làm đã lưu</a>
+                        <a className="nav-link" href="#">Saved jobs</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Quản lý hồ sơ</a>
+                        <a className="nav-link" href="#">Records management</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Cài đặt</a>
+                        <a className="nav-link" href="#">Setting</a>
                     </li>
                 </ul>
                 <ul className="rec-nav-right">
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Tạo hồ sơ</a>
+                        <a className="nav-link" href="#">Create a profile</a>
                     </li>
                 </ul>
             </div>

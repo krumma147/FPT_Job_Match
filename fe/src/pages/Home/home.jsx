@@ -16,7 +16,7 @@ import ApplicationHook from "../../hooks/ApplicationHook";
 import UserHook from "../../hooks/UserHook";
 
 import ChatHome from "../Chat/ChatHome";
-import { getUserName } from "../Auth/Auth";
+import { checkAccess, getUserName } from "../Auth/Auth";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 
@@ -122,7 +122,7 @@ const Home = () => {
       </div>
       <div class="clearfix"></div>
       <News />
-      {getUserName() && <ChatHome username={getUserName()} />}
+      {(checkAccess(['Employer']) || checkAccess(['JobSeeker'])) && <ChatHome username={getUserName()} />}
       <JobSupport />
       <Footer />
     </div>
