@@ -287,7 +287,7 @@ export default function WidgetandPublished() {
                     onClick={handleSubmitEdit}
                   >
                     <i className="fa fa-floppy-o pr-2" />
-                    Lưu Hồ Sơ
+                    Save
                   </button>
                 </div>
               </form>

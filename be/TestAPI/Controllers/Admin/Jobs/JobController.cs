@@ -64,6 +64,7 @@ namespace TestAPI.Controllers.Admin.Jobs
                 var newJob = new Job
                 {
                     Title = job.Title,
+                    Image = job.Image,
                     Description = job.Description,
                     SalaryRange = job.SalaryRange,
                     Experience_required = job.Experience_required,
@@ -98,6 +99,7 @@ namespace TestAPI.Controllers.Admin.Jobs
                 if (jobUpdate == null) return NotFound(new { message = "Id not found" });
 
                 jobUpdate.Title = job.Title;
+                jobUpdate.Image = job.Image;
                 jobUpdate.Description = job.Description;
                 jobUpdate.SalaryRange = job.SalaryRange;
                 jobUpdate.Experience_required = job.Experience_required;

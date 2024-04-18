@@ -40,6 +40,7 @@ namespace TestAPI.Services
                 Expericene = "",
                 UserId = newUser.Id,
                 Company = user.Company,
+                Image = user.Image,
                 //User = newUser
             };
             await _db.AddAsync(newUserInfo);

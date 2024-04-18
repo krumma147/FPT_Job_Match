@@ -83,40 +83,30 @@ export default function PostNewBody({ categories, employerId }) {
           <div className="collapse navbar-collapse container" id="navbarNava">
             <ul className="navbar-nav nav-recuitment-li">
               <li className="nav-item active">
-                <a className="nav-link" href="#">
-                  Quản lý đăng tuyển
+                <a className="nav-link" href="/jobseeker">
+                  Jobs Management
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Quản lý ứng viên
+                <a className="nav-link" href="/jobseeker">
+                  JobSeeker Management
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Quản lý đăng tin
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Quản lý hồ sơ
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Tài khoản
+                <a className="nav-link" href="/profile">
+                  Account
                 </a>
               </li>
             </ul>
             <ul className="rec-nav-right">
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Tìm hồ sơ
+                <a className="nav-link" href="/jobseeker">
+                  Find profile
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Đăng tuyển
+                <a className="nav-link" href="/postnews">
+                  recruit
                 </a>
               </li>
             </ul>
