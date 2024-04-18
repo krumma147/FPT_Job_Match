@@ -69,10 +69,10 @@ const ApplicationModal = ({
             <option selected>Select user here</option>
             {users.length > 0 ? (
               users
-                ?.filter((u) => u.roles[0].toLowerCase() === "jobseeker")
+                ?.filter((u) => Array.isArray(u.roles) && u.roles[0]?.toLowerCase() === "jobseeker")
                 .map((u, index) => (
-                  <option key={index} value={u.user.id}>
-                    {u.user.userName}
+                  <option key={index} value={u.user?.id}>
+                    {u.user?.userName}
                   </option>
                 ))
             ) : (

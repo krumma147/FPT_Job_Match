@@ -15,19 +15,19 @@ const SubmitApplicationModal = ({ handleSubmit, id }) => {
   //console.log(token, checkAccess("JobSeeker"));
   //console.log(checkAccess("jobseeker") === "jobseeker");
   const activeModal = () => {
-    if (!getUserId()) {
-      //console.log("Doesn't Have token");
-      alert("You must sign in first!");
-      history.push("/signin");
-      window.location.reload();
-    } else if (!checkAccess("jobseeker")) {
-      alert("Only job seeker could apply!");
-      history.push("/");
-      window.location.reload();
-    } else {
-      const id = getUserId();
-      setUserId(id);
-    }
+    // if (!getUserId()) {
+    //   //console.log("Doesn't Have token");
+    //   alert("You must sign in first!");
+    //   history.push("/signin");
+    //   window.location.reload();
+    // } else if (!checkAccess("JobSeeker")) {
+    //   alert("Only job seeker could apply!");
+    //   history.push("/");
+    //   window.location.reload();
+    // } else {
+    const id = getUserId();
+    setUserId(id);
+    // }
   };
 
   const toggleSubmitModal = async () => {
