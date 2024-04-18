@@ -2,22 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { createConnection, sendMessage, registerMessageReceivedHandler } from '../../Service/signalRChat';
 import { Modal, Button, Form, ListGroup } from 'react-bootstrap';
 import styled from 'styled-components';
+import CryptoJS from 'crypto-js';
 
 const ChatHome = ({ username }) => {
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState(JSON.parse(CryptoJS.AES.decrypt(localStorage.getItem(username) || '', 'secret key').toString(CryptoJS.enc.Utf8) || '[]'));
     const [newMessage, setNewMessage] = useState("");
     const [show, setShow] = useState(false);
 
     useEffect(() => {
         createConnection(username);
         registerMessageReceivedHandler((sender, message) => {
-            setMessages(messages => [...messages, { sender, message }]);
+            if (sender === username || sender === 'Admin') {
+                setMessages(messages => {
+                    const newMessages = [...messages, { sender, message }];
+                    localStorage.setItem(username, CryptoJS.AES.encrypt(JSON.stringify(newMessages), 'secret key').toString());
+                    return newMessages;
+                });
+            }
         });
     }, [username]);
 
     const handleSend = () => {
-        sendMessage(username, 'Admin', newMessage); 
-        setMessages(messages => [...messages, { sender: username, message: newMessage }]);
+        sendMessage(username, 'Admin', newMessage);
+        setMessages(messages => {
+            const newMessages = [...messages, { sender: username, message: newMessage }];
+            localStorage.setItem(username, CryptoJS.AES.encrypt(JSON.stringify(newMessages), 'secret key').toString());
+            return newMessages;
+        });
         setNewMessage("");
     }
 

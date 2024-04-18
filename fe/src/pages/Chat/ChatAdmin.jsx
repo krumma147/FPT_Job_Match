@@ -1,25 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { createConnection, registerMessageReceivedHandler, sendMessage } from '../../Service/signalRChat';
 import { Modal, Button, Form } from 'react-bootstrap';
+import CryptoJS from "crypto-js";
 
 const ChatAdmin = ({ user, messages: initialMessages, onClose }) => {
-    const [messages, setMessages] = useState(initialMessages);
+    const [messages, setMessages] = useState(() => {
+        const localMessages = localStorage.getItem(user.user.email);
+        if (localMessages) {
+            const bytes = CryptoJS.AES.decrypt(localMessages, 'secret key 123');
+            const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+            return decryptedData;
+        } else {
+            return initialMessages;
+        }
+    });
     const [newMessage, setNewMessage] = useState("");
 
     useEffect(() => {
-        setMessages(initialMessages);
         createConnection('Admin');
         registerMessageReceivedHandler((sender, message) => {
-            setMessages(messages => [...messages, { sender, message }]);
+            if (sender === user.user.email) {
+                setMessages(messages => {
+                    const newMessages = [...messages, { sender, message }];
+                    const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(newMessages), 'secret key 123').toString();
+                    localStorage.setItem(user.user.email, ciphertext);
+                    return newMessages;
+                });
+            }
         });
-    }, [initialMessages]);
+    }, [user.user.email]);
 
     const handleSend = () => {
         sendMessage('Admin', user.user.email, newMessage);
-        setMessages([...messages, { sender: 'Admin', message: newMessage }]);
+        setMessages(messages => {
+            const newMessages = [...messages, { sender: 'Admin', message: newMessage }];
+            const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(newMessages), 'secret key 123').toString();
+            localStorage.setItem(user.user.email, ciphertext);
+            return newMessages;
+        });
         setNewMessage("");
     }
-    // console.log(messages);
+
     return (
         <Modal show={true} onHide={onClose} centered>
             <Modal.Header closeButton>
