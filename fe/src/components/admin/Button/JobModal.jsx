@@ -63,8 +63,25 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
     CloseModal();
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (job) {
+  //     setTitle(job.title);
+  //     setDescription(job.description);
+  //     setCategory(job.jobCategoryId);
+  //     setSkill(job.skill_required);
+  //     setEducation(job.education_required);
+  //     setSelectedDate(job.application_deadline);
+  //     job.status === "open" ? setStatus(true) : setStatus(false);
+  //   }
+  // }, [job]);
+
+  const ActiveModal = () => {
     if (job) {
+      console.log(job); // True
+      console.log("Data after setState", job); // True
+      //debugger;
+      console.log("Data Stored:", jobData); // False
+      //debugger;
       setTitle(job.title);
       setDescription(job.description);
       setCategory(job.jobCategoryId);
@@ -72,14 +89,6 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
       setEducation(job.education_required);
       setSelectedDate(job.application_deadline);
       job.status === "open" ? setStatus(true) : setStatus(false);
-    }
-  }, [job]);
-
-  const ActiveModal = () => {
-    if (job) {
-      console.log(job);
-      console.log("Data after setState", job);
-      console.log("Data Stored:", jobData);
     }
   };
 

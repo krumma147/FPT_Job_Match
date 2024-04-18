@@ -10,6 +10,7 @@ export default function SideBar({ jobs, categories }) {
 
   const getCatByID = (id) => {
     const cat = categories.find((c) => c.id === id);
+    console.log(cat);
     return cat.name;
   };
   let safeJobs = jobs || [];
@@ -33,7 +34,7 @@ export default function SideBar({ jobs, categories }) {
                           <div className="job-logo">
                             <a>
                               <img
-                                src="assets/home/img/fpt-logo.png"
+                                src={j.image}
                                 className="job-logo-ima"
                                 alt="job-logo"
                               />

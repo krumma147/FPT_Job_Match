@@ -1,13 +1,36 @@
 import React from "react";
 import "./JobSeeker.css";
 import JobDetailModal from "../../../components/admin/Button/JobDetailModal";
-
+import Icon from "@mdi/react";
+import { mdiCog, mdiPencil, mdiDelete } from "@mdi/js";
+import JobHooks from "../../../hooks/JobHook";
+import ApplicationHook from "../../../hooks/ApplicationHook";
 export default function JobSeekerBody({
   jobs,
   FindJobCategory,
   GetApplication,
   GetUserName,
+  ReFetchingData
 }) {
+  const HandleDeleteJob = async (id) => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete? This will delete all applications related to this"
+      )
+    ) {
+      //alert("Deleting job ...");
+      const applications = GetApplication(id);
+      console.log(applications);
+      if (applications.length > 0) {
+        applications.map(
+          async (a) => await ApplicationHook.DeleteApplication(a.id)
+        );
+      }
+      await JobHooks.DeleteJob(id);
+      await ReFetchingData();
+    }
+  };
+
   return (
     <div className="featured_candidates_area candidate_page_padding">
       <div className="container">
@@ -16,8 +39,36 @@ export default function JobSeekerBody({
             jobs.map((j, index) => (
               <div key={index} className="col-md-6 col-lg-3">
                 <div className="single_candidates text-center">
+                  <div className="d-flex justify-content-end">
+                    <div class="btn-group dropright">
+                      <button
+                        class="btn dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <Icon path={mdiCog} size={1} />
+                      </button>
+                      <div
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton"
+                      >
+                        <button class="dropdown-item text-info" href="#">
+                          <Icon path={mdiPencil} size={1} />
+                        </button>
+                        <button
+                          class="dropdown-item text-danger"
+                          onClick={() => HandleDeleteJob(j.id)}
+                        >
+                          <Icon path={mdiDelete} size={1} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                   <div className="thumb">
-                    <img src="assets/home/img/jobseeker.jpg" alt />
+                    <img src="assets/home/img/jobseeker.jpg" />
                   </div>
                   <a href="#">
                     <h4>
@@ -28,7 +79,7 @@ export default function JobSeekerBody({
                       />
                     </h4>
                   </a>
-                  <p>{FindJobCategory(j.jobCategoryId).name}</p>
+                  <p>Field: {FindJobCategory(j.jobCategoryId).name}</p>
                 </div>
               </div>
             ))
@@ -59,8 +110,7 @@ export default function JobSeekerBody({
                 </li>
                 <li>
                   <a href="#">
-                    {" "}
-                    <i className="fas fa-angle-right"></i>{" "}
+                    <i className="fas fa-angle-right"></i>
                   </a>
                 </li>
               </ul>

@@ -40,6 +40,7 @@ const JobPanel = ({
           <table className="table">
             <thead>
               <tr>
+                <th scope="col">Image</th>
                 <th scope="col">Job Title</th>
                 <th scope="col">Salary</th>
                 <th scope="col">Experiences</th>
@@ -56,6 +57,9 @@ const JobPanel = ({
               {jobs?.map((job, index) => (
                 <tr key={index}>
                   <td scope="row">
+                    <img src={job.image} alt="" width={100} height={100} />
+                  </td>
+                  <td>
                     <span>{job.title}</span>
                   </td>
                   <td>{job.salaryRange}</td>
