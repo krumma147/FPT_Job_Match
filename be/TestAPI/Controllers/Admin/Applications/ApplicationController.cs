@@ -55,6 +55,14 @@ namespace TestAPI.Controllers.Admin.Applications
         {
             try
             {
+                //check jobseeker apply job
+                var existingApplication = await _context.Applications
+                .FirstOrDefaultAsync(a => a.JobId == application.JobId && a.UserId == application.UserId);
+
+                if (existingApplication != null)
+                {
+                    return BadRequest(new { message = "You have already applied for this job" });
+                }
                 var newApplication = new Application
                 {
                     resume = application.resume,

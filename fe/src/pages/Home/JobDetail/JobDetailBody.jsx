@@ -5,12 +5,7 @@ import Swal from "sweetalert2";
 import { checkAccess, getUserId } from "../../Auth/Auth";
 export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
   const handleSubmit = async (application) => {
-    try {
       const res = await ApplicationHook.CreateApplication(application);
-      Swal.fire("Successful", res.data, "success");
-    } catch (e) {
-      Swal.fire("Error", e.res.data, "error");
-    }
   };
 
   const renderSubmitButtonOrModal = () => {

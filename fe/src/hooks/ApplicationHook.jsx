@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 const apiURL = "https://localhost:7282/api";
 
 const ApplicationHook = {
@@ -14,9 +15,9 @@ const ApplicationHook = {
   CreateApplication: async (application) => {
     try {
       const response = await axios.post(`${apiURL}/Application`, application);
-      return response.data;
+      Swal.fire("Error", response.data, "error");
     } catch (error) {
-      alert(`Can't create application! ${error}`);
+      Swal.fire("Error", error.response.data.message, "error");
     }
   },
 

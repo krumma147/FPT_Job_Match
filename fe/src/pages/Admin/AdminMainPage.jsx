@@ -178,7 +178,6 @@ export default function AdminMainPage() {
   const AddUser = async (user) => {
     try {
       const res = await UserHook.CreateUser(user);
-      // if (res !== null) alert("Create User success!");
       await fetchUserData();
     } catch (err) {
       Swal.fire("Error", err.res.data, "error");
