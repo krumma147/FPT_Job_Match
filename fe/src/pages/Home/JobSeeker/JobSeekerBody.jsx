@@ -10,7 +10,7 @@ export default function JobSeekerBody({
   FindJobCategory,
   GetApplication,
   GetUserName,
-  ReFetchingData
+  ReFetchingData,
 }) {
   const HandleDeleteJob = async (id) => {
     if (
@@ -55,9 +55,12 @@ export default function JobSeekerBody({
                         class="dropdown-menu"
                         aria-labelledby="dropdownMenuButton"
                       >
-                        <button class="dropdown-item text-info" href="#">
+                        <a
+                          class="dropdown-item text-info"
+                          href={`/postnews/${j.id}`}
+                        >
                           <Icon path={mdiPencil} size={1} />
-                        </button>
+                        </a>
                         <button
                           class="dropdown-item text-danger"
                           onClick={() => HandleDeleteJob(j.id)}

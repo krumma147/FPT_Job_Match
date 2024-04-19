@@ -4,11 +4,13 @@ import JobSupport from "../../../components/home/JobSupport";
 import Footer from "../../../components/home/Footer";
 import PostNewBody from "./PostNewBody";
 import { checkAccess, getUserId } from "../../Auth/Auth";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { fetchApplication, fetchJobs } from "../home";
 export default function PostNews() {
+  const { id } = useParams();
   const [categories, setCategories] = useState([]);
   const [employerId, setEmployerId] = useState("");
+  const [editJob, setEditJob] = useState(null);
   const history = useHistory();
   const isEmployer = checkAccess("Employer");
 
@@ -20,15 +22,24 @@ export default function PostNews() {
 
   useEffect(() => {
     GetAllCategories();
-    const id = getUserId();
-    setEmployerId(id);
+    const userid = getUserId();
+    setEmployerId(userid);
   }, []);
 
-  const ReFetchingData = async() =>{
+  useEffect(() => {
+    const jobsDataJSON = localStorage.getItem("JobsData");
+    if (jobsDataJSON) {
+      const jobData = JSON.parse(jobsDataJSON);
+      const editJob = jobData.find((j) => j.id === parseInt(id));
+      console.log(editJob, id);
+      setEditJob(editJob);
+    }
+  }, [id]);
+
+  const ReFetchingData = async () => {
     await fetchApplication();
     await fetchJobs();
-
-  }
+  };
 
   //console.log(isEmployer);
 
@@ -43,7 +54,12 @@ export default function PostNews() {
     <div>
       <Navbar page={"another-page"} />
       <div class="clearfix"></div>
-      <PostNewBody categories={categories} employerId={employerId} ReFetchingData={ReFetchingData} />
+      <PostNewBody
+        categories={categories}
+        employerId={employerId}
+        ReFetchingData={ReFetchingData}
+        editJob={editJob}
+      />
       <JobSupport />
       <Footer />
     </div>

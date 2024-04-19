@@ -46,8 +46,7 @@ const Home = () => {
   const [filterJob, setFilterJob] = useState([]);
   const [searchKey, setSearchKey] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
-  
-  
+
   const fetchCategories = async () => {
     const categorydata = await CategoryHook.GetAllCategory();
     if (categorydata) {
@@ -79,7 +78,8 @@ const Home = () => {
     await fetchJobs();
     await fetchUserName();
     await fetchApplication();
-    const jobData = localStorage.getItem("JobData");
+    const jobDataJSON = localStorage.getItem("JobsData");
+    const jobData = JSON.parse(jobDataJSON);
     setJobs(jobData);
   };
 

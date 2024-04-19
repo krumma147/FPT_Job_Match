@@ -4,7 +4,12 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import JobHooks from "../../../hooks/JobHook";
 import { getUserName } from "../../Auth/Auth";
-export default function PostNewBody({ categories, employerId, ReFetchingData }) {
+export default function PostNewBody({
+  categories,
+  employerId,
+  ReFetchingData,
+  editJob,
+}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
@@ -43,10 +48,15 @@ export default function PostNewBody({ categories, employerId, ReFetchingData }) 
       };
       //    console.log(isRangeEnabled, job);
       try {
-        const res = await JobHooks.CreateJob(job);
-        ReFetchingData();
-        if (res.message.toLowerCase().includes("success"))
-          alert("Job created successfully!");
+        if (editJob) {
+          const res = await JobHooks.EditJob(editJob.id, job);
+          ReFetchingData();
+        } else {
+          const res = await JobHooks.CreateJob(job);
+          ReFetchingData();
+          if (res.message.toLowerCase().includes("success"))
+            alert("Job created successfully!");
+        }
       } catch (error) {
         console.log(error.message);
       }
@@ -64,6 +74,20 @@ export default function PostNewBody({ categories, employerId, ReFetchingData }) 
     setDeadline("");
     setCategory("");
   };
+
+  useEffect(() => {
+    if (editJob) {
+      console.log(editJob);
+      setTitle(editJob.title);
+      setDescription(editJob.description);
+      setSalaryRange(editJob.salaryRange);
+      setExperience(editJob.experience_required);
+      setEducation(editJob.education_required);
+      setSkill(editJob.skill_required);
+      setDeadline(editJob.application_deadline);
+      setCategory(editJob.jobCategoryId);
+    }
+  }, [editJob]);
 
   return (
     <div>

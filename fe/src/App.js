@@ -12,18 +12,23 @@ import JobSeeker from "./pages/Home/JobSeeker/JobSeeker";
 import JobDetail from "./pages/Home/JobDetail/JobDetail";
 import { Callback } from "./pages/Auth/Callback";
 import { checkAccess, checkAuth } from "./pages/Auth/Auth";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 
 function AdminRoute({ component: Component, ...rest }) {
-  const canAccess = checkAccess(['Admin']);
+  const canAccess = checkAccess(["Admin"]);
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         canAccess ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: "/", state: { from: props.location, noAccess: true, redirected: true } }} />
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: props.location, noAccess: true, redirected: true },
+            }}
+          />
         )
       }
     />
@@ -31,15 +36,20 @@ function AdminRoute({ component: Component, ...rest }) {
 }
 
 function EmployerRoute({ component: Component, ...rest }) {
-  const canAccess = checkAccess(['Employer']);
+  const canAccess = checkAccess(["Employer"]);
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         canAccess ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: "/", state: { from: props.location, noAccess: true, redirected: true } }} />
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: props.location, noAccess: true, redirected: true },
+            }}
+          />
         )
       }
     />
@@ -51,11 +61,16 @@ function PrivateRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         isAuthenticated ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: "/", state: { from: props.location, noAccess: true, redirected: true } }} />
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: props.location, noAccess: true, redirected: true },
+            }}
+          />
         )
       }
     />
@@ -74,6 +89,7 @@ export default function App() {
         <Route path="/jobDetail/:id" exact component={JobDetail} />
         <PrivateRoute path="/profile" exact component={Profile} />
         <EmployerRoute path="/postnews" exact component={PostNews} />
+        <EmployerRoute path="/postnews/:id" exact component={PostNews} />
         <EmployerRoute path="/jobseeker" exact component={JobSeeker} />
         <Route path="/callback" exact component={Callback} />
         <Route path="*" component={PageNotFound} />
