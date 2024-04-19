@@ -32,7 +32,6 @@ const UserPanel = ({ users, AddUser, ModifyUser, RemoveUser }) => {
       RemoveUser(id);
     }
   };
-
   return (
     <>
       <div className="bg-grayE8 rounded h-100 p-4 m-4">
