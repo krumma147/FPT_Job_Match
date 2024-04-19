@@ -15,7 +15,7 @@ const ApplicationHook = {
   CreateApplication: async (application) => {
     try {
       const response = await axios.post(`${apiURL}/Application`, application);
-      Swal.fire("Error", response.data, "error");
+      Swal.fire("Success", response.data.message, "success");
     } catch (error) {
       Swal.fire("Error", error.response.data.message, "error");
     }
