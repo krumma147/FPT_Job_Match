@@ -19,13 +19,13 @@ export default function JobSeekerBody({
       )
     ) {
       //alert("Deleting job ...");
-      const applications = GetApplication(id);
-      console.log(applications);
-      if (applications.length > 0) {
-        applications.map(
-          async (a) => await ApplicationHook.DeleteApplication(a.id)
-        );
-      }
+      const applications = await GetApplication(id);
+      //console.log(applications);
+      
+      // Sử dụng Promise.all để đợi cho tất cả các yêu cầu xóa được thực hiện
+      await Promise.all(
+        applications.map((a) => ApplicationHook.DeleteApplication(a.id))
+      );
       await JobHooks.DeleteJob(id);
       await ReFetchingData();
     }
@@ -59,13 +59,13 @@ export default function JobSeekerBody({
                           class="dropdown-item text-info"
                           href={`/postnews/${j.id}`}
                         >
-                          <Icon path={mdiPencil} size={1} />
+                          <Icon path={mdiPencil} size={1} /> Edit
                         </a>
                         <button
                           class="dropdown-item text-danger"
                           onClick={() => HandleDeleteJob(j.id)}
                         >
-                          <Icon path={mdiDelete} size={1} />
+                          <Icon path={mdiDelete} size={1} /> Delete
                         </button>
                       </div>
                     </div>
