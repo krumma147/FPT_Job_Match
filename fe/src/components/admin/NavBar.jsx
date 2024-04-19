@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 import { getUserName } from "../../pages/Auth/Auth";
-import 'bootstrap/dist/js/bootstrap.bundle';
+import "bootstrap/dist/js/bootstrap.bundle";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router-dom";
-const Navbar = () => {
+const Navbar = ({ showMessages, setShowMessages }) => {
   //   const { user } = useAuth();
   const toggleSidebar = () => {
     const sidebar = document.querySelector(".sidebar");
@@ -19,6 +19,10 @@ const Navbar = () => {
     Cookies.remove("token");
     history.push("/signin");
     window.location.reload();
+  };
+
+  const handleBtnMessage = () => {
+    setShowMessages(!showMessages);
   };
 
   return (
@@ -44,64 +48,10 @@ const Navbar = () => {
       </form>
       <div className="navbar-nav align-items-center ms-auto">
         <div className="nav-item dropdown">
-          <a
-            href="#"
-            className="nav-link dropdown-toggle"
-            data-bs-toggle="dropdown"
-          >
+          <a className="nav-link" onClick={handleBtnMessage}>
             <i className="fa fa-envelope me-lg-2" />
             <span className="d-none d-lg-inline-flex">Message</span>
           </a>
-          <div className="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-            <a href="#" className="dropdown-item">
-              <div className="d-flex align-items-center">
-                <img
-                  className="rounded-circle"
-                  src="img/user.jpg"
-                  alt
-                  style={{ width: 40, height: 40 }}
-                />
-                <div className="ms-2">
-                  <h6 className="fw-normal mb-0">Jhon send you a message</h6>
-                  <small>15 minutes ago</small>
-                </div>
-              </div>
-            </a>
-            <hr className="dropdown-divider" />
-            <a href="#" className="dropdown-item">
-              <div className="d-flex align-items-center">
-                <img
-                  className="rounded-circle"
-                  src="img/user.jpg"
-                  alt
-                  style={{ width: 40, height: 40 }}
-                />
-                <div className="ms-2">
-                  <h6 className="fw-normal mb-0">Jhon send you a message</h6>
-                  <small>15 minutes ago</small>
-                </div>
-              </div>
-            </a>
-            <hr className="dropdown-divider" />
-            <a href="#" className="dropdown-item">
-              <div className="d-flex align-items-center">
-                <img
-                  className="rounded-circle"
-                  src="img/user.jpg"
-                  alt
-                  style={{ width: 40, height: 40 }}
-                />
-                <div className="ms-2">
-                  <h6 className="fw-normal mb-0">Jhon send you a message</h6>
-                  <small>15 minutes ago</small>
-                </div>
-              </div>
-            </a>
-            <hr className="dropdown-divider" />
-            <a href="#" className="dropdown-item text-center">
-              See all message
-            </a>
-          </div>
         </div>
         <div className="nav-item dropdown">
           <a
@@ -148,7 +98,9 @@ const Navbar = () => {
             <span className="d-none d-lg-inline-flex">{getUserName()}</span>
           </a>
           <div className="dropdown-menu">
-            <a className="dropdown-item" onClick={HandleLogout}>Logout</a>
+            <a className="dropdown-item" onClick={HandleLogout}>
+              Logout
+            </a>
           </div>
         </div>
       </div>

@@ -96,7 +96,7 @@
 }
 
 .bg-grayE8 {
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
 }
 
 @media (min-width: 992px) {
@@ -223,6 +223,17 @@
 
 .content .navbar .dropdown-toggle[aria-expanded="true"]::after {
   transform: rotate(-180deg);
+}
+
+.msg_card_body {
+  overflow-y: auto;
+}
+
+.contacts_body {
+  padding: 0.75rem 0 !important;
+  overflow-y: auto;
+  white-space: nowrap;
+  background: none;
 }
 
 @media (max-width: 575.98px) {

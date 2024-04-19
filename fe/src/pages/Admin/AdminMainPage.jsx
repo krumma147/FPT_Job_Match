@@ -22,6 +22,7 @@ import ApplicationPanel from "../../components/admin/TabPanelContents/Applicatio
 import UserPanel from "../../components/admin/TabPanelContents/UserPanel";
 import CategoryPanel from "../../components/admin/TabPanelContents/CategoryPanel";
 import JobPanel from "../../components/admin/TabPanelContents/JobPanel";
+import AdminChatNav from "./AdminChatNav";
 // Socket
 import connection from "../../Service/signalRConfig";
 import Swal from "sweetalert2";
@@ -31,6 +32,7 @@ export default function AdminMainPage() {
   const [users, setUsers] = useState([]);
   const [applications, setApplications] = useState([]);
   const [employers, setEmployers] = useState([]);
+  const [showMessages, setShowMessages] = useState(false);
 
   const fetchApplication = async () => {
     const appData = await ApplicationHook.GetAllApplications();
@@ -252,7 +254,9 @@ export default function AdminMainPage() {
     connection.on("deletedCategory", (deletedCategoryId) => {
       toast.info(`Category deleted: ${deletedCategoryId.name}`);
       setCategories((prevCategories) =>
-        prevCategories.filter((category) => category.id !== deletedCategoryId.id)
+        prevCategories.filter(
+          (category) => category.id !== deletedCategoryId.id
+        )
       );
     });
     //job
@@ -264,9 +268,7 @@ export default function AdminMainPage() {
     connection.on("updatedJob", (updatedJob) => {
       toast.info(`Job updated: ${updatedJob.title}`);
       setJobs((prevJobs) =>
-        prevJobs.map((job) =>
-          job.id === updatedJob.id ? updatedJob : job
-        )
+        prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
       );
     });
 
@@ -280,7 +282,10 @@ export default function AdminMainPage() {
     //application
     connection.on("createdApplication", (newApplication) => {
       toast.success(`New Application registered: ${newApplication.id}`);
-      setApplications((prevApplications) => [...prevApplications, newApplication]);
+      setApplications((prevApplications) => [
+        ...prevApplications,
+        newApplication,
+      ]);
     });
 
     connection.on("updatedApplication", (updatedApplication) => {
@@ -333,88 +338,95 @@ export default function AdminMainPage() {
   ]);
 
   return (
-    <div className="container-xxl position-relative bg-white d-flex p-0">
+    <div className="container-fluid position-relative bg-white d-flex p-0">
       <CustomToastContainer />
       {/* <Spinner /> */}
       <div className="sidebar pe-4 pb-3 bg-grayE8">
         <Sidebar />
       </div>
+
       <div className="content tab-content">
-        <Navbar />
-        <div className="tab-content">
-          <div
-            className="tab-pane fade show active"
-            id="dashboard"
-            role="tabpanel"
-            aria-labelledby="dashboard-tab"
-          >
-            <RevenueChart />
-            <SalesChart />
-            <RecentSales />
-            <Widget />
-            <Footer />
-          </div>
-          <div
-            className="tab-pane fade"
-            id="jobs"
-            role="tabpanel"
-            aria-labelledby="jobs-tab"
-          >
-            <JobPanel
-              AddJob={AddJob}
-              jobs={jobs}
-              ModifyJob={ModifyJob}
-              RemoveJob={RemoveJob}
-              categories={categories}
-              employers={employers}
-            />
-          </div>
-          <div
-            class="tab-pane fade"
-            id="categories"
-            role="tabpanel"
-            aria-labelledby="categories-tab"
-          >
-            <CategoryPanel
-              categories={categories}
-              AddCategory={AddCategory}
-              ModifyCategory={ModifyCategory}
-              RemoveCategory={RemoveCategory}
-            />
-          </div>
-          <div
-            class="tab-pane fade"
-            id="application"
-            role="tabpanel"
-            aria-labelledby="application-tab"
-          >
-            <ApplicationPanel
-              AddApplication={AddApplication}
-              ModifyApplication={ModifyApplication}
-              RemoveApplication={RemoveApplication}
-              jobs={jobs}
-              users={users}
-              applications={applications}
-            />
-          </div>
-          <div
-            class="tab-pane fade"
-            id="users"
-            role="tabpanel"
-            aria-labelledby="users-tab"
-          >
-            <UserPanel
-              users={users}
-              AddUser={AddUser}
-              ModifyUser={ModifyUser}
-              RemoveUser={RemoveUser}
-            />
+        <Navbar showMessages={showMessages} setShowMessages={setShowMessages} />
+        <div className="container-fluid">
+          <div className=" row">
+            <div className="tab-content col">
+              <div
+                className="tab-pane fade show active"
+                id="dashboard"
+                role="tabpanel"
+                aria-labelledby="dashboard-tab"
+              >
+                <RevenueChart />
+                <SalesChart />
+                <RecentSales />
+                <Widget />
+                <Footer />
+              </div>
+              <div
+                className="tab-pane fade"
+                id="jobs"
+                role="tabpanel"
+                aria-labelledby="jobs-tab"
+              >
+                <JobPanel
+                  AddJob={AddJob}
+                  jobs={jobs}
+                  ModifyJob={ModifyJob}
+                  RemoveJob={RemoveJob}
+                  categories={categories}
+                  employers={employers}
+                />
+              </div>
+              <div
+                class="tab-pane fade"
+                id="categories"
+                role="tabpanel"
+                aria-labelledby="categories-tab"
+              >
+                <CategoryPanel
+                  categories={categories}
+                  AddCategory={AddCategory}
+                  ModifyCategory={ModifyCategory}
+                  RemoveCategory={RemoveCategory}
+                />
+              </div>
+              <div
+                class="tab-pane fade"
+                id="application"
+                role="tabpanel"
+                aria-labelledby="application-tab"
+              >
+                <ApplicationPanel
+                  AddApplication={AddApplication}
+                  ModifyApplication={ModifyApplication}
+                  RemoveApplication={RemoveApplication}
+                  jobs={jobs}
+                  users={users}
+                  applications={applications}
+                />
+              </div>
+              <div
+                class="tab-pane fade"
+                id="users"
+                role="tabpanel"
+                aria-labelledby="users-tab"
+              >
+                <UserPanel
+                  users={users}
+                  AddUser={AddUser}
+                  ModifyUser={ModifyUser}
+                  RemoveUser={RemoveUser}
+                />
+              </div>
+            </div>
+            {showMessages ? (
+              <div className="col-md-3 bg-grayE8">
+                <AdminChatNav users={users} />
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
-      <a href="#" className="btn btn-lg btn-primary btn-lg-square back-to-top">
-        <i className="bi bi-arrow-up" />
-      </a>
     </div>
   );
 }
