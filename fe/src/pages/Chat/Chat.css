@@ -32,7 +32,8 @@ body.show-chatbot .chatbot-toggler span:last-child {
   position: fixed;
   right: 35px;
   bottom: 90px;
-  width: 420px;
+  width: 22vw;
+  /* height: 70vh;  */
   background: #fff;
   border-radius: 15px;
   overflow: hidden;
@@ -40,8 +41,6 @@ body.show-chatbot .chatbot-toggler span:last-child {
   pointer-events: none;
   transform: scale(0.5);
   transform-origin: bottom right;
-  box-shadow: 0 0 128px 0 rgba(0,0,0,0.1),
-              0 32px 64px -48px rgba(0,0,0,0.5);
   transition: all 0.1s ease;
    z-index: 9999;
 }
@@ -71,7 +70,7 @@ header h2 {
 }
 .chatbot .chatbox {
   overflow-y: auto;
-  height: 510px;
+  height: 50vh;
   padding: 30px 20px 100px;
 }
 .chatbot :where(.chatbox, textarea)::-webkit-scrollbar {

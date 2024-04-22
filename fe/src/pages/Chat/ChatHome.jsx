@@ -41,7 +41,9 @@ const ChatHome = ({ username }) => {
                 <span className="material-symbols-rounded"><Icon path={mdiMessageText} size={1} /></span>
                 <span className="material-symbols-outlined"><Icon path={mdiClose} size={1} /></span>
             </button>
-            <div className="chatbot">
+            <div className="chatbot" style={{
+                boxShadow: "0 0 128px 0 rgba(0,0,0,0.1), 0 32px 64px -48px rgba(0,0,0,0.5)"
+            }}>
                 <header>
                     <h2>Chat With Admin</h2>
                     <span className="close-btn material-symbols-outlined">close</span>
