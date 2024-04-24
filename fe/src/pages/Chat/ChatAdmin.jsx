@@ -69,7 +69,7 @@ const ChatAdmin = ({ user, messages: initialMessages, onClose }) => {
       border: 'solid 0.5px', right: 10, bottom: 5
     }}>
       <header>
-        <h2>{user.user.email}</h2>
+        <h5>{user.user.email}</h5>
         <i
           className="fas fa-times"
           style={{ cursor: 'pointer', position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)' }}
@@ -79,7 +79,7 @@ const ChatAdmin = ({ user, messages: initialMessages, onClose }) => {
       <ul className="chatbox">
         <li className="chat incoming">
           <span className="material-symbols-outlined"><Icon path={mdiRobotAngryOutline} size={1} /></span>
-          <p>Hi there 👋<br />How can I help you today?</p>
+          <p>Hi 👋<br />What do you want to sent to your User?</p>
         </li>
         {messages.map((message, index) => (
           <li key={index} className={message.sender === user.user.email ? 'chat outgoing' : 'chat incoming'}>

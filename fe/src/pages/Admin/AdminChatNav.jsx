@@ -65,7 +65,7 @@ const AdminChatNav = ({ users }) => {
                         className="user_info"
                         onClick={() => setSelectedUser(u)}
                       >
-                        <h4>
+                        <h5>
                           {u.fullName}
                           <span
                             style={{
@@ -76,7 +76,7 @@ const AdminChatNav = ({ users }) => {
                           >
                             {messages[u.user.email]?.length || 0}
                           </span>
-                        </h4>
+                        </h5>
                         <p>online</p>
                       </div>
                     </div>

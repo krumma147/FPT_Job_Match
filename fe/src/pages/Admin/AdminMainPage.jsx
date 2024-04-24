@@ -349,7 +349,7 @@ export default function AdminMainPage() {
         <Navbar showMessages={showMessages} setShowMessages={setShowMessages} />
         <div className="container-fluid">
           <div className=" row">
-            <div className="tab-content col">
+            <div className={showMessages ? "tab-content col-md-9 col-sm-8" : "tab-content col-md-12 col-sm-8"}>
               <div
                 className="tab-pane fade show active"
                 id="dashboard"
@@ -420,7 +420,7 @@ export default function AdminMainPage() {
               </div>
             </div>
             {showMessages ? (
-              <div className="col-md-3 bg-grayE8">
+              <div className="col-md-3 col-sm-4 bg-grayE8">
                 <AdminChatNav users={users} />
               </div>
             ) : null}

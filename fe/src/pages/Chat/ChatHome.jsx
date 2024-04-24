@@ -45,7 +45,7 @@ const ChatHome = ({ username }) => {
                 boxShadow: "0 0 128px 0 rgba(0,0,0,0.1), 0 32px 64px -48px rgba(0,0,0,0.5)"
             }}>
                 <header>
-                    <h2>Chat With Admin</h2>
+                    <h4>Chat With Admin</h4>
                     <span className="close-btn material-symbols-outlined">close</span>
                 </header>
                 <ul className="chatbox">
