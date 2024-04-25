@@ -141,10 +141,13 @@ const ModalPhoneLogin = ({ isOpen, onClose }) => {
     setPhoneNumber("");
     setOtp("");
     setOtpSent(false);
-    console.log(confirmationResult);
-    // if (confirmationResult) {
-    //   confirmationResult.confirmationResult.clear(); // Xóa reCAPTCHA hiện tại
-    // }
+    setConfirmationResult(null); // Reset confirmationResult
+
+    // Remove the old reCAPTCHA
+    const oldRecaptcha = document.getElementById('recaptcha-container');
+    while (oldRecaptcha.firstChild) {
+      oldRecaptcha.removeChild(oldRecaptcha.firstChild);
+    }
   };
 
   const handlePhoneNumberChange = (e) => {

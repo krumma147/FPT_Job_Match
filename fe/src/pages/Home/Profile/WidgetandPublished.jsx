@@ -101,7 +101,7 @@ export default function WidgetandPublished() {
       const res = await UserHook.EditUser(userId, editUser);
       //   Swal.fire("Successful", res.data, "success");
       fetchUserData();
-      alert(res);
+      // alert(res);
     } catch (error) {
       console.error(error.message);
     }

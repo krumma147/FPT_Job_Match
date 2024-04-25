@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 const apiURL = "https://localhost:7282/api";
 
 const UserHook = {
@@ -25,11 +26,11 @@ const UserHook = {
 
   EditUser: async (id, user) => {
     try {
-      //const data = JSON.stringify(category);
       const response = await axios.put(`${apiURL}/User/${id}`, user);
-      return response.data;
+      Swal.fire("Success", response.data.message, "success");
+      // return response.data;
     } catch (error) {
-      console.error(`Can't edit account! ${error}`);
+      Swal.fire("Error", error.response.data.message, "error");
     }
   },
 
