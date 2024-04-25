@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Data;
 using System.Net;
@@ -72,8 +73,6 @@ namespace TestAPI.Controllers.Auth
                         var result = await _userManager.AddToRoleAsync(identityUser, selectedRole.Name);
                         if (!result.Succeeded)
                         {
-                            // Log the error
-                            // _logger.LogError("Failed to add user to selected role");
                             return BadRequest(new { status = false, message = "Error adding user to selected role" });
                         }
                     }
@@ -83,9 +82,6 @@ namespace TestAPI.Controllers.Auth
                 }
                 catch (Exception ex)
                 {
-                    // Log the exception
-                    // _logger.LogError(ex, "Error sending confirmation email");
-
                     return BadRequest(new { status = false, message = "Error sending confirmation email" });
                 }
             }
@@ -175,6 +171,36 @@ namespace TestAPI.Controllers.Auth
             var tokenString = _authService.GenerateTokenString(userFA.UserName, roles, user.Id);
             return Ok(new { Message = "Login Success!", Token = tokenString });
         }
+
+        [HttpPost("CheckPhoneNumber")]
+        public async Task<IActionResult> CheckPhoneNumber(LoginWithPhone phoneNumber)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == phoneNumber.PhoneNumber);
+            if (user == null)
+            {
+                return Ok(new { Exists = false, Message = "Phone number does not exist in the system." });
+            }
+
+            return Ok(new { Exists = true, Message = "Phone number exists in the system." });
+        }
+
+
+        [HttpPost("LoginWithPhoneNumber")]
+        public async Task<IActionResult> LoginWithPhoneNumber(LoginWithPhone model)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == model.PhoneNumber);
+            if (user == null)
+            {
+                return BadRequest("Invalid phone number.");
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var tokenString = _authService.GenerateTokenString(user.UserName, roles, user.Id);
+
+            return Ok(new { Message = "Login Success!", Token = tokenString });
+        }
+
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()

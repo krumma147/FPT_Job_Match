@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import ModalOTP from '../ModalOTP';
 import useAuth from '../../../hooks/authHook';
 import { jwtDecode } from 'jwt-decode';
-import Cookies from 'js-cookie';
+import ModalPhoneLogin from '../ModalPhoneLogin';
 
 const LoginBody = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +14,7 @@ const LoginBody = () => {
   const [password, setPassword] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
+  const [isPhoneLoginModalOpen, setIsPhoneLoginModalOpen] = useState(false);
   const { login } = useAuth();
 
   const handleGoogleLogin = (event) => {
@@ -21,10 +22,9 @@ const LoginBody = () => {
     window.location.assign('https://localhost:7282/api/Auth/LoginGoogle?role=JobSeeker');
   };
 
-  const handleFacebookLogin = (event) => {
+  const handlePhoneLogin = (event) => {
     event.preventDefault();
-    // window.location.assign('https://localhost:7282/api/Auth/signin-facebook?role=JobSeeker');
-    Swal.fire('Info', 'This function is currently under maintenance!', 'info');
+    setIsPhoneLoginModalOpen(true);
   }
 
   //login
@@ -45,7 +45,7 @@ const LoginBody = () => {
     const confirmEmail = params.get('confirmEmail');
     const checkConfirm = params.get('checkConfirm');
     const checkOTP = params.get('checkOTP');
-    if(confirmEmail === 'true') {
+    if (confirmEmail === 'true') {
       Swal.fire('Successful', 'Email confirmed. You can now log in.', 'success');
     }
     if (checkConfirm === 'true') {
@@ -122,11 +122,12 @@ const LoginBody = () => {
             <div className="row">
               <div className="col-sm-6 col-12 pr-7">
                 <button className="btn btn-secondary btn-login-facebook btnw w-100 float-left"
-                  onClick={handleFacebookLogin}>
-                  <i className="fa fa-facebook" aria-hidden="true"></i>
-                  <span> Login with Facebook</span>
+                  onClick={handlePhoneLogin}>
+                  <i className="fa fa-phone" aria-hidden="true"></i>
+                  <span> Login with Phone</span>
                 </button>
               </div>
+              <ModalPhoneLogin isOpen={isPhoneLoginModalOpen} onClose={() => setIsPhoneLoginModalOpen(false)} />
               <div className="col-sm-6 col-12 pl-7">
                 <button className="btn btn-secondary btn-login-google btnw w-100 float-left"
                   onClick={handleGoogleLogin}>
