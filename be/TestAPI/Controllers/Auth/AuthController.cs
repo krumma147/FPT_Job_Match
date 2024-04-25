@@ -53,6 +53,12 @@ namespace TestAPI.Controllers.Auth
                 return BadRequest(new { status = false, message = "Error, email already in use!" });
             }
 
+            var existingPhoneUser = await _userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == user.PhoneNumber);
+            if (existingPhoneUser != null)
+            {
+                return BadRequest(new { status = false, message = "Error, phone number already in use!" });
+            }
+
             if (await _authService.RegisterUser(user))
             {
                 try

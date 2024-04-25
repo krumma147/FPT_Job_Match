@@ -55,6 +55,17 @@ namespace TestAPI.Controllers.Admin.Users
         {
             try
             {
+                var existingEmailUser = await _userManager.FindByEmailAsync(model.Email);
+                if (existingEmailUser != null)
+                {
+                    return BadRequest(new { status = false, error = "Email already exists." });
+                }
+
+                var existingPhoneUser = await _userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == model.PhoneNumber);
+                if (existingPhoneUser != null)
+                {
+                    return BadRequest(new { status = false, message = "Phone number already in use!" });
+                }
                 var user = new IdentityUser
                 {
                     UserName = model.UserName,
@@ -137,9 +148,13 @@ namespace TestAPI.Controllers.Admin.Users
                 var existingUser = await _userManager.FindByEmailAsync(model.Email);
                 if (existingUser != null && existingUser.Id != id)
                 {
-                    return BadRequest(new { error = "Email already exists." });
+                    return BadRequest(new { status = false, error = "Email already exists." });
                 }
-
+                var existingPhoneUser = await _userManager.Users.SingleOrDefaultAsync(u => u.PhoneNumber == model.PhoneNumber);
+                if (existingPhoneUser != null && existingPhoneUser.Id !=id)
+                {
+                    return BadRequest(new { status = false, message = "Phone number already in use!" });
+                }
                 user.UserName = model.UserName;
                 user.Email = model.Email;
                 user.PhoneNumber = model.PhoneNumber;
