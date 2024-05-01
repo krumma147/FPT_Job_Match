@@ -71,7 +71,7 @@ export default function JobSeekerBody({
                     </div>
                   </div>
                   <div className="thumb">
-                    <img src="assets/home/img/jobseeker.jpg" />
+                    <img src={ j.image } />
                   </div>
                   <a href="#">
                     <h4>

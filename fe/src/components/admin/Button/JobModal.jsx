@@ -4,8 +4,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-// Build lại
-
 const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -30,7 +28,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
       setSalaryRange("Discuss during interview");
     }
 
-    const job = {
+    const newjob = {
       title,
       description,
       salaryRange: salary,
@@ -42,6 +40,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
       status: jobStatus,
       employerId: employer,
     };
+
     if (
       title === "" &&
       description === "" &&
@@ -54,43 +53,29 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
       return;
     }
     if (job) {
-      alert(`Update data with id: ${job.id}`);
-      await ModifyJob(job.id, job);
+      await ModifyJob(job.id, newjob)
     } else {
-      await AddJob(job);
+      await AddJob(newjob);
     }
-    //console.log(job);
     CloseModal();
   };
 
-  // useEffect(() => {
-  //   if (job) {
-  //     setTitle(job.title);
-  //     setDescription(job.description);
-  //     setCategory(job.jobCategoryId);
-  //     setSkill(job.skill_required);
-  //     setEducation(job.education_required);
-  //     setSelectedDate(job.application_deadline);
-  //     job.status === "open" ? setStatus(true) : setStatus(false);
-  //   }
-  // }, [job]);
 
-  const ActiveModal = () => {
+  useEffect(() => {
     if (job) {
-      console.log(job); // True
-      console.log("Data after setState", job); // True
-      //debugger;
-      console.log("Data Stored:", jobData); // False
-      //debugger;
       setTitle(job.title);
       setDescription(job.description);
       setCategory(job.jobCategoryId);
       setSkill(job.skill_required);
       setEducation(job.education_required);
       setSelectedDate(job.application_deadline);
+      setEmployer(job.employerId);
+      setSalaryRange(job.salaryRange);
       job.status === "open" ? setStatus(true) : setStatus(false);
     }
-  };
+  }, [job]);
+
+
 
   const CloseModal = () => {
     setTitle("");
@@ -301,7 +286,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
 
   return (
     <>
-      <button
+      {/* <button
         type="button"
         class="btn btn-primary"
         data-toggle="modal"
@@ -314,11 +299,25 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
           <span class="mdi mdi-plus"></span>
         )}
         {job ? "Edit" : "Add Job"}
+      </button> */}
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target={`#JobModal${job ? job.id : id}`}
+        onClick={null}
+      >
+        {job ? (
+          <span class="mdi mdi-file-edit"></span>
+        ) : (
+          <span class="mdi mdi-plus"></span>
+        )}
+        {job ? "Edit" : "Add Job"}
       </button>
 
       <div
         class="modal fade"
-        id={job ? "JobModal" : `EditJobModal${id}`}
+        id={`JobModal${job ? job.id : id}`}
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"

@@ -18,8 +18,11 @@ const UserHook = {
       //const data = JSON.stringify(category);
       const response = await axios.post(`${apiURL}/User`, user);
       return response.data;
+      // Swal.fire("Success", response.data.message, "success");
     } catch (error) {
-      console.error(`Can't create account! ${error}`);
+      // console.error(`Can't create account! ${error}`);
+      Swal.fire("Error", error.response.data.message, "error");
+
       //return error;
     }
   },

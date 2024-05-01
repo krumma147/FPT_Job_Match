@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 const apiURL = "https://localhost:7282/api";
 
 const JobHooks = {
@@ -16,7 +17,8 @@ const JobHooks = {
     try {
       //const data = JSON.stringify(category);
       const response = await axios.post(`${apiURL}/Job`, job);
-      return response.data;
+      Swal.fire("Success", response.data.message, "success");
+      // return response.data;
     } catch (error) {
       alert(`Can't create job! ${error}`);
       return error;
@@ -24,19 +26,19 @@ const JobHooks = {
   },
   EditJob: async (id, job) => {
     try {
-      //const data = JSON.stringify(category);
       const response = await axios.put(`${apiURL}/Job/${id}`, job);
-      return response.data;
+      Swal.fire("Success", response.data.message, "success");
     } catch (error) {
-      alert.error(`Can't set job! ${error}`);
-      return error;
+      Swal.fire("Error", error.response.data.message, "error");
     }
   },
   DeleteJob: async (id) => {
     try {
       //const data = JSON.stringify(category);
       const response = await axios.delete(`${apiURL}/Job/${id}`);
-      return response.data;
+
+      // return response.data;
+      Swal.fire("Success", response.data.message, "success");
     } catch (error) {
       alert(`Can't delete job! ${error}`);
       return error;

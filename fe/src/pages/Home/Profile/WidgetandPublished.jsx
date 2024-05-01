@@ -267,11 +267,11 @@ export default function WidgetandPublished() {
                               class={
                                 FAStatus
                                   ? "btn btn-success"
-                                  : "btn btn-secondary"
+                                  : "btn btn-primary"
                               }
                               onClick={handleChange2FA}
                             >
-                              {FAStatus ? "Turn On" : "Turn Off"}
+                              {FAStatus ? "Turn OFF" : "Turn On"}
                             </button>
                           </div>
                         </div>
