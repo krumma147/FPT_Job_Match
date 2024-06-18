@@ -18,6 +18,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
   const [status, setStatus] = useState(false);
   const [employer, setEmployer] = useState("");
   const [jobData, setJobData] = useState(null);
+  const [jobImage, setJobImage] = useState(null);
 
   let jobStatus = status ? "open" : "closed";
 
@@ -30,6 +31,7 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
 
     const newjob = {
       title,
+      image: jobImage,
       description,
       salaryRange: salary,
       experience_required: yearRequire,
@@ -92,6 +94,21 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
     //setJobData(null);
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setJobImage(reader.result);
+    }
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setJobImage(null);
+    }
+  }
+
   const ModalBody = (
     <div className="bg-light rounded h-100 p-2">
       <div className="form-floating mb-2">
@@ -120,6 +137,16 @@ const JobModal = ({ AddJob, categories, ModifyJob, job, employers, id }) => {
           aria-describedby="emailHelp"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+
+      <div className="form-floating mb-3">
+        <label for="jobImage" class="form-label">Job Image</label>
+        <input
+          type="file"
+          id="jobImage"
+          class="form-control rounded"
+          onChange={handleImageChange}
         />
       </div>
 

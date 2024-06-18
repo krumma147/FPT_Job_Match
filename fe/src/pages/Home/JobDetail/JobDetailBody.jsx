@@ -214,7 +214,7 @@ export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
                 <div className="company-intro">
                   <a href="#">
                     <img
-                      src="assets/home/img/fpt-logo.png"
+                      src="/assets/home/img/fpt-logo.png"
                       className="job-logo-ima"
                       alt="job-logo"
                     />
@@ -257,7 +257,7 @@ export default function JobDetailBody({ job, relatedJobs, findAuthor }) {
                           <div
                             style={{
                               backgroundImage:
-                                "url(assets/home/img/alipay-logo.png)",
+                                "url(/assets/home/img/alipay-logo.png)",
                             }}
                           />
                         </a>

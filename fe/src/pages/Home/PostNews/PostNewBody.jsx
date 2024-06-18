@@ -7,10 +7,12 @@ import { getUserName } from "../../Auth/Auth";
 export default function PostNewBody({
   categories,
   employerId,
+  employer,
   ReFetchingData,
   editJob,
 }) {
   const [title, setTitle] = useState("");
+  const [jobImage, setJobImage] = useState("");
   const [description, setDescription] = useState("");
   const [salaryRange, setSalaryRange] = useState("");
   const [experience, setExperience] = useState(0);
@@ -36,6 +38,7 @@ export default function PostNewBody({
 
       const job = {
         title,
+        image: jobImage,
         description,
         salaryRange: isRangeEnabled ? "Discuss during interview" : salaryRange,
         experience_required: isYearEnabled ? 0 : parseInt(experience),
@@ -66,6 +69,7 @@ export default function PostNewBody({
 
   const ResetInput = () => {
     setTitle("");
+    setJobImage("");
     setDescription("");
     setSalaryRange("");
     setExperience(0);
@@ -79,6 +83,7 @@ export default function PostNewBody({
     if (editJob) {
       console.log(editJob);
       setTitle(editJob.title);
+      setJobImage(editJob.image);
       setDescription(editJob.description);
       setSalaryRange(editJob.salaryRange);
       setExperience(editJob.experience_required);
@@ -88,6 +93,21 @@ export default function PostNewBody({
       setCategory(editJob.jobCategoryId);
     }
   }, [editJob]);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setJobImage(reader.result);
+    }
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setJobImage(null);
+    }
+  }
 
   return (
     <div>
@@ -145,7 +165,7 @@ export default function PostNewBody({
               <div className="col-md-12">
                 <div className="home-ads">
                   <a href="#">
-                    <img src="assets/home/img/hna2.jpg" />
+                    <img src="/assets/home/img/hna2.jpg" />
                   </a>
                 </div>
               </div>
@@ -203,6 +223,22 @@ export default function PostNewBody({
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                               />
+                            </div>
+                          </div>
+                          <div className="form-group row">
+                            <label className="col-sm-3 col-form-label text-right label">
+                              Job Image
+                              <span style={{ color: "red" }} className="pl-2">
+                                *
+                              </span>
+                            </label>
+                            <div className="col-sm-9 d-flex align-items-center">
+                              <input
+                                type="file"
+                                className="form-control mr-3"
+                                onChange={handleImageChange}
+                              />
+                              {jobImage && <img src={jobImage} alt="Job" style={{ width: '50px', height: '50px' }} />}
                             </div>
                           </div>
                           <div className="form-group row">
@@ -413,7 +449,7 @@ export default function PostNewBody({
               <div className="col-md-4 col-sm-12 col-12">
                 <div className="recuiter-info">
                   <div className="recuiter-info-avt">
-                    <img src="assets/home/img/icon_avatar.jpg" />
+                    <img src={employer?.image || " assets /home/img/icon_avatar.jpg"} alt="Employer Avatar" />
                   </div>
                   <div className="clearfix list-rec">
                     <h4>{getUserName()}</h4>

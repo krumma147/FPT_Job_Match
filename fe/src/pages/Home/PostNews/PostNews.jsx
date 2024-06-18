@@ -6,10 +6,12 @@ import PostNewBody from "./PostNewBody";
 import { checkAccess, getUserId } from "../../Auth/Auth";
 import { useHistory, useParams } from "react-router-dom";
 import { fetchApplication, fetchJobs } from "../home";
+import UserHook from "../../../hooks/UserHook";
 export default function PostNews() {
   const { id } = useParams();
   const [categories, setCategories] = useState([]);
   const [employerId, setEmployerId] = useState("");
+  const [employer, setEmployer] = useState(null);
   const [editJob, setEditJob] = useState(null);
   const history = useHistory();
   const isEmployer = checkAccess("Employer");
@@ -24,6 +26,7 @@ export default function PostNews() {
     GetAllCategories();
     const userid = getUserId();
     setEmployerId(userid);
+    UserHook.GetUserById(userid).then(setEmployer); 
   }, []);
 
   useEffect(() => {
@@ -57,6 +60,7 @@ export default function PostNews() {
       <PostNewBody
         categories={categories}
         employerId={employerId}
+        employer={employer} 
         ReFetchingData={ReFetchingData}
         editJob={editJob}
       />
